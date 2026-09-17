@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<!-- ROUTE DETAIL — altitude profile, acclimatisation, summit success, "what happens if I cannot summit?". One template; Lemosho is the built instance. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lemosho route, 8 days — Tanzania Nzuri</title>
+    <script>
+        /* Review palette only (designer furniture): ?palette=key, else the remembered one, else the direction's own.
+           There is no theme switch — the site is light, the way travel sites are. */
+        (function () {
+            try {
+                var pal = new URLSearchParams(window.location.search).get('palette') || localStorage.getItem('tn-palette');
+                if (pal && pal !== 'default') { document.documentElement.setAttribute('data-palette', pal); }
+            } catch (e) { /* the page still renders */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600&family=Lexend+Peta:wght@400;500&display=swap">
+    <style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--tx); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+.w { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+.ic { width: 20px; height: 20px; flex: none; }
+.mark { width: 32px; height: 32px; flex: none; }
+.mark-sun { fill: var(--acc); }
+.ph { position: relative; overflow: hidden; background: var(--ln); }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.burger { display: none; }
+@media (max-width: 1020px) { .nav { display: none; } .burger { display: inline-flex; } .hd-cta { display: none; } }
+@media (max-width: 640px) { .w { padding: 0 18px; } }
+
+/* ---- mobile chrome: drawer menu + sticky action bar + swipe rows ---- */
+.drawer { position: fixed; inset: 0; z-index: 60; background: var(--bg); color: var(--tx); padding: 14px 18px 24px;
+    display: flex; flex-direction: column; overflow-y: auto; transform: translateX(100%); visibility: hidden; transition: transform .3s ease, visibility .3s; }
+html.nav-open .drawer { transform: none; visibility: visible; }
+html.nav-open { overflow: hidden; }
+.drawer-top { display: flex; justify-content: space-between; align-items: center; min-height: 52px; }
+.drawer-x { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--ln); border-radius: 50%; }
+.drawer-lab { font: 600 10.5px/1 var(--sans, system-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin: 26px 0 12px; }
+.drawer-x-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.drawer-x-chips a { display: flex; align-items: center; gap: 10px; padding: 13px 14px; border: 1px solid var(--ln); border-radius: 14px; font-size: 14.5px; }
+.drawer-x-chips .ic { width: 20px; height: 20px; color: var(--acc); }
+.drawer-nav { display: flex; flex-direction: column; border-top: 1px solid var(--ln); }
+.drawer-nav a { display: flex; justify-content: space-between; align-items: center; padding: 16px 2px; border-bottom: 1px solid var(--ln); font: 400 22px/1.2 var(--display); }
+.drawer-nav .ic { width: 18px; height: 18px; color: var(--dim); }
+.drawer-cta { margin-top: 28px; display: grid; gap: 10px; }
+.drawer-cta a { height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 600; font-size: 15px; border: 1px solid var(--ln); }
+.drawer-cta a:first-child { background: var(--acc); color: var(--acc-tx); border-color: transparent; }
+.drawer-cta .ic { width: 20px; height: 20px; }
+.mbar { display: none; }
+@media (max-width: 760px) {
+    body { padding-bottom: 88px; }
+    .mbar { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 40; display: flex; gap: 8px;
+        padding: 7px; border-radius: 999px; background: var(--tx); box-shadow: 0 18px 40px -14px rgba(0,0,0,.55); }
+    .mbar a { height: 50px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 15px; }
+    .mbar .mb-pri { flex: 1; background: var(--acc); color: var(--acc-tx); }
+    .mbar .mb-wa { width: 50px; color: var(--bg); border: 1px solid color-mix(in srgb, var(--bg) 30%, transparent); }
+    .mbar .ic { width: 20px; height: 20px; }
+    .snap-m { display: flex !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px !important;
+        margin-left: -18px; margin-right: -18px; padding: 0 18px 4px; scrollbar-width: none; }
+    .snap-m::-webkit-scrollbar { display: none; }
+    .snap-m > * { flex: 0 0 84%; scroll-snap-align: start; scroll-margin-left: 18px; }
+    .hide-m { display: none !important; }
+}
+
+body { font: 14.5px/1.55 var(--sans); }
+[class$='-in'] > *, .hero-in > *, .band-in > *, .host > *, .quote > *, .trail > *, .kit > *, .designer > * { min-width: 0; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -.015em; line-height: 1.1; }
+h2 { font-size: 26px; font-weight: 700; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: var(--rb);
+    font: 700 13.5px/1 var(--sans); white-space: nowrap; border: 1px solid transparent; transition: .15s; cursor: pointer; }
+.btn .ic { width: 15px; height: 15px; }
+.btn-pri { background: var(--acc); color: var(--acc-tx); }
+.btn-pri:hover { filter: brightness(1.07); }
+.btn-ink { background: var(--ink); color: var(--on-ink); }
+.btn-line { border-color: var(--ln2); color: var(--tx); background: transparent; }
+.btn-line:hover { border-color: var(--tx); }
+
+.rl { display: flex; align-items: center; gap: 12px; font: 600 10.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+.rl::after { content: ""; flex: 1; height: 1px; background: var(--ln); }
+.pill { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px; border-radius: 99px; border: 1px solid var(--ln2);
+    font: 600 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+.pill.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); background: var(--okSoft); }
+.pill.acc { background: var(--acc); color: var(--acc-tx); border-color: transparent; }
+
+.sec { padding: 48px 0; }
+.sec + .sec { padding-top: 0; }
+.sec-hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; margin-bottom: 18px; }
+.sec-hd p { color: var(--dim); max-width: 640px; margin-top: 4px; }
+.more { font: 700 13px/1 var(--sans); display: inline-flex; gap: 6px; align-items: center; color: var(--tx); white-space: nowrap; padding-bottom: 3px; border-bottom: 2px solid var(--acc); }
+.more .ic { width: 14px; height: 14px; }
+
+.card { background: var(--paper); border: 1px solid var(--ln); border-radius: var(--r); overflow: hidden; transition: border-color .15s, opacity .25s; }
+a.card:hover { border-color: var(--ln2); }
+.cb { padding: 12px 14px; }
+.cf { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--ln); padding: 9px 14px; font: 500 10.5px/1.45 var(--mono); color: var(--faint); }
+.cf .ic { width: 14px; height: 14px; color: var(--tx); flex: none; }
+
+/* header */
+.hd { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--ln); }
+.hd-in { display: flex; align-items: center; gap: 28px; height: 56px; }
+.brand { display: flex; align-items: center; }
+.brand .logo { height: 46px; width: auto; display: block; }
+.brand .mark { width: 26px; height: 26px; }
+.brand b { font: 700 15px/1 var(--display); letter-spacing: -.01em; }
+.nav { display: flex; gap: 22px; font: 500 13.5px/1 var(--sans); }
+.nav a { color: var(--dim); padding: 21px 0 19px; border-bottom: 2px solid transparent; }
+.nav a:hover { color: var(--tx); border-bottom-color: var(--acc); }
+.hd-act { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.hd-wa { display: inline-flex; align-items: center; gap: 6px; font: 500 13px/1 var(--sans); color: var(--dim); }
+.hd-wa .ic { width: 16px; height: 16px; color: var(--ok); }
+.hd .btn { height: 34px; padding: 0 13px; font-size: 12.5px; }
+.burger { width: 38px; height: 38px; align-items: center; justify-content: center; border: 1px solid var(--ln2); border-radius: var(--rb); }
+
+/* interests filter experience cards */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px 0 9px; border-radius: 99px; background: var(--paper); border: 1px solid var(--ln2);
+    font: 600 10.5px/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; cursor: pointer; color: var(--tx); transition: .15s; }
+.chip .ic { width: 15px; height: 15px; color: var(--dim); }
+.chip em { font-style: normal; color: var(--faint); }
+.chip:hover { border-color: var(--tx); }
+.chip.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.chip.on .ic, .chip.on em { color: var(--acc-ink); }
+.chip-clear { font: 600 10.5px/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--dim); text-decoration: underline; text-underline-offset: 3px; padding: 0 6px; cursor: pointer; height: 32px; }
+.xgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.xcard .ph { aspect-ratio: 16/9; }
+.xcard .ph .pill { position: absolute; right: 10px; top: 10px; z-index: 2; background: rgba(12,10,8,.7); color: #fff; border-color: rgba(255,255,255,.2); }
+.xcard h3 { font: 700 15.5px/1.25 var(--sans); letter-spacing: -.005em; }
+.xcard .cb p { color: var(--dim); font-size: 13.5px; margin-top: 2px; }
+.xgrid.filtering .xcard { opacity: .35; }
+.xgrid.filtering .xcard.hit { opacity: 1; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.filter-cta { display: none; margin-top: 14px; padding: 10px 10px 10px 14px; background: var(--ink); color: var(--on-ink); border-radius: var(--r); align-items: center; gap: 14px; flex-wrap: wrap; }
+.filter-cta.show { display: flex; }
+.filter-cta p { flex: 1; font-size: 13.5px; }
+.filter-cta b { color: var(--acc-ink); font-family: var(--mono); }
+.filter-cta .btn { height: 34px; font-size: 12.5px; }
+
+/* guides */
+.guides { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.guide .ph { aspect-ratio: 1; }
+.guide .ph .pill { position: absolute; left: 8px; bottom: 8px; z-index: 2; background: rgba(12,10,8,.72); color: #fff; border-color: rgba(255,255,255,.2); }
+.guide .cb { padding: 10px 12px 11px; }
+.guide h3 { font: 700 14.5px/1.25 var(--sans); }
+.guide .meta { font: 500 10.5px/1.5 var(--mono); color: var(--faint); margin-top: 3px; }
+.guide.feature { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.guide.feature .ph { aspect-ratio: auto; min-height: 100%; }
+.guide.feature .cb { padding: 16px; display: flex; flex-direction: column; }
+.guide.feature .pill { align-self: flex-start; color: var(--acc-ink); border-color: color-mix(in srgb, var(--acc-ink) 45%, transparent); }
+.guide.feature q { display: block; font: 600 16px/1.45 var(--display); color: var(--on-ink); margin: 12px 0 auto; }
+.guide.feature q::before, .guide.feature q::after { color: var(--acc-ink); }
+.guide.feature h3 { color: var(--acc-ink); margin-top: 14px; }
+.guide.feature .meta { color: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+
+/* journeys with the real trip cost */
+.journeys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-items: start; }
+.jc .ph { aspect-ratio: 16/8; display: block; }
+.jc .ph .pill { position: absolute; left: 10px; top: 10px; z-index: 2; background: rgba(12,10,8,.72); color: #fff; border-color: rgba(255,255,255,.2); }
+.jc-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.jc h3 { font: 700 15.5px/1.25 var(--sans); }
+.fig { display: flex; align-items: baseline; gap: 7px; margin: 6px 0 8px; }
+.fig b { font: 600 22px/1 var(--mono); letter-spacing: -.04em; }
+.fig span { font-size: 12.5px; color: var(--dim); }
+.split { display: flex; height: 8px; gap: 2px; border-radius: 2px; overflow: hidden; }
+.split i { display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 7px; font: 500 10.5px/1.3 var(--mono); color: var(--dim); }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 7px; height: 7px; border-radius: 1.5px; }
+.jc .cb > p { color: var(--dim); font-size: 13.5px; margin-top: 10px; }
+.route { font: 500 10.5px/1.5 var(--mono); color: var(--faint); padding: 9px 14px; border-top: 1px solid var(--ln); }
+details.why { border-top: 1px solid var(--ln); }
+details.why summary { list-style: none; cursor: pointer; font: 700 12.5px/1 var(--sans); display: flex; justify-content: space-between; align-items: center; padding: 10px 14px 9px; }
+details.why summary::-webkit-details-marker { display: none; }
+details.why summary .ic { width: 14px; height: 14px; transition: transform .2s; transform: rotate(90deg); color: var(--dim); }
+details.why[open] summary .ic { transform: rotate(-90deg); }
+.lines { list-style: none; padding: 0 14px; font-size: 13px; }
+.lines li { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px dashed var(--ln); }
+.lines li i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.lines li b { margin-left: auto; font: 600 12px/1 var(--mono); }
+.incl { padding: 8px 14px 12px; font-size: 12.5px; color: var(--dim); }
+.incl b { color: var(--ok); }
+
+/* closing planner */
+.quick { display: grid; grid-template-columns: 1.4fr 1fr; background: var(--ink); color: var(--on-ink); border-radius: var(--r); overflow: hidden; }
+.quick-in { padding: 26px 30px; }
+.quick .rl { color: color-mix(in srgb, var(--on-ink) 62%, transparent); }
+.quick .rl::after { background: color-mix(in srgb, var(--on-ink) 14%, transparent); }
+.quick h2 { color: var(--on-ink); }
+.quick h2 span { color: var(--acc-ink); }
+.quick-in > p { color: color-mix(in srgb, var(--on-ink) 76%, transparent); margin: 4px 0 16px; }
+.qform { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field span { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+.field select { appearance: none; height: 40px; border-radius: var(--rb); border: 1px solid color-mix(in srgb, var(--on-ink) 20%, transparent); background: color-mix(in srgb, var(--on-ink) 6%, transparent);
+    color: var(--on-ink); font: 600 13.5px/1 var(--sans); padding: 0 28px 0 10px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--acc-ink) 50%), linear-gradient(135deg, var(--acc-ink) 50%, transparent 50%);
+    background-position: calc(100% - 15px) 18px, calc(100% - 11px) 18px; background-size: 4px 4px; background-repeat: no-repeat; }
+.field select option { color: #111; }
+.qform .btn-pri { background: var(--acc-ink); color: var(--acc-ink-tx); }
+.qnote { font: 500 10.5px/1.4 var(--mono); color: color-mix(in srgb, var(--on-ink) 55%, transparent); margin-top: 12px; }
+.quick > .ph { min-height: 100%; }
+
+/* footer */
+.ft { background: var(--ink); color: var(--on-ink); padding: 40px 0 22px; margin-top: 24px; }
+.ft .brand .logo { height: 56px; }
+.ft-top { display: grid; grid-template-columns: 1.3fr repeat(4, 1fr); gap: 28px; }
+.ft-c { font-size: 13px; color: color-mix(in srgb, var(--on-ink) 65%, transparent); margin-top: 12px; line-height: 1.6; }
+.ft-sig { font: 600 17px/1.3 var(--display); color: var(--acc-ink); margin-top: 14px; }
+.ft h4 { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--acc-ink); margin-bottom: 12px; }
+.ft ul { list-style: none; display: grid; gap: 7px; font-size: 13.5px; color: color-mix(in srgb, var(--on-ink) 75%, transparent); }
+.ft ul a:hover { color: var(--on-ink); }
+.ft-bot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 30px; padding-top: 16px; border-top: 1px solid color-mix(in srgb, var(--on-ink) 12%, transparent); font: 500 10.5px/1.4 var(--mono); color: color-mix(in srgb, var(--on-ink) 50%, transparent); }
+
+/* mobile chrome */
+.drawer { background: var(--bg); }
+.drawer-x { border-radius: var(--rb); width: 40px; height: 40px; }
+.drawer-lab { font: 600 10px/1 var(--mono); letter-spacing: .14em; margin: 22px 0 10px; }
+.drawer-x-chips a { border-radius: var(--r); font-weight: 600; font-size: 14px; padding: 11px 12px; background: var(--paper); }
+.drawer-nav a { font: 700 18px/1 var(--display); padding: 15px 2px 13px; }
+.drawer-cta a { border-radius: var(--rb); height: 48px; font-size: 14px; }
+@media (max-width: 760px) {
+    .mbar { background: var(--ink); border-radius: calc(var(--rb) + 6px); padding: 6px; }
+    .mbar a { height: 46px; border-radius: var(--rb); font-size: 14px; }
+    .mbar .mb-pri { background: var(--acc-ink); color: var(--acc-ink-tx); }
+    .mbar .mb-wa { width: 46px; color: var(--on-ink); border-color: color-mix(in srgb, var(--on-ink) 25%, transparent); }
+}
+
+@media (max-width: 1120px) {
+    .hd-wa { display: none; }
+    .nav { gap: 16px; }
+    .guides { grid-template-columns: repeat(4, 1fr); }
+    .guide.feature { grid-column: span 4; grid-template-columns: 200px 1fr; }
+}
+@media (max-width: 1020px) {
+    .nav, .hd-cta { display: none; }
+    .burger { display: inline-flex; }
+    .quick { grid-template-columns: 1fr; }
+    .quick > .ph { min-height: 200px; order: -1; }
+    .xgrid, .journeys { grid-template-columns: repeat(2, 1fr); }
+    .guides { grid-template-columns: repeat(2, 1fr); }
+    .guide.feature { grid-column: span 2; }
+    .qform { grid-template-columns: 1fr 1fr 1fr; }
+    .qform .btn { grid-column: 1 / -1; }
+    .ft-top { grid-template-columns: repeat(2, 1fr); }
+    .ft-top > div:first-child { grid-column: span 2; }
+    .sec-hd { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+@media (max-width: 760px) {
+    body { font-size: 15px; }
+    .hd-in { height: 54px; }
+    .brand .logo { height: 38px; }
+    .sec { padding: 34px 0; }
+    h2 { font-size: 22px; }
+    .filters { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px 12px; padding: 0 18px 2px; scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip { flex: none; }
+    .quick-in { padding: 20px 18px; }
+    .guides.snap-m > .guide { flex-basis: 46%; }
+    .guides.snap-m > .guide.feature { flex-basis: 88%; grid-template-columns: 1fr 1.2fr; }
+    .xgrid.snap-m > .xcard, .journeys.snap-m > .jc { flex-basis: 84%; }
+    .qform { grid-template-columns: 1fr 1fr; }
+    .qform .field:first-child { grid-column: 1 / -1; }
+    .qform .btn { height: 46px; }
+    .ft { margin-top: 20px; }
+}
+:root {
+    --bg: #e9edf3;
+    --paper: #f9fafc;
+    --raised: #e2e6ec;
+    --tx: #0f142e;
+    --dim: #5d6275;
+    --faint: #808594;
+    --ln: rgba(15,20,46,0.11);
+    --ln2: rgba(15,20,46,0.22);
+    --ink: #141a3e;
+    --ink-2: #2c3151;
+    --on-ink: #f1f3f7;
+    --acc: #5a4fcf;
+    --acc-tx: #ffffff;
+    --acc-ink: #8881dd;
+    --acc2: #0f9a9c;
+    --acc2-tx: #141312;
+    --ok: #2e7d46;
+    --okSoft: rgba(46,125,70,0.13);
+    --acc-ink-tx: #141312;
+    --wood: #141a3e;
+    --wood-2: #2c3151;
+    --on-wood: #f1f3f7;
+    --sign: #8881dd;
+    --sign-ink: #141312;
+}
+
+:root { --display: "Lexend Deca", system-ui, sans-serif; --sans: "Lexend Deca", system-ui, sans-serif;
+    --mono: "Lexend Peta", "Lexend Deca", ui-monospace, sans-serif; --r: 6px; --rb: 4px; --cut: 14px;
+    --flash: color-mix(in srgb, var(--acc2) 55%, #9c2f55); }
+body { font-size: 14px; }
+h1, h2 { font-weight: 500; letter-spacing: -.03em; }
+h2 { font-size: 25px; }
+.rl { font-size: 9.5px; letter-spacing: .1em; }
+.pill, .chip, .cf, .route, .legend, .meta, .qnote, .field span, .ft h4, .ft-bot { letter-spacing: .02em !important; }
+.pill { font-size: 9px; }
+.chip { font-size: 9.5px; }
+.fig b { font-family: var(--sans); font-weight: 500; letter-spacing: -.03em; }
+.cf, .route, .legend, .meta, .qnote, .ft-bot, .cmp td.mono { font-family: var(--sans) !important; letter-spacing: 0 !important; font-size: 12px !important; }
+
+/* THE CUT: a facet off two corners. */
+.cut, .card, .ph.cut { clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut))); }
+.card { border-radius: 0; }
+.btn { clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)); border-radius: 0; font-weight: 500; }
+.chip { border-radius: 0; clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px)); }
+.gem { width: 10px; height: 10px; background: linear-gradient(135deg, var(--acc) 0 45%, var(--acc2) 45% 75%, var(--flash) 75%); clip-path: polygon(50% 0, 100% 40%, 50% 100%, 0 40%); flex: none; }
+.rl::before { content: ""; width: 9px; height: 9px; background: linear-gradient(135deg, var(--acc) 0 45%, var(--acc2) 45% 75%, var(--flash) 75%); clip-path: polygon(50% 0, 100% 40%, 50% 100%, 0 40%); }
+
+/* hero: a faceted photograph and a journey estimator */
+.hero { padding: 26px 0 0; }
+.hero-in { display: grid; grid-template-columns: 1fr 1.05fr; gap: 14px; }
+.hero-copy { background: var(--ink); color: var(--on-ink); padding: 34px 32px 28px; display: flex; flex-direction: column; }
+.hero-copy .rl { color: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+.hero-copy .rl::after { background: color-mix(in srgb, var(--on-ink) 14%, transparent); }
+.hero h1 { font-size: 56px; line-height: 1; margin: 4px 0 14px; font-weight: 400; }
+.hero h1 span { background: linear-gradient(90deg, var(--acc-ink), color-mix(in srgb, var(--acc2) 60%, white) 60%, color-mix(in srgb, var(--flash) 50%, white)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .lede { color: color-mix(in srgb, var(--on-ink) 75%, transparent); font-size: 15.5px; max-width: 440px; }
+.hero .cta { display: flex; gap: 8px; margin-top: 22px; flex-wrap: wrap; }
+.hero .cta .btn-pri { background: var(--acc-ink); color: var(--acc-ink-tx); height: 44px; }
+.hero .cta .btn-line { color: var(--on-ink); border-color: color-mix(in srgb, var(--on-ink) 30%, transparent); height: 44px; }
+.est { margin-top: auto; padding-top: 22px; }
+.est-h { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid color-mix(in srgb, var(--on-ink) 14%, transparent); padding-top: 14px; }
+.est-h span { font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 55%, transparent); }
+.est-row { display: grid; grid-template-columns: 90px 1fr; gap: 12px; align-items: center; margin-top: 12px; font-size: 13px; }
+.est-row > span { color: color-mix(in srgb, var(--on-ink) 65%, transparent); }
+.est input[type=range] { width: 100%; accent-color: var(--acc-ink); }
+.seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+.seg button { height: 32px; font: 500 12px/1 var(--sans); color: var(--on-ink); background: color-mix(in srgb, var(--on-ink) 6%, transparent); border: 1px solid color-mix(in srgb, var(--on-ink) 12%, transparent); cursor: pointer; }
+.seg button.on { background: var(--acc-ink); color: var(--acc-ink-tx); border-color: transparent; }
+.est-out { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; padding: 12px 14px; background: color-mix(in srgb, var(--on-ink) 7%, transparent); }
+.est-out small { display: block; font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 55%, transparent); margin-bottom: 6px; }
+.est-out b { font: 400 26px/1 var(--sans); letter-spacing: -.03em; }
+.est-out .btn { height: 34px; font-size: 12.5px; background: var(--acc-ink); color: var(--acc-ink-tx); }
+.hero-img { display: grid; grid-template-rows: 1fr auto; gap: 14px; }
+.hero-img > .ph { min-height: 360px; }
+.promises { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.promise { padding: 12px 14px; color: #fff; }
+.promise:nth-child(1) { background: var(--acc); color: var(--acc-tx); }
+.promise:nth-child(2) { background: var(--acc2); color: var(--acc2-tx); }
+.promise:nth-child(3) { background: var(--flash); color: #fff; }
+.promise b { font: 500 15px/1.2 var(--sans); display: block; }
+.promise span { font-size: 12.5px; opacity: .88; line-height: 1.35; display: block; margin-top: 3px; }
+
+/* signature — a mosaic of facets */
+.facets { display: grid; grid-template-columns: 1.35fr 1fr 1fr 1fr; grid-template-rows: 220px 220px; gap: 14px; }
+.facet:last-child { grid-column: span 2; }
+.facet { position: relative; color: #fff; display: flex; align-items: flex-end; }
+.facet:first-child { grid-row: span 2; }
+.facet .ph { position: absolute; inset: 0; }
+.facet .ph img { transition: transform .5s; }
+.facet:hover .ph img { transform: scale(1.04); }
+.facet::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(10,10,30,.82)); pointer-events: none; }
+.facet > div:last-child { position: relative; z-index: 2; padding: 14px 16px; width: 100%; }
+.facet h3 { font: 500 17px/1.2 var(--sans); }
+.facet:first-child h3 { font-size: 24px; }
+.facet p { font-size: 12.5px; opacity: .85; margin-top: 2px; }
+.facet dl { display: flex; gap: 16px; margin-top: 8px; font: 500 9px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+.facet dd { font: 500 13px/1.1 var(--sans); letter-spacing: 0; text-transform: none; margin-top: 4px; }
+
+/* trip designer — six facets of a journey */
+.designer { display: grid; grid-template-columns: .9fr 1.1fr; gap: 14px; }
+.designer .card { padding: 20px 22px; }
+.designer h2 span { color: var(--acc); }
+.designer .card p { color: var(--dim); margin: 6px 0 16px; }
+.q6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.q6 div { padding: 12px; background: var(--paper); border: 1px solid var(--ln); clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); }
+.q6 b { font: 500 9px/1 var(--mono); letter-spacing: .08em; color: var(--acc); display: flex; align-items: center; gap: 6px; }
+.q6 span { display: block; font-size: 13px; margin-top: 8px; line-height: 1.35; }
+
+/* why — trichroic numbers */
+.why { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.why .card { padding: 14px; }
+.why b { font: 400 28px/1 var(--sans); letter-spacing: -.04em; color: var(--acc); }
+.why .card:nth-child(3n+2) b { color: var(--acc2); }
+.why .card:nth-child(3n+3) b { color: var(--flash); }
+.why h3 { font: 500 14px/1.25 var(--sans); margin: 10px 0 4px; }
+.why p { font-size: 12.5px; color: var(--dim); line-height: 1.45; }
+
+/* journeys — compared, not just shown */
+.cmp { width: 100%; border-collapse: collapse; }
+.cmp-wrap { background: var(--paper); border: 1px solid var(--ln); }
+.cmp th { font: 500 9px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--ln); }
+.cmp td { padding: 10px 14px; border-bottom: 1px solid var(--ln); vertical-align: middle; font-size: 13.5px; }
+.cmp tr:last-child td { border-bottom: 0; }
+.cmp tbody tr { cursor: pointer; transition: background .15s; }
+.cmp tbody tr:hover { background: var(--raised); }
+.cmp .j { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center; }
+.cmp .j .ph { aspect-ratio: 16/10; }
+.cmp .j b { font: 500 14.5px/1.25 var(--sans); display: block; }
+.cmp .j small { color: var(--dim); font-size: 12.5px; }
+.cmp .price { font: 400 20px/1 var(--sans); letter-spacing: -.03em; white-space: nowrap; }
+.cmp .price small { display: block; font: 500 9px/1 var(--mono); letter-spacing: .06em; color: var(--faint); margin-top: 4px; }
+.cmp .split { width: 180px; }
+.cmp .legend { max-width: 220px; }
+.cmp .open { height: 32px; font-size: 12.5px; }
+.jcards { display: none; }
+
+@media (max-width: 1120px) { .why { grid-template-columns: repeat(3, 1fr); } .cmp .legend { display: none; } }
+@media (max-width: 1020px) {
+    .hero-in, .designer { grid-template-columns: 1fr; }
+    .facets { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 180px 180px; }
+    .facet:first-child, .facet:last-child { grid-column: span 2; grid-row: auto; }
+    .facets { grid-template-rows: 240px 180px 180px 180px; }
+    .cmp-wrap { display: none; }
+    .jcards { display: grid; }
+}
+@media (max-width: 760px) {
+    .hero { padding-top: 12px; }
+    .hero-copy { padding: 22px 18px; }
+    .hero h1 { font-size: 40px; }
+    .hero .cta { flex-direction: column; }
+    .hero .cta .btn { width: 100%; }
+    .hero-img { order: -1; }
+    .hero-img > .ph { min-height: 200px; }
+    .promises { grid-template-columns: 1fr; gap: 6px; }
+    .promise { display: flex; gap: 10px; align-items: baseline; padding: 9px 12px; }
+    .promise span { margin: 0; }
+    .facets { display: flex !important; grid-template-rows: none; }
+    .facet { height: 280px; }
+    .q6 { grid-template-columns: 1fr 1fr; }
+    .designer .btn { width: 100%; }
+    .why { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .jcards.snap-m > .jc { flex-basis: 84%; }
+}
+
+/* The 1120px step lost in the Home generator's stray `.ft` selector. */
+@media (max-width: 1120px) { .why { grid-template-columns: repeat(3, 1fr); } .cmp .legend { display: none; } }
+
+/* ---- page header: the hero's ink panel, at inner-page height ---- */
+.phd { background: var(--ink); color: var(--on-ink); margin-top: 20px; padding: 22px 30px 26px; }
+.phd .rl { color: color-mix(in srgb, var(--on-ink) 58%, transparent); margin-bottom: 8px; }
+.phd .rl::after { background: color-mix(in srgb, var(--on-ink) 14%, transparent); }
+.phd-in { display: grid; grid-template-columns: 1.25fr .75fr; gap: 24px; align-items: end; }
+.phd h1 { font-size: 40px; line-height: 1.02; font-weight: 400; letter-spacing: -.035em; }
+.phd h1 span { background: linear-gradient(90deg, var(--acc-ink), color-mix(in srgb, var(--acc2) 60%, white) 60%, color-mix(in srgb, var(--flash) 50%, white)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.phd .lede { color: color-mix(in srgb, var(--on-ink) 76%, transparent); font-size: 15px; margin-top: 10px; max-width: 560px; }
+.phd .cta { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.phd .cta .btn-pri { background: var(--acc-ink); color: var(--acc-ink-tx); }
+.phd .cta .btn-line { color: var(--on-ink); border-color: color-mix(in srgb, var(--on-ink) 30%, transparent); }
+.phd-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: color-mix(in srgb, var(--on-ink) 12%, transparent); border: 1px solid color-mix(in srgb, var(--on-ink) 12%, transparent); }
+.phd-facts > div { background: var(--ink); padding: 10px 12px; }
+.phd-facts dt { font: 500 9px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 55%, transparent); }
+.phd-facts dd { font: 400 17px/1.1 var(--sans); letter-spacing: -.02em; margin-top: 6px; }
+.phd-facts dd small { display: block; font-size: 11.5px; letter-spacing: 0; color: color-mix(in srgb, var(--on-ink) 60%, transparent); margin-top: 3px; }
+.crumb { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; font: 500 10px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 55%, transparent); margin-bottom: 10px; }
+.crumb a:hover { color: var(--on-ink); }
+.crumb i { font-style: normal; opacity: .5; }
+.phd .ph { min-height: 190px; }
+
+/* ---- prose ---- */
+.prose { max-width: 720px; }
+.prose h2 { font-size: 22px; margin: 30px 0 8px; }
+.prose h3 { font: 500 16px/1.3 var(--sans); margin: 20px 0 6px; }
+.prose p { margin-bottom: 11px; color: var(--tx); }
+.prose > p:first-child { font-size: 15.5px; color: var(--dim); }
+.prose ul, .prose ol { margin: 0 0 12px 18px; }
+.prose li { margin-bottom: 5px; }
+.prose a.lk { border-bottom: 1px solid var(--acc); }
+.btn:disabled { opacity: .45; cursor: default; }
+.quick.solo { grid-template-columns: 1fr; }
+.j2 { grid-template-columns: repeat(2, 1fr); }
+.prose blockquote { border-left: 2px solid var(--acc); padding-left: 14px; margin: 14px 0; color: var(--dim); font-size: 15px; }
+.note { background: var(--paper); border: 1px solid var(--ln); padding: 12px 14px; margin: 16px 0; font-size: 13.5px; color: var(--dim); }
+.note b { color: var(--tx); }
+
+/* ---- two-column article / listing shell ---- */
+.side { display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start; }
+.side.left { grid-template-columns: 250px 1fr; }
+.sticky { position: sticky; top: 72px; display: grid; gap: 14px; }
+.toc { border-left: 1px solid var(--ln); padding-left: 14px; }
+.toc a { display: block; font-size: 13px; color: var(--dim); padding: 4px 0; }
+.toc a:hover, .toc a.on { color: var(--tx); }
+.aside-card { padding: 14px; }
+.aside-card h4 { font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+.aside-card p { font-size: 13px; color: var(--dim); margin-bottom: 10px; }
+
+/* ---- link lists ---- */
+.lnk-list { display: grid; gap: 1px; background: var(--ln); border: 1px solid var(--ln); }
+.lnk-list a { background: var(--paper); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 13px; font-size: 13.5px; }
+.lnk-list a:hover { background: var(--raised); }
+.lnk-list a .ic { width: 14px; height: 14px; color: var(--acc); flex: none; }
+.lnk-list a.on { background: var(--ink); color: var(--on-ink); }
+.lnk-2 { grid-template-columns: repeat(2, 1fr); }
+.lnk-5 { grid-template-columns: repeat(5, 1fr); }
+
+/* ---- grids ---- */
+.g2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.place .ph { aspect-ratio: 16/10; }
+.place h3 { font: 500 15.5px/1.25 var(--sans); }
+.place .cb p { color: var(--dim); font-size: 13px; margin-top: 3px; }
+
+/* ---- gallery: the facet mosaic, at place scale ---- */
+.gal { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 150px 150px; grid-auto-rows: 150px; gap: 10px; }
+.gal .ph:first-child { grid-row: span 2; grid-column: span 1; }
+.gal .ph { min-height: 0; }
+
+/* ---- day-by-day ---- */
+.days { display: grid; gap: 1px; background: var(--ln); border: 1px solid var(--ln); }
+.day { background: var(--paper); display: grid; grid-template-columns: 74px 1fr auto; gap: 14px; padding: 12px 14px; align-items: start; }
+.day-n { font: 500 9.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--acc); padding-top: 3px; }
+.day h4 { font: 500 14.5px/1.3 var(--sans); }
+.day p { font-size: 13px; color: var(--dim); margin-top: 3px; }
+.day .pill { align-self: center; }
+
+/* ---- the price block ---- */
+.cost { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cost-in { padding: 16px 18px; }
+.cost .fig b { font-size: 30px; }
+.inout { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; font-size: 13px; }
+.inout h4 { font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+.inout li { list-style: none; display: flex; gap: 7px; padding: 3px 0; align-items: flex-start; }
+.inout .ic { width: 13px; height: 13px; margin-top: 3px; flex: none; }
+.inout .yes .ic { color: var(--ok); }
+.inout .no { color: var(--dim); }
+.inout .no .ic { color: var(--faint); }
+
+/* ---- comparison table, reusable ---- */
+.tbl { width: 100%; border-collapse: collapse; background: var(--paper); }
+.tbl-wrap { border: 1px solid var(--ln); overflow-x: auto; scrollbar-width: none; }
+.tbl-wrap::-webkit-scrollbar { display: none; }
+.tbl th { font: 500 9px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); text-align: left; padding: 11px 13px; border-bottom: 1px solid var(--ln); white-space: nowrap; cursor: pointer; }
+.tbl th.on { color: var(--acc); }
+.tbl th:last-child { cursor: default; }
+.tbl-hint { display: none; font: 500 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-top: 8px; }
+.tbl td { padding: 11px 13px; border-bottom: 1px solid var(--ln); font-size: 13.5px; vertical-align: middle; }
+.tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl tbody tr:hover { background: var(--raised); }
+.tbl tbody tr.dim { opacity: .3; }
+.tbl b.rn { font: 500 14.5px/1.2 var(--sans); display: block; }
+.tbl small { color: var(--dim); font-size: 12px; }
+.stars { color: var(--acc); letter-spacing: 1px; font-size: 12px; white-space: nowrap; }
+.stars i { color: var(--ln2); font-style: normal; }
+.bars { display: flex; gap: 2px; align-items: center; }
+.bars i { width: 7px; height: 14px; background: var(--ln2); }
+.bars i.f { background: var(--acc2); }
+.bars.hi i.f { background: var(--flash); }
+
+/* ---- wizard ---- */
+.wiz { max-width: 760px; margin: 0 auto; }
+.prog { display: flex; gap: 4px; margin-bottom: 20px; }
+.prog i { flex: 1; height: 4px; background: var(--ln); }
+.prog i.on { background: var(--acc); }
+.prog i.now { background: var(--acc2); }
+.step { display: none; }
+.step.on { display: block; }
+.step > .rl { justify-content: flex-start; }
+.step h2 { font-size: 28px; margin-bottom: 18px; }
+.opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.opts.two { grid-template-columns: repeat(2, 1fr); }
+.opt { display: flex; align-items: center; gap: 9px; padding: 13px 14px; background: var(--paper); border: 1px solid var(--ln2); cursor: pointer; text-align: left; font-size: 14px;
+    clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px)); }
+.opt .ic { width: 18px; height: 18px; color: var(--acc); }
+.opt:hover { border-color: var(--tx); }
+.opt.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.opt.on .ic { color: var(--acc-ink); }
+.wiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 22px; gap: 10px; }
+.wiz-nav .qnote { color: var(--faint); margin: 0; }
+
+/* ---- forms ---- */
+.form { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.form .f { display: flex; flex-direction: column; gap: 5px; }
+.form .f.wide { grid-column: 1 / -1; }
+.form .f > span { font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.form input, .form select, .form textarea { font: 400 14px/1.4 var(--sans); color: var(--tx); background: var(--paper); border: 1px solid var(--ln2); height: 40px; padding: 0 11px; border-radius: 0; }
+.form textarea { height: auto; padding: 10px 11px; resize: vertical; }
+.form input:focus, .form select:focus, .form textarea:focus { outline: 2px solid var(--acc); outline-offset: -1px; }
+.form select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--acc) 50%), linear-gradient(135deg, var(--acc) 50%, transparent 50%); background-position: calc(100% - 15px) 18px, calc(100% - 11px) 18px; background-size: 4px 4px; background-repeat: no-repeat; }
+.picks { display: flex; flex-wrap: wrap; gap: 6px; }
+.qform > * { min-width: 0; }
+.field select { width: 100%; }
+.form .f > span .hint { font: 400 12px/1 var(--sans); text-transform: none; letter-spacing: 0; }
+.req { color: var(--flash); }
+.hint { font-size: 12px; color: var(--faint); }
+
+/* ---- filter rail ---- */
+.frail { display: grid; gap: 14px; }
+.fgrp h4 { font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+.fgrp .picks { flex-direction: column; align-items: stretch; }
+.fbtn { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 11px; background: var(--paper); border: 1px solid var(--ln); font-size: 13.5px; cursor: pointer; text-align: left; }
+.fbtn em { font: 500 10px/1 var(--mono); font-style: normal; color: var(--faint); }
+.fbtn.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.fbtn.on em { color: var(--acc-ink); }
+.fhead { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.fhead .count { font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.empty { display: none; padding: 30px; text-align: center; border: 1px dashed var(--ln2); }
+.empty.show { display: block; }
+.empty p { color: var(--dim); font-size: 13.5px; margin: 6px 0 12px; }
+
+/* ---- team ---- */
+.gcard .ph { aspect-ratio: 3/4; }
+.gcard h3 { font: 500 15.5px/1.2 var(--sans); }
+.gcard .meta { font: 500 11.5px/1.5 var(--sans); color: var(--faint); margin-top: 4px; }
+.spec { display: grid; grid-template-columns: 120px 1fr; gap: 10px 14px; font-size: 13.5px; }
+.spec dt { font: 500 9.5px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.spec dd { color: var(--tx); }
+.spec > div { display: contents; }
+
+/* ---- the three promise colours as a strip ---- */
+.pstrip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.pstrip > div { padding: 16px 18px; }
+.pstrip > div:nth-child(1) { background: var(--acc); color: var(--acc-tx); }
+.pstrip > div:nth-child(2) { background: var(--acc2); color: var(--acc2-tx); }
+.pstrip > div:nth-child(3) { background: var(--flash); color: #fff; }
+.pstrip b { font: 500 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+.pstrip h3 { font: 400 26px/1 var(--sans); letter-spacing: -.03em; margin: 8px 0 6px; }
+.pstrip p { font-size: 13px; line-height: 1.4; opacity: .9; }
+
+/* ---- migration calendar ---- */
+.cal { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+.cal-m { font: 500 9px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--faint); text-align: center; padding-bottom: 6px; }
+.cal-r { display: contents; }
+.cal-c { height: 26px; background: var(--ln); display: grid; place-items: center; font: 500 8.5px/1 var(--mono); color: var(--faint); }
+.cal-c.a { background: var(--acc); color: var(--acc-tx); }
+.cal-c.b { background: var(--acc2); color: var(--acc2-tx); }
+.cal-c.c { background: var(--flash); color: #fff; }
+.cal-lab { grid-column: 1 / -1; font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin: 10px 0 4px; }
+
+/* ---- altitude profile ---- */
+.alt { background: var(--ink); color: var(--on-ink); padding: 18px 20px 12px; overflow-x: auto; scrollbar-width: none; }
+.alt::-webkit-scrollbar { display: none; }
+.alt svg { width: 100%; min-width: 860px; height: auto; display: block; overflow: visible; }
+.alt .ax { font: 500 8.5px/1 var(--mono); fill: color-mix(in srgb, var(--on-ink) 55%, transparent); }
+.alt .lb { font: 500 9px/1 var(--mono); fill: var(--acc-ink); }
+.alt .nd { font: 400 11px/1 var(--sans); fill: var(--on-ink); }
+
+/* ---- status / sent ---- */
+.sent { max-width: 620px; margin: 0 auto; text-align: center; }
+.sent .gem { display: block; width: 34px; height: 34px; margin: 0 auto 16px; }
+.sent h1 { font: 400 36px/1.05 var(--sans); letter-spacing: -.035em; }
+.sent > p { color: var(--dim); margin: 10px 0 24px; }
+.next { display: grid; gap: 1px; background: var(--ln); border: 1px solid var(--ln); text-align: left; }
+.next > div { background: var(--paper); padding: 12px 14px; display: grid; grid-template-columns: 30px 1fr; gap: 12px; }
+.next b { font: 400 20px/1 var(--sans); color: var(--acc); }
+.next h4 { font: 500 14px/1.3 var(--sans); }
+.next p { font-size: 13px; color: var(--dim); margin-top: 2px; }
+
+/* ---- contact ---- */
+.ccard { padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+.ccard .ic { width: 22px; height: 22px; color: var(--acc); }
+.ccard h3 { font: 500 16px/1.2 var(--sans); }
+.ccard p { font-size: 13.5px; color: var(--dim); }
+.ccard .val { font: 400 17px/1.2 var(--sans); letter-spacing: -.02em; }
+
+/* ---- 404 ---- */
+.nf { text-align: center; padding: 80px 0 40px; }
+.nf h1 { font: 400 92px/1 var(--sans); letter-spacing: -.05em; }
+.nf h1 span { background: linear-gradient(90deg, var(--acc), var(--acc2) 55%, var(--flash)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.nf p { color: var(--dim); margin: 8px 0 22px; }
+
+/* ---- estimator on a light ground keeps the ink panel it was designed in ---- */
+.estp { background: var(--ink); color: var(--on-ink); padding: 18px 20px; }
+.estp .est-out { flex-wrap: wrap; gap: 10px; }
+.estp .est-out small { white-space: nowrap; }
+.estp .est { margin-top: 0; padding-top: 0; }
+.estp .est-h { border-top: 0; padding-top: 0; }
+
+@media (max-width: 1020px) {
+    .phd-in, .side, .side.left, .cost, .g4, .g3 { grid-template-columns: 1fr; }
+    .g4, .g3 { grid-template-columns: repeat(2, 1fr); }
+    .sticky { position: static; }
+    .side:not(.left) > .sticky { order: 2; }
+    .j2 { grid-template-columns: repeat(2, 1fr); }
+    .opts { grid-template-columns: repeat(2, 1fr); }
+    .lnk-5 { grid-template-columns: repeat(3, 1fr); }
+    .phd .ph { display: none; }
+}
+@media (max-width: 760px) {
+    .phd { margin-top: 12px; padding: 18px; }
+    .phd h1 { font-size: 30px; }
+    .phd .cta .btn { width: 100%; }
+    .g2, .g3, .g4, .form, .pstrip, .inout { grid-template-columns: 1fr; }
+    .gal { grid-template-columns: 1fr 1fr; grid-template-rows: 130px 130px; grid-auto-rows: 130px; }
+    .gal .ph:first-child { grid-column: span 2; grid-row: auto; }
+    .day { grid-template-columns: 1fr; gap: 4px; }
+    .day .pill { justify-self: start; }
+    .spec { grid-template-columns: 1fr; gap: 2px; }
+    .spec dd { margin-bottom: 8px; }
+    .sent h1 { font-size: 28px; }
+    .nf h1 { font-size: 64px; }
+    .opts { grid-template-columns: 1fr; }
+    .j2, .lnk-2, .lnk-5 { grid-template-columns: 1fr; }
+    .tbl-hint { display: block; }
+    .cal { grid-template-columns: repeat(6, 1fr); }
+    .prose h2 { font-size: 20px; }
+    .g3.snap-m > *, .g4.snap-m > *, .g2.snap-m > * { flex-basis: 78%; }
+}
+
+    </style>
+    <link rel="stylesheet" href="../../../../assets/palettes.css">
+    <script src="../../../../assets/palettes.js"></script>
+    <script src="../../../../assets/designer.js" defer></script>
+    <script src="../../../../assets/lightbox.js" defer></script>
+</head>
+<body>
+<div class="drawer" role="dialog" aria-label="Menu"><div class="drawer-top"><a class="brand" href="../../index.html"><img class="logo" src="../../../../assets/logo.png" alt="Tanzania Nzuri"></a><button class="drawer-x" data-drawer aria-label="Close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="drawer-lab">Explore Tanzania</p><div class="drawer-x-chips"><a href="../../experiences/wildlife/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13c-3 0-5.5 3-5.5 5.2 0 1.8 2 2.8 5.5 2.8s5.5-1 5.5-2.8C17.5 16 15 13 12 13z"/><circle cx="5.5" cy="10" r="2"/><circle cx="18.5" cy="10" r="2"/><circle cx="9" cy="5.5" r="2"/><circle cx="15" cy="5.5" r="2"/></svg>Wildlife</a><a href="../../experiences/summit/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2.5 20 7-12 4 6.5 2.5-4 5.5 9.5z"/><path d="m7.6 11.3 1.9-3.3 2 3.1"/></svg>Mountains</a><a href="../../experiences/culture/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.5 14h1a5.5 5.5 0 0 1 5.5 5.5V21"/><path d="M16 4.2a3 3 0 0 1 0 5.6M21 21v-1.5a5.5 5.5 0 0 0-3.2-5"/></svg>Culture</a><a href="../../experiences/adventure/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20c0-9 5.5-15 15-15 0 10-6 15-14 15"/><path d="M5 20 13.5 11.5"/></svg>Adventure</a><a href="../../experiences/beach/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20c2-1.4 4-1.4 6 0s4 1.4 6 0 4-1.4 6 0"/><path d="M12 16.5V8"/><path d="M12 8C10 5 6 5 4 7c3 0 5 1 8 1zM12 8c2-3 6-3 8-1-3 0-5 1-8 1zM12 8c-1-2.2-.6-4.3 1.2-5.4"/></svg>Beach</a><a href="../../experiences/complete/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg>Complete</a></div><p class="drawer-lab">Plan</p><nav class="drawer-nav"><a href="../../journeys/index.html">Journeys<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../kilimanjaro/index.html">Kilimanjaro<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../travel-guide/index.html">Travel Guide<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../team/index.html">Our Guides<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../about/index.html">About<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></nav><div class="drawer-cta"><a href="../../build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="https://wa.me/255000000000"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg> WhatsApp our team</a></div></div><div class="mbar"><a class="mb-pri" href="../../build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="mb-wa" href="https://wa.me/255000000000" aria-label="WhatsApp"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg></a></div><header class="hd"><div class="w hd-in"><a class="brand" href="../../index.html"><img class="logo" src="../../../../assets/logo.png" alt="Tanzania Nzuri"></a><nav class="nav"><a href="../../experiences/index.html">Experiences</a><a href="../../journeys/index.html">Journeys</a><a href="../../kilimanjaro/index.html" class="on">Kilimanjaro</a><a href="../../travel-guide/index.html">Travel Guide</a><a href="../../team/index.html">Our Guides</a><a href="../../about/index.html">About</a></nav><div class="hd-act"><a class="hd-wa" href="https://wa.me/255000000000"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg>WhatsApp</a><a class="btn btn-pri hd-cta" href="../../build-my-journey/index.html">Build my journey</a><button class="burger" data-drawer aria-label="Menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header><section class="w"><div class="phd cut"><div class="crumb"><a href="../../index.html">Home</a><i>/</i><a href="../../kilimanjaro/index.html">Kilimanjaro</a><i>/</i><span>Lemosho</span></div><div class="phd-in"><div><p class="rl">Kilimanjaro route</p><h1>Lemosho<span>, 8 days.</span></h1><p class="lede">The west-side approach: two days on the Shira plateau before you meet the crowds, a climb-high sleep-low day at Lava Tower, and the highest summit success of any eight-day route we run.</p><div class="cta"><a class="btn btn-pri" href="../../journeys/kilimanjaro-lemosho/index.html">See the journey and price <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-line" href="../../kilimanjaro/index.html">Compare all six routes</a></div></div><div class="phd-facts"><div><dt>Days</dt><dd>8</dd></div><div><dt>Summit success</dt><dd>90%</dd></div><div><dt>Difficulty</dt><dd>Moderate</dd></div><div><dt>Crowds</dt><dd>Lower</dd></div></div></div></div></section><main><section class="sec"><div class="w"><p class="rl">Altitude profile</p><div class="alt cut"><svg viewBox="0 0 1000 190" role="img" aria-label="Altitude profile"><line x1="0" x2="1000" y1="155.7" y2="155.7" stroke="currentColor" stroke-opacity=".12"/><line x1="0" x2="1000" y1="123.1" y2="123.1" stroke="currentColor" stroke-opacity=".12"/><line x1="0" x2="1000" y1="90.5" y2="90.5" stroke="currentColor" stroke-opacity=".12"/><line x1="0" x2="1000" y1="57.9" y2="57.9" stroke="currentColor" stroke-opacity=".12"/><line x1="0" x2="1000" y1="25.3" y2="25.3" stroke="currentColor" stroke-opacity=".12"/><polyline points="0,152.4 100,130.3 200,106.6 300,93.7 400,69.9 500,91.8 600,90.6 700,68.5 800,28.7 900,119.8 1000,167.4" fill="none" stroke="var(--acc-ink)" stroke-width="2" stroke-linejoin="round"/><circle cx="0" cy="152.4" r="3" fill="var(--acc-ink)"/><circle cx="100" cy="130.3" r="3" fill="var(--acc-ink)"/><circle cx="200" cy="106.6" r="3" fill="var(--acc-ink)"/><circle cx="300" cy="93.7" r="3" fill="var(--acc-ink)"/><circle cx="400" cy="69.9" r="3" fill="var(--acc-ink)"/><circle cx="500" cy="91.8" r="3" fill="var(--acc-ink)"/><circle cx="600" cy="90.6" r="3" fill="var(--acc-ink)"/><circle cx="700" cy="68.5" r="3" fill="var(--acc-ink)"/><circle cx="800" cy="28.7" r="3" fill="var(--acc-ink)"/><circle cx="900" cy="119.8" r="3" fill="var(--acc-ink)"/><circle cx="1000" cy="167.4" r="3" fill="var(--acc-ink)"/><text class="lb" x="0" y="142.4" text-anchor="start">2,100</text><text class="ax" x="0" y="188" text-anchor="start">Gate</text><text class="lb" x="100" y="120.3" text-anchor="middle">2,780</text><text class="ax" x="100" y="188" text-anchor="middle">Mti Mkubwa</text><text class="lb" x="200" y="96.6" text-anchor="middle">3,505</text><text class="ax" x="200" y="188" text-anchor="middle">Shira 1</text><text class="lb" x="300" y="83.7" text-anchor="middle">3,900</text><text class="ax" x="300" y="188" text-anchor="middle">Shira 2</text><text class="lb" x="400" y="59.9" text-anchor="middle">4,630</text><text class="ax" x="400" y="188" text-anchor="middle">Lava Tower</text><text class="lb" x="500" y="81.8" text-anchor="middle">3,960</text><text class="ax" x="500" y="188" text-anchor="middle">Barranco</text><text class="lb" x="600" y="80.6" text-anchor="middle">3,995</text><text class="ax" x="600" y="188" text-anchor="middle">Karanga</text><text class="lb" x="700" y="58.5" text-anchor="middle">4,673</text><text class="ax" x="700" y="188" text-anchor="middle">Barafu</text><text class="lb" x="800" y="18.7" text-anchor="middle">5,895</text><text class="ax" x="800" y="188" text-anchor="middle">Uhuru</text><text class="lb" x="900" y="109.8" text-anchor="middle">3,100</text><text class="ax" x="900" y="188" text-anchor="middle">Mweka</text><text class="lb" x="1000" y="157.4" text-anchor="end">1,640</text><text class="ax" x="1000" y="188" text-anchor="end">Gate</text></svg></div><p class="tbl-hint">Swipe the profile sideways <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p><p class="hint" style="margin-top:8px">Camp altitudes in metres. Day 4 climbs to Lava Tower at 4,630 m and sleeps 670 m lower at Barranco — that is the acclimatisation day doing its work.</p></div></section><section class="sec"><div class="w"><div class="side"><div class="prose"><h2 id="acclimatisation">Acclimatisation</h2><p>Altitude, not fitness, is what turns people back. The body needs time to make the red blood cells that thin air demands, and that time cannot be bought — only walked.</p><p>Lemosho builds it in three ways: a long, gradual approach from the west; the Lava Tower day, where you climb to 4,630 m and sleep at 3,960 m; and two deliberately short days (Shira 2, Karanga) that exist so you rest rather than cover ground.</p><blockquote>The mountain is not won on summit night. It is won on day three, when you walk slower than you want to. — Hamis Bakari, mountain guide</blockquote><h2 id="success">Summit success</h2><p>Across the six routes, success tracks days on the mountain almost exactly. Our own figures:</p><ul><li>Northern Circuit, 9 days — 95%</li><li>Lemosho, 8 days — 90%</li><li>Machame, 7 days — 85%</li><li>Rongai, 7 days — 80%</li><li>Marangu, 6–7 days — 65%</li></ul><div class="note">Illustrative figures until the real climb records are loaded. <b>What they do not vary with</b> is age: our oldest summit last season was 71.</div><h2 id="cannot">What happens if I cannot summit?</h2><p>You come down, with a guide, at whatever hour it happens. Every climb carries at least one assistant guide per two climbers precisely so that one person turning back does not end anyone else's climb.</p><p>Guides carry a pulse oximeter and check twice a day; the decision to descend is theirs and it is not negotiable. Descent is the treatment for altitude sickness and it works fast.</p><p>There is no refund for an unfinished climb — the park fees, crew and food are spent either way — and there is no charge for the descent.</p></div><aside class="sticky"><div class="toc"><a href="#acclimatisation">Acclimatisation</a><a href="#success">Summit success</a><a href="#cannot">If I cannot summit</a><a href="#days">Day by day</a></div><div class="estp cut"><div class="est" data-est><div class="est-h"><span>Estimate a climb</span><span data-est-days-l>8 days</span></div><div class="est-row"><span>Days</span><input type="range" min="3" max="20" value="8" data-est-days aria-label="Days"></div><div class="est-row"><span>Style</span><div class="seg" data-est-style><button type="button" data-v="220">Value</button><button type="button" class="on" data-v="340">Comfort</button><button type="button" data-v="520">Premium</button><button type="button" data-v="800">Luxury</button></div></div><div class="est-row"><span>Travellers</span><div class="seg" data-est-pax><button type="button" data-v="1.35">1</button><button type="button" class="on" data-v="1">2</button><button type="button" data-v=".9">3–4</button><button type="button" data-v=".82">5+</button></div></div><div class="est-out"><div><small>Per person, park fees in</small><b data-est-out>$2,750 – $3,370</b></div><a class="btn" href="../../build-my-journey/index.html">Design it <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></div></aside></div></div></section><section class="sec"><div class="w"><p class="rl" id="days">Day by day</p><div class="days"><div class="day"><div class="day-n">Day 1</div><div><h4>Moshi to Londorossi Gate — Mti Mkubwa, 2,780 m</h4><p>Registration at the gate, then four hours through the rainforest to Big Tree camp.</p></div><span class="pill">2,780 m</span></div><div class="day"><div class="day-n">Day 2</div><div><h4>Mti Mkubwa to Shira 1, 3,505 m</h4><p>Out of the forest onto the Shira plateau — the first day you see where you are going.</p></div><span class="pill">3,505 m</span></div><div class="day"><div class="day-n">Day 3</div><div><h4>Shira 1 to Shira 2, 3,900 m</h4><p>A short day on purpose, with an afternoon walk higher and back down to sleep.</p></div><span class="pill">3,900 m</span></div><div class="day"><div class="day-n">Day 4</div><div><h4>Lava Tower 4,630 m, then down to Barranco 3,960 m</h4><p>Climb high, sleep low — the single most useful day on the route.</p></div><span class="pill">3,960 m</span></div><div class="day"><div class="day-n">Day 5</div><div><h4>Barranco Wall to Karanga, 3,995 m</h4><p>The wall is a scramble, not a climb. Short day, long rest.</p></div><span class="pill">3,995 m</span></div><div class="day"><div class="day-n">Day 6</div><div><h4>Karanga to Barafu, 4,673 m</h4><p>Into base camp early, eat, and sleep before midnight.</p></div><span class="pill">4,673 m</span></div><div class="day"><div class="day-n">Day 7</div><div><h4>Summit night — Uhuru Peak 5,895 m, down to Mweka 3,100 m</h4><p>Leave around midnight, Stella Point at sunrise, Uhuru soon after, then a long descent.</p></div><span class="pill">5,895 m</span></div><div class="day"><div class="day-n">Day 8</div><div><h4>Mweka Gate to Moshi</h4><p>Three hours down through the forest, certificates at the gate, and a shower.</p></div><span class="pill">1,640 m</span></div></div></div></section><section class="sec"><div class="w"><p class="rl">Journeys on this route</p><div class="sec-hd"><div><h2>Book it as a journey.</h2><p>Days, route and an itemised price, side by side. Every bar is where the money goes.</p></div><a class="more" href="../../journeys/index.html">All journeys <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><div class="cmp-wrap cut"><table class="cmp"><thead><tr><th>Journey</th><th>Length</th><th>Route</th><th>From</th><th>Where the money goes</th><th></th></tr></thead><tbody><tr onclick="location.href='../../journeys/kilimanjaro-lemosho/'"><td><div class="j"><div class="ph cut" style="--cut:8px"><img src="../../../../assets/photos/barranco-trail-group.jpg" alt="Kilimanjaro Lemosho" loading="lazy"></div><div><b>Kilimanjaro Lemosho</b><small>Designed for travelers who want more acclimatization.</small></div></div></td><td><span class="pill">8 days</span></td><td class="mono" style="font-size:11.5px;color:var(--dim)">Londorossi → Shira → Barranco → Uhuru Peak</td><td><div class="price">$2,690<small>per person</small></div></td><td><div class="split"><i style="flex:41;background:var(--acc)"></i><i style="flex:24;background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i><i style="flex:11;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i><i style="flex:6;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i><i style="flex:6;background:var(--ink)"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 41%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Crew 24%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Equipment 12%</span></div></td><td style="text-align:right"><a class="btn btn-line open" href="../../journeys/kilimanjaro-lemosho/index.html">Open <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></td></tr><tr onclick="location.href='../../journeys/mountain-to-zanzibar/'"><td><div class="j"><div class="ph cut" style="--cut:8px"><img src="../../../../assets/photos/zanzibar-loungers.jpg" alt="Mountain to Zanzibar" loading="lazy"></div><div><b>Mountain to Zanzibar</b><small>Designed for travelers who want the complete Tanzania experience.</small></div></div></td><td><span class="pill">12 days</span></td><td class="mono" style="font-size:11.5px;color:var(--dim)">Kilimanjaro → Serengeti → Stone Town → Nungwi</td><td><div class="price">$5,480<small>per person</small></div></td><td><div class="split"><i style="flex:30;background:var(--acc)"></i><i style="flex:30;background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i><i style="flex:12;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i><i style="flex:9;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i><i style="flex:7;background:var(--ink)"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Flights 12%</span></div></td><td style="text-align:right"><a class="btn btn-line open" href="../../journeys/mountain-to-zanzibar/index.html">Open <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></td></tr></tbody></table></div><div class="journeys jcards snap-m"><article class="card jc" data-days="8" data-price="2690" data-keys="summit" data-style="private"><a href="../../journeys/kilimanjaro-lemosho/index.html" class="ph"><img src="../../../../assets/photos/barranco-trail-group.jpg" alt="Kilimanjaro Lemosho" loading="lazy"><span class="pill">8 days</span></a><div class="cb"><div class="jc-h"><h3><a href="../../journeys/kilimanjaro-lemosho/index.html">Kilimanjaro Lemosho</a></h3><span class="pill ok">Private</span></div><div class="fig"><b>$2,690</b><span>per person, park fees in</span></div><div class="split" aria-label="Cost split"><i style="flex:41;background:var(--acc)" title="Park fees 41%"></i><i style="flex:24;background:color-mix(in srgb, var(--acc) 70%, var(--ink))" title="Crew 24%"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))" title="Equipment 12%"></i><i style="flex:11;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))" title="Food 11%"></i><i style="flex:6;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))" title="Transfers 6%"></i><i style="flex:6;background:var(--ink)" title="Operations 6%"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 41%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Crew 24%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Equipment 12%</span></div><p>Designed for travelers who want more acclimatization.</p></div><div class="route">Londorossi → Shira → Barranco → Uhuru Peak</div><details class="why"><summary>Why $2,690?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lines"><li><i style="background:var(--acc)"></i>Park fees<b>$1,100</b></li><li><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Crew<b>$650</b></li><li><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Equipment<b>$320</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i>Food<b>$300</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i>Transfers<b>$160</b></li><li><i style="background:var(--ink)"></i>Operations<b>$160</b></li></ul><p class="incl"><b>Included:</b> Mountain crew, Park fees, Camping gear, Meals. <b style="color:var(--dim)">Not included:</b> flights, visa, insurance, tips.</p></details><div class="cf"><span>8 days</span><a class="btn btn-line open" href="../../journeys/kilimanjaro-lemosho/index.html" style="height:30px;font-size:12px">Open journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article><article class="card jc" data-days="12" data-price="5480" data-keys="wild summit culture beach" data-style="private"><a href="../../journeys/mountain-to-zanzibar/index.html" class="ph"><img src="../../../../assets/photos/zanzibar-loungers.jpg" alt="Mountain to Zanzibar" loading="lazy"><span class="pill">12 days</span></a><div class="cb"><div class="jc-h"><h3><a href="../../journeys/mountain-to-zanzibar/index.html">Mountain to Zanzibar</a></h3><span class="pill ok">Private</span></div><div class="fig"><b>$5,480</b><span>per person, park fees in</span></div><div class="split" aria-label="Cost split"><i style="flex:30;background:var(--acc)" title="Park fees 30%"></i><i style="flex:30;background:color-mix(in srgb, var(--acc) 70%, var(--ink))" title="Accommodation 30%"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))" title="Flights 12%"></i><i style="flex:12;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))" title="Vehicle 12%"></i><i style="flex:9;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))" title="Guide 9%"></i><i style="flex:7;background:var(--ink)" title="Operations 7%"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Flights 12%</span></div><p>Designed for travelers who want the complete Tanzania experience.</p></div><div class="route">Kilimanjaro → Serengeti → Stone Town → Nungwi</div><details class="why"><summary>Why $5,480?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lines"><li><i style="background:var(--acc)"></i>Park fees<b>$1,640</b></li><li><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation<b>$1,640</b></li><li><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Flights<b>$660</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i>Vehicle<b>$660</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i>Guide<b>$490</b></li><li><i style="background:var(--ink)"></i>Operations<b>$380</b></li></ul><p class="incl"><b>Included:</b> Private 4×4, Park fees, Flight to Zanzibar, Beach hotel. <b style="color:var(--dim)">Not included:</b> flights, visa, insurance, tips.</p></details><div class="cf"><span>12 days</span><a class="btn btn-line open" href="../../journeys/mountain-to-zanzibar/index.html" style="height:30px;font-size:12px">Open journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article></div></div></section><section class="sec"><div class="w"><div class="quick cut"><div class="quick-in"><p class="rl">Don't know where to start?</p><h2>Tell us your dates, interests <span>and budget.</span></h2><p>We'll recommend the right Tanzania experience — a real person replies within one working day.</p><form class="qform" action="../../plan-my-trip/sent/"><label class="field"><span>When</span><select><option>Any time</option><option>Jan – Mar</option><option>Jun – Oct</option><option>Nov – Dec</option></select></label><label class="field"><span>Travellers</span><select><option>2 adults</option><option>1 adult</option><option>Family</option><option>Group</option></select></label><label class="field"><span>Budget pp</span><select><option>$2,500–4,000</option><option>Under $2,500</option><option>$4,000–7,000</option><option>$7,000+</option></select></label><button class="btn btn-pri" type="submit">Plan my trip <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form><p class="qnote">Prefer to talk? <a href="https://wa.me/255000000000" style="text-decoration:underline">WhatsApp the team</a> · Arusha, GMT+3</p></div><div class="ph"><img src="../../../../assets/photos/summit-dawn-group.jpg" alt="A group at the summit at dawn" loading="lazy"></div></div></div></section></main><footer class="ft"><div class="w"><div class="ft-top"><div><a class="brand" href="../../index.html"><img class="logo" src="../../../../assets/logo-knockout.png" alt="Tanzania Nzuri"></a><p class="ft-c">Planned and operated in Tanzania.<br>Arusha, hello@tanzanianzuri.com</p><p class="ft-sig">Your journey. Our home.</p></div><div><h4>Explore</h4><ul><li><a href="../../experiences/wildlife/index.html">Wildlife</a></li><li><a href="../../experiences/summit/index.html">Mountains</a></li><li><a href="../../experiences/culture/index.html">Culture</a></li><li><a href="../../experiences/adventure/index.html">Adventure</a></li><li><a href="../../experiences/beach/index.html">Beach</a></li></ul></div><div><h4>Plan</h4><ul><li><a href="../../build-my-journey/index.html">Build my journey</a></li><li><a href="../../journeys/index.html">Journeys</a></li><li><a href="../../kilimanjaro/index.html">Compare Kilimanjaro routes</a></li><li><a href="../../pricing-explained/index.html">What does a safari cost?</a></li><li><a href="../../plan-my-trip/index.html">Trip Designer</a></li></ul></div><div><h4>Travel Guide</h4><ul><li><a href="../../travel-guide/index.html#before-you-travel">Before you travel</a></li><li><a href="../../travel-guide/index.html#safari">Safari guide</a></li><li><a href="../../travel-guide/index.html#kilimanjaro">Kilimanjaro guide</a></li><li><a href="../../travel-guide/index.html#family">Family travel</a></li><li><a href="../../travel-guide/index.html#zanzibar">Zanzibar</a></li></ul></div><div><h4>Tanzania Nzuri</h4><ul><li><a href="../../team/index.html">Our guides</a></li><li><a href="../../about/index.html">Why Tanzania Nzuri</a></li><li><a href="../../safety/index.html">Safety</a></li><li><a href="../../responsible-travel/index.html">Responsible travel</a></li><li><a href="../../contact/index.html">Contact</a></li></ul></div></div><div class="ft-bot"><span>© 2026 Tanzania Nzuri</span><span>Terms · Privacy · Booking conditions</span></div></div></footer>
+<script>
+/* Quick estimate: days x style rate x group factor, plus park fees. A range, never a quote.
+   -> In the app: PriceEstimator (rates from the Sulu admin), LiveComponent-driven. */
+document.querySelectorAll('[data-est]').forEach(function (root) {
+    function val(sel) { return parseFloat(root.querySelector(sel + ' .on').dataset.v); }
+    function run() {
+        var d = +root.querySelector('[data-est-days]').value,
+            low = Math.round((d * val('[data-est-style]') * val('[data-est-pax]') + d * 90) / 10) * 10;
+        root.querySelector('[data-est-days-l]').textContent = d + ' days';
+        root.querySelector('[data-est-out]').textContent = '$' + low.toLocaleString('en-US') + ' - $' + (Math.round(low * 1.22 / 10) * 10).toLocaleString('en-US');
+    }
+    root.querySelectorAll('.seg').forEach(function (g) {
+        g.querySelectorAll('button').forEach(function (b) {
+            b.addEventListener('click', function () { g.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); run(); });
+        });
+    });
+    root.querySelector('[data-est-days]').addEventListener('input', run);
+    run();
+});
+</script>
+
+<script>
+/* Interest chips filter the experience cards. -> In the app: JourneyMatcher, client-side for this list; no request. */
+(function () {
+    var grid = document.querySelector('[data-xgrid]'); if (!grid) return;
+    var chips = document.querySelectorAll('[data-interest]'), clear = document.querySelector('[data-clear]'), fcta = document.querySelector('[data-fcta]');
+    function filter() {
+        var keys = [].filter.call(chips, function (c) { return c.classList.contains('on'); }).map(function (c) { return c.dataset.interest; });
+        var n = 0;
+        grid.classList.toggle('filtering', keys.length > 0);
+        grid.querySelectorAll('.xcard').forEach(function (x) {
+            var hit = keys.some(function (k) { return x.dataset.keys.split(' ').indexOf(k) > -1; });
+            x.classList.toggle('hit', hit); if (hit) n++;
+        });
+        clear.hidden = !keys.length; fcta.classList.toggle('show', keys.length > 0);
+        document.querySelector('[data-fcount]').textContent = n;
+    }
+    chips.forEach(function (c) { c.addEventListener('click', function () { c.classList.toggle('on'); filter(); }); });
+    clear.addEventListener('click', function () { chips.forEach(function (c) { c.classList.remove('on'); }); filter(); });
+})();
+</script>
+
+<script>
+    /* Mobile menu. -> In the app: a Stimulus controller toggling html.nav-open. */
+    document.querySelectorAll('[data-drawer]').forEach(function (el) {
+        el.addEventListener('click', function () { document.documentElement.classList.toggle('nav-open'); });
+    });
+    /* Chips and option tiles toggle in place. -> In the app: a LiveComponent holding the answer set. */
+    document.querySelectorAll('[data-pick]').forEach(function (el) {
+        el.addEventListener('click', function (e) { e.preventDefault(); el.classList.toggle('on'); });
+    });
+</script>
+</body>
+</html>

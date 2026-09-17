@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- The Home option set: three directions for tanzanianzuri's front page, each a full rendered page in both
+     palettes and at three screen sizes, each taken from something that exists in Tanzania.
+     Workspace chrome: this page is the comparison, not a mockup. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tanzania Nzuri — Home, three directions</title>
+    <script>
+        (function () {
+            try {
+                var c = localStorage.getItem('tn-theme');
+                document.documentElement.classList.toggle('dark', c ? c === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+            } catch (e) { /* still themed by the OS */ }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../vendor/design.css">
+    <style>
+        .dirs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+        .dir { border: 1px solid var(--ln); border-radius: 12px; overflow: hidden; background: var(--cd); text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .dir:hover { border-color: var(--dim); }
+        .dir .sw { display: flex; height: 54px; }
+        .dir .sw i { flex: 1; }
+        .dir .sw i:first-child { flex: 2.2; }
+        .dir .b { padding: 12px 13px 14px; display: flex; flex-direction: column; flex: 1; }
+        .dir .k { font: 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--acc); }
+        .dir h3 { font-family: var(--font-display); font-size: 17px; margin: 7px 0 6px; }
+        .dir p { font-size: 12.5px; color: var(--dim); }
+        .dir .f { font: 10px/1.5 var(--mono); color: var(--dim); margin-top: auto; padding-top: 10px; }
+        .links { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+        .links a { font: 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--ln2); border-radius: 6px; padding: 7px 8px; color: var(--acc); }
+        .links a:hover { border-color: var(--acc); }
+        .cmp { table-layout: fixed; }
+        .cmp th:first-child, .cmp td:first-child { width: 13%; }
+        .cmp td, .cmp th { font-size: 12px; }
+        .pals { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 14px; }
+        .pal { border: 1px solid var(--ln); border-radius: 10px; overflow: hidden; background: var(--cd); }
+        .pal .sw { display: flex; height: 30px; }
+        .pal .sw i { flex: 1; }
+        .pal div.t { padding: 7px 9px 9px; font-size: 11.5px; }
+        .pal b { display: block; font-size: 12.5px; }
+        .pal span { color: var(--dim); font-size: 11px; line-height: 1.35; display: block; margin-top: 2px; }
+        @media (max-width: 1000px) { .dirs { grid-template-columns: 1fr 1fr; } .pals { grid-template-columns: repeat(3, 1fr); } }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="topline">
+        <span class="crumb"><a href="../../MANIFEST.md">tanzanianzuri</a> / home / directions</span>
+        <a class="crumb" href="../../brand/index.html" style="color:var(--acc)">the mark →</a><span class="spacer"></span>
+    </div>
+
+    <h1>Home — three directions</h1>
+    <p class="sub">Three full homepages carrying the brief's whole section list (hero, what brings you, trip designer,
+        signature experiences, why Tanzania Nzuri, guides, journeys with the <b>Real Trip Cost</b>, don't know where to
+        start). They share one compact card anatomy and the same content, and disagree about <b>what Tanzanian thing
+        the brand should look like</b>. Every one opens at mobile / tablet / desktop in
+        <a href="../../screens.html">Screens</a>, and in any of the <b>15 review palettes</b> from the designer bar.
+        Photos are from tranquilkilimanjaro.com; dashed <b>Stand-in</b> tags mark photos that don't show their subject.</p>
+
+    <h2>The three</h2>
+    <div class="dirs">
+        <div class="dir"><div class="sw"><i style="background:#22302a"></i><i style="background:#6fa9c2"></i><i style="background:#9c6b8e"></i></div>
+            <div class="b"><span class="k">A · Pole pole</span><h3>The climb</h3>
+                <p>The page walks Kilimanjaro's five climate zones; an altimeter follows the scroll from 800 m to 5,895 m; signature places are an ascent log.</p>
+                <span class="f">Red Hat Display / Text / Mono</span>
+                <div class="links"><a href="e-pole-pole.html">Open</a><a href="../../screens.html?p=variants/home/e-pole-pole.html">Screens</a></div></div></div>
+        <div class="dir"><div class="sw"><i style="background:#141a3e"></i><i style="background:#5a4fcf"></i><i style="background:#0f9a9c"></i></div>
+            <div class="b"><span class="k">B · Tanzanite</span><h3>The only-here colour</h3>
+                <p>Faceted cuts, a trichroic accent for the three promises, a live price estimator in the hero, journeys compared in a table.</p>
+                <span class="f">Lexend Deca + Lexend Peta</span>
+                <div class="links"><a href="c-tanzanite.html">Open</a><a href="../../screens.html?p=variants/home/c-tanzanite.html">Screens</a></div></div></div>
+        <div class="dir"><div class="sw"><i style="background:#141a3e"></i><i style="background:#5a4fcf"></i><i style="background:#0f9a9c"></i></div>
+            <div class="b"><span class="k">C · Kibao</span><h3>The park signboard</h3>
+                <p>Timber boards, routed capitals, distances in plain figures — now in tanzanite and turquoise. A working signpost in the hero; signature places on a true elevation profile, coast to summit.</p>
+                <span class="f">Overpass + Overpass Mono</span>
+                <div class="links"><a href="a-kibao.html">Open</a><a href="../../screens.html?p=variants/home/a-kibao.html">Screens</a></div></div></div>
+    </div>
+
+    <h2>The argument each one makes</h2>
+    <table class="cmp">
+        <thead><tr><th>Direction</th><th>The claim</th><th>Best at</th><th>What it costs</th><th>Breaks when</th></tr></thead>
+        <tbody>
+        <tr><td><a href="e-pole-pole.html">A · Pole pole</a></td>
+            <td>The brand's core story is the climb — make scrolling the homepage an ascent.</td>
+            <td>Memorable and playful without gimmick; the zone bands give long pages rhythm, and the facts are real.</td>
+            <td>Section order is tied to altitude; adding a section means choosing its zone. The altimeter needs a light touch on mobile.</td>
+            <td>The inner pages copy the zone metaphor — it belongs to the homepage only.</td></tr>
+        <tr><td><a href="c-tanzanite.html">B · Tanzanite</a></td>
+            <td>Every competitor is khaki and orange; own the one colour no other country can claim.</td>
+            <td>Premium and honeymoon markets; stands apart from Tranquil, Lion King and Afromaxx at a glance. Deepest colour of the five.</td>
+            <td>The least "safari" at first sight — the photography has to carry the wildlife.</td>
+            <td>Budget travellers read violet-and-facets as expensive and leave before seeing a price.</td></tr>
+        <tr><td><a href="a-kibao.html">C · Kibao</a></td>
+            <td>The Tanzanian design every visitor already photographs is the park sign — make the site wayfinding.</td>
+            <td>Kilimanjaro expertise; instantly recognisable to anyone who has climbed. The elevation profile is honest data.</td>
+            <td>The heaviest look; timber panels on every section can feel rugged rather than premium.</td>
+            <td>The business leans to beach and honeymoon — signage says "trek" louder than "Zanzibar".</td></tr>
+        </tbody>
+    </table>
+
+    <h2>The 15 review palettes</h2>
+    <p class="h2note">Any direction, any palette — <b>Tanzanite · Zanzibar</b> leads the list — pick one in the designer bar or with <code>?palette=key</code>. Each has a light and a dark
+        form, with contrast derived so accent text on the dark panels stays readable. The app will ship <b>one</b>.</p>
+    <div class="pals" id="pals"></div>
+
+    <h2>Verdict</h2>
+    <p class="h2note"><span class="badge needs">NEEDS RULING</span> Kanga (B) and Risiti (D) were reviewed and removed on 2026-09-17. Choose a direction (or a mix — e.g. C's signpost hero with B's comparison table on journeys) and a palette.
+        Templates 2–20 start from the ruling.</p>
+</div>
+<script src="../../assets/palettes.js"></script>
+<script>
+    document.getElementById('pals').innerHTML = (window.TN_PALETTES || []).map(function (p) {
+        return '<div class="pal"><div class="sw">' + p.swatch.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('') +
+            '</div><div class="t"><b>' + p.name + '</b><span>' + p.source + '</span></div></div>';
+    }).join('');
+</script>
+</body>
+</html>

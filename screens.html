@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!-- SCREENS — designer furniture, not the product.
+     Shows any template of this project at three real viewports side by side:
+     mobile 390×844, tablet 820×1180, desktop 1440×900. Each frame is the page
+     itself in an iframe at its true width, scaled down to fit — so what you see is
+     the responsive CSS actually firing, not a redrawn mockup.
+     Usage: screens.html?p=variants/home/a-kibao.html  (add &palette=zanzibar) -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Screens — tanzanianzuri</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; }
+        body { background: #1a1917; color: #cfcac0; font: 13px/1.5 -apple-system, Inter, system-ui, sans-serif; min-height: 100vh; }
+        .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 10px 20px;
+            background: #0f0f0e; font: 10.5px/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; }
+        .top a, .top button { color: #9b978d; text-decoration: none; background: none; border: 1px solid transparent; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; padding: 5px 7px; border-radius: 4px; }
+        .top a:hover, .top button:hover { color: #f3efe6; }
+        .top .on { color: #f3efe6; border-color: #e0a34066; }
+        .top b { color: #f3efe6; }
+        .top .d { color: #e0a340; border: 1px dashed #e0a34088; padding: 4px 6px; border-radius: 4px; }
+        .top .sp { flex: 1; }
+        .top .grp { display: flex; gap: 2px; align-items: center; }
+        .top .grp > span { color: #5e5b55; margin-right: 4px; }
+        .stage { display: flex; gap: 36px; align-items: flex-start; padding: 30px 28px 60px; overflow-x: auto; }
+        .dev { flex: none; }
+        .dev .lab { display: flex; justify-content: space-between; gap: 12px; font: 10.5px/1 ui-monospace, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: #8a867d; margin-bottom: 10px; }
+        .dev .lab a { color: #8a867d; }
+        .dev .lab a:hover { color: #f3efe6; }
+        .frame { position: relative; overflow: hidden; background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px #33312c, 0 30px 60px -30px #000; }
+        .dev.phone .frame { border-radius: 30px; box-shadow: 0 0 0 8px #0b0b0a, 0 0 0 9px #3a3833, 0 30px 60px -30px #000; }
+        .frame iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; background: #fff; }
+    </style>
+</head>
+<body>
+<div class="top">
+    <b>tanzanianzuri</b><span class="d">Design · Screens</span>
+    <span class="grp" id="pages"><span>Page</span></span>
+    <span class="sp"></span>
+    <span class="grp" id="scale"><span>Size</span></span>
+    <span class="grp"><span>Palette</span><select id="pal" style="font:inherit;text-transform:none;letter-spacing:0;color:#f3efe6;background:#1c1b19;border:1px solid #3a3833;border-radius:4px;padding:3px 4px"></select></span>
+</div>
+<div class="stage" id="stage"></div>
+<script src="assets/palettes.js"></script>
+
+<script>
+    // Every template registers here as it is designed.
+    var PAGES = [
+        ['sites/pole-pole/index.html', 'Site A · Pole pole'],
+        ['sites/tanzanite/index.html', 'Site B · Tanzanite'],
+        ['sites/kibao/index.html', 'Site C · Kibao'],
+        ['variants/home/e-pole-pole.html', 'Home A · Pole pole'],
+        ['variants/home/c-tanzanite.html', 'Home B · Tanzanite'],
+        ['variants/home/a-kibao.html', 'Home C · Kibao']
+    ];
+    var DEVICES = [
+        ['phone', 'Mobile', 390, 844],
+        ['tablet', 'Tablet', 820, 1180],
+        ['desktop', 'Desktop', 1440, 900]
+    ];
+    var q = new URLSearchParams(location.search);
+    var page = q.get('p') || PAGES[0][0];
+    if (!PAGES.some(function (x) { return x[0] === page; })) { PAGES.unshift([page, page.replace(/^sites\//, '').replace(/index\.html$/, '')]); }
+    var zoom = q.get('z') || 'fit';
+    var palette = q.get('palette') || 'default';
+
+    function url(over) {
+        var n = new URLSearchParams({p: page, z: zoom, palette: palette});
+        Object.keys(over).forEach(function (k) { n.set(k, over[k]); });
+        return '?' + n.toString();
+    }
+
+    function group(id, items, current, key) {
+        var el = document.getElementById(id);
+        items.forEach(function (it) {
+            var a = document.createElement('a');
+            a.href = url({[key]: it[0]});
+            a.textContent = it[1];
+            if (it[0] === current) { a.className = 'on'; }
+            el.appendChild(a);
+        });
+    }
+    group('pages', PAGES, page, 'p');
+    group('scale', [['fit', 'Fit'], ['tall', 'Tall']], zoom, 'z');
+
+    var sel = document.getElementById('pal');
+    sel.innerHTML = '<option value="default">Direction default</option>' + (window.TN_PALETTES || []).map(function (p) {
+        return '<option value="' + p.key + '"' + (p.key === palette ? ' selected' : '') + '>' + p.name + '</option>';
+    }).join('');
+    sel.addEventListener('change', function () { location.search = url({palette: sel.value}); });
+
+    var stage = document.getElementById('stage');
+    var avail = window.innerHeight - 140;
+    DEVICES.forEach(function (d) {
+        var h = zoom === 'tall' ? d[3] * 2.2 : d[3];
+        var s = Math.min(1, avail / d[3]) * (d[0] === 'desktop' ? .62 : d[0] === 'tablet' ? .62 : .82);
+        var src = page + '?palette=' + palette;
+        var wrap = document.createElement('div');
+        wrap.className = 'dev ' + d[0];
+        wrap.innerHTML = '<div class="lab"><span>' + d[1] + ' · ' + d[2] + '×' + d[3] + '</span><a href="' + src + '" target="_blank">Open ↗</a></div>' +
+            '<div class="frame" style="width:' + Math.round(d[2] * s) + 'px;height:' + Math.round(h * s) + 'px">' +
+            '<iframe src="' + src + '" style="width:' + d[2] + 'px;height:' + h + 'px;transform:scale(' + s + ')"></iframe></div>';
+        stage.appendChild(wrap);
+    });
+</script>
+</body>
+</html>

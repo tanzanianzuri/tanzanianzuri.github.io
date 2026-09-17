@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<!-- HOME DIRECTION C — TANZANITE. The argument: tanzanite is mined in one place on earth, in sight of Kilimanjaro, and every safari operator is khaki and orange — so take the colour no other country can claim. The cut is the component (faceted corners); the stone's three colours carry the three promises; the hero estimates a price live and the journeys are compared in a table. Lexend Deca. Both palettes: ?theme=dark; 14 review palettes. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tanzania Nzuri — Home, direction C: Tanzanite</title>
+    <script>
+        /* Review palette only (designer furniture): ?palette=key, else the remembered one, else the direction's own.
+           There is no theme switch — the site is light, the way travel sites are. */
+        (function () {
+            try {
+                var pal = new URLSearchParams(window.location.search).get('palette') || localStorage.getItem('tn-palette');
+                if (pal && pal !== 'default') { document.documentElement.setAttribute('data-palette', pal); }
+            } catch (e) { /* the page still renders */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600&family=Lexend+Peta:wght@400;500&display=swap">
+    <style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--tx); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+.w { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+.ic { width: 20px; height: 20px; flex: none; }
+.mark { width: 32px; height: 32px; flex: none; }
+.mark-sun { fill: var(--acc); }
+.ph { position: relative; overflow: hidden; background: var(--ln); }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.burger { display: none; }
+@media (max-width: 1020px) { .nav { display: none; } .burger { display: inline-flex; } .hd-cta { display: none; } }
+@media (max-width: 640px) { .w { padding: 0 18px; } }
+
+/* ---- mobile chrome: drawer menu + sticky action bar + swipe rows ---- */
+.drawer { position: fixed; inset: 0; z-index: 60; background: var(--bg); color: var(--tx); padding: 14px 18px 24px;
+    display: flex; flex-direction: column; overflow-y: auto; transform: translateX(100%); visibility: hidden; transition: transform .3s ease, visibility .3s; }
+html.nav-open .drawer { transform: none; visibility: visible; }
+html.nav-open { overflow: hidden; }
+.drawer-top { display: flex; justify-content: space-between; align-items: center; min-height: 52px; }
+.drawer-x { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--ln); border-radius: 50%; }
+.drawer-lab { font: 600 10.5px/1 var(--sans, system-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin: 26px 0 12px; }
+.drawer-x-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.drawer-x-chips a { display: flex; align-items: center; gap: 10px; padding: 13px 14px; border: 1px solid var(--ln); border-radius: 14px; font-size: 14.5px; }
+.drawer-x-chips .ic { width: 20px; height: 20px; color: var(--acc); }
+.drawer-nav { display: flex; flex-direction: column; border-top: 1px solid var(--ln); }
+.drawer-nav a { display: flex; justify-content: space-between; align-items: center; padding: 16px 2px; border-bottom: 1px solid var(--ln); font: 400 22px/1.2 var(--display); }
+.drawer-nav .ic { width: 18px; height: 18px; color: var(--dim); }
+.drawer-cta { margin-top: 28px; display: grid; gap: 10px; }
+.drawer-cta a { height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 600; font-size: 15px; border: 1px solid var(--ln); }
+.drawer-cta a:first-child { background: var(--acc); color: var(--acc-tx); border-color: transparent; }
+.drawer-cta .ic { width: 20px; height: 20px; }
+.mbar { display: none; }
+@media (max-width: 760px) {
+    body { padding-bottom: 88px; }
+    .mbar { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 40; display: flex; gap: 8px;
+        padding: 7px; border-radius: 999px; background: var(--tx); box-shadow: 0 18px 40px -14px rgba(0,0,0,.55); }
+    .mbar a { height: 50px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 15px; }
+    .mbar .mb-pri { flex: 1; background: var(--acc); color: var(--acc-tx); }
+    .mbar .mb-wa { width: 50px; color: var(--bg); border: 1px solid color-mix(in srgb, var(--bg) 30%, transparent); }
+    .mbar .ic { width: 20px; height: 20px; }
+    .snap-m { display: flex !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px !important;
+        margin-left: -18px; margin-right: -18px; padding: 0 18px 4px; scrollbar-width: none; }
+    .snap-m::-webkit-scrollbar { display: none; }
+    .snap-m > * { flex: 0 0 84%; scroll-snap-align: start; scroll-margin-left: 18px; }
+    .hide-m { display: none !important; }
+}
+
+body { font: 14.5px/1.55 var(--sans); }
+[class$='-in'] > *, .hero-in > *, .band-in > *, .host > *, .quote > *, .trail > *, .kit > *, .designer > * { min-width: 0; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -.015em; line-height: 1.1; }
+h2 { font-size: 26px; font-weight: 700; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: var(--rb);
+    font: 700 13.5px/1 var(--sans); white-space: nowrap; border: 1px solid transparent; transition: .15s; cursor: pointer; }
+.btn .ic { width: 15px; height: 15px; }
+.btn-pri { background: var(--acc); color: var(--acc-tx); }
+.btn-pri:hover { filter: brightness(1.07); }
+.btn-ink { background: var(--ink); color: var(--on-ink); }
+.btn-line { border-color: var(--ln2); color: var(--tx); background: transparent; }
+.btn-line:hover { border-color: var(--tx); }
+
+.rl { display: flex; align-items: center; gap: 12px; font: 600 10.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+.rl::after { content: ""; flex: 1; height: 1px; background: var(--ln); }
+.pill { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px; border-radius: 99px; border: 1px solid var(--ln2);
+    font: 600 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+.pill.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); background: var(--okSoft); }
+.pill.acc { background: var(--acc); color: var(--acc-tx); border-color: transparent; }
+
+.sec { padding: 48px 0; }
+.sec + .sec { padding-top: 0; }
+.sec-hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; margin-bottom: 18px; }
+.sec-hd p { color: var(--dim); max-width: 640px; margin-top: 4px; }
+.more { font: 700 13px/1 var(--sans); display: inline-flex; gap: 6px; align-items: center; color: var(--tx); white-space: nowrap; padding-bottom: 3px; border-bottom: 2px solid var(--acc); }
+.more .ic { width: 14px; height: 14px; }
+
+.card { background: var(--paper); border: 1px solid var(--ln); border-radius: var(--r); overflow: hidden; transition: border-color .15s, opacity .25s; }
+a.card:hover { border-color: var(--ln2); }
+.cb { padding: 12px 14px; }
+.cf { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--ln); padding: 9px 14px; font: 500 10.5px/1.45 var(--mono); color: var(--faint); }
+.cf .ic { width: 14px; height: 14px; color: var(--tx); flex: none; }
+
+/* header */
+.hd { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--ln); }
+.hd-in { display: flex; align-items: center; gap: 28px; height: 56px; }
+.brand { display: flex; align-items: center; }
+.brand .logo { height: 46px; width: auto; display: block; }
+.brand .mark { width: 26px; height: 26px; }
+.brand b { font: 700 15px/1 var(--display); letter-spacing: -.01em; }
+.nav { display: flex; gap: 22px; font: 500 13.5px/1 var(--sans); }
+.nav a { color: var(--dim); padding: 21px 0 19px; border-bottom: 2px solid transparent; }
+.nav a:hover { color: var(--tx); border-bottom-color: var(--acc); }
+.hd-act { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.hd-wa { display: inline-flex; align-items: center; gap: 6px; font: 500 13px/1 var(--sans); color: var(--dim); }
+.hd-wa .ic { width: 16px; height: 16px; color: var(--ok); }
+.hd .btn { height: 34px; padding: 0 13px; font-size: 12.5px; }
+.burger { width: 38px; height: 38px; align-items: center; justify-content: center; border: 1px solid var(--ln2); border-radius: var(--rb); }
+
+/* interests filter experience cards */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px 0 9px; border-radius: 99px; background: var(--paper); border: 1px solid var(--ln2);
+    font: 600 10.5px/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; cursor: pointer; color: var(--tx); transition: .15s; }
+.chip .ic { width: 15px; height: 15px; color: var(--dim); }
+.chip em { font-style: normal; color: var(--faint); }
+.chip:hover { border-color: var(--tx); }
+.chip.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.chip.on .ic, .chip.on em { color: var(--acc-ink); }
+.chip-clear { font: 600 10.5px/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--dim); text-decoration: underline; text-underline-offset: 3px; padding: 0 6px; cursor: pointer; height: 32px; }
+.xgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.xcard .ph { aspect-ratio: 16/9; }
+.xcard .ph .pill { position: absolute; right: 10px; top: 10px; z-index: 2; background: rgba(12,10,8,.7); color: #fff; border-color: rgba(255,255,255,.2); }
+.xcard h3 { font: 700 15.5px/1.25 var(--sans); letter-spacing: -.005em; }
+.xcard .cb p { color: var(--dim); font-size: 13.5px; margin-top: 2px; }
+.xgrid.filtering .xcard { opacity: .35; }
+.xgrid.filtering .xcard.hit { opacity: 1; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.filter-cta { display: none; margin-top: 14px; padding: 10px 10px 10px 14px; background: var(--ink); color: var(--on-ink); border-radius: var(--r); align-items: center; gap: 14px; flex-wrap: wrap; }
+.filter-cta.show { display: flex; }
+.filter-cta p { flex: 1; font-size: 13.5px; }
+.filter-cta b { color: var(--acc-ink); font-family: var(--mono); }
+.filter-cta .btn { height: 34px; font-size: 12.5px; }
+
+/* guides */
+.guides { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.guide .ph { aspect-ratio: 1; }
+.guide .ph .pill { position: absolute; left: 8px; bottom: 8px; z-index: 2; background: rgba(12,10,8,.72); color: #fff; border-color: rgba(255,255,255,.2); }
+.guide .cb { padding: 10px 12px 11px; }
+.guide h3 { font: 700 14.5px/1.25 var(--sans); }
+.guide .meta { font: 500 10.5px/1.5 var(--mono); color: var(--faint); margin-top: 3px; }
+.guide.feature { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.guide.feature .ph { aspect-ratio: auto; min-height: 100%; }
+.guide.feature .cb { padding: 16px; display: flex; flex-direction: column; }
+.guide.feature .pill { align-self: flex-start; color: var(--acc-ink); border-color: color-mix(in srgb, var(--acc-ink) 45%, transparent); }
+.guide.feature q { display: block; font: 600 16px/1.45 var(--display); color: var(--on-ink); margin: 12px 0 auto; }
+.guide.feature q::before, .guide.feature q::after { color: var(--acc-ink); }
+.guide.feature h3 { color: var(--acc-ink); margin-top: 14px; }
+.guide.feature .meta { color: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+
+/* journeys with the real trip cost */
+.journeys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-items: start; }
+.jc .ph { aspect-ratio: 16/8; display: block; }
+.jc .ph .pill { position: absolute; left: 10px; top: 10px; z-index: 2; background: rgba(12,10,8,.72); color: #fff; border-color: rgba(255,255,255,.2); }
+.jc-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.jc h3 { font: 700 15.5px/1.25 var(--sans); }
+.fig { display: flex; align-items: baseline; gap: 7px; margin: 6px 0 8px; }
+.fig b { font: 600 22px/1 var(--mono); letter-spacing: -.04em; }
+.fig span { font-size: 12.5px; color: var(--dim); }
+.split { display: flex; height: 8px; gap: 2px; border-radius: 2px; overflow: hidden; }
+.split i { display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 7px; font: 500 10.5px/1.3 var(--mono); color: var(--dim); }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 7px; height: 7px; border-radius: 1.5px; }
+.jc .cb > p { color: var(--dim); font-size: 13.5px; margin-top: 10px; }
+.route { font: 500 10.5px/1.5 var(--mono); color: var(--faint); padding: 9px 14px; border-top: 1px solid var(--ln); }
+details.why { border-top: 1px solid var(--ln); }
+details.why summary { list-style: none; cursor: pointer; font: 700 12.5px/1 var(--sans); display: flex; justify-content: space-between; align-items: center; padding: 10px 14px 9px; }
+details.why summary::-webkit-details-marker { display: none; }
+details.why summary .ic { width: 14px; height: 14px; transition: transform .2s; transform: rotate(90deg); color: var(--dim); }
+details.why[open] summary .ic { transform: rotate(-90deg); }
+.lines { list-style: none; padding: 0 14px; font-size: 13px; }
+.lines li { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px dashed var(--ln); }
+.lines li i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.lines li b { margin-left: auto; font: 600 12px/1 var(--mono); }
+.incl { padding: 8px 14px 12px; font-size: 12.5px; color: var(--dim); }
+.incl b { color: var(--ok); }
+
+/* closing planner */
+.quick { display: grid; grid-template-columns: 1.4fr 1fr; background: var(--ink); color: var(--on-ink); border-radius: var(--r); overflow: hidden; }
+.quick-in { padding: 26px 30px; }
+.quick .rl { color: color-mix(in srgb, var(--on-ink) 62%, transparent); }
+.quick .rl::after { background: color-mix(in srgb, var(--on-ink) 14%, transparent); }
+.quick h2 { color: var(--on-ink); }
+.quick h2 span { color: var(--acc-ink); }
+.quick-in > p { color: color-mix(in srgb, var(--on-ink) 76%, transparent); margin: 4px 0 16px; }
+.qform { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field span { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+.field select { appearance: none; height: 40px; border-radius: var(--rb); border: 1px solid color-mix(in srgb, var(--on-ink) 20%, transparent); background: color-mix(in srgb, var(--on-ink) 6%, transparent);
+    color: var(--on-ink); font: 600 13.5px/1 var(--sans); padding: 0 28px 0 10px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--acc-ink) 50%), linear-gradient(135deg, var(--acc-ink) 50%, transparent 50%);
+    background-position: calc(100% - 15px) 18px, calc(100% - 11px) 18px; background-size: 4px 4px; background-repeat: no-repeat; }
+.field select option { color: #111; }
+.qform .btn-pri { background: var(--acc-ink); color: var(--acc-ink-tx); }
+.qnote { font: 500 10.5px/1.4 var(--mono); color: color-mix(in srgb, var(--on-ink) 55%, transparent); margin-top: 12px; }
+.quick > .ph { min-height: 100%; }
+
+/* footer */
+.ft { background: var(--ink); color: var(--on-ink); padding: 40px 0 22px; margin-top: 24px; }
+.ft .brand .logo { height: 56px; }
+.ft-top { display: grid; grid-template-columns: 1.3fr repeat(4, 1fr); gap: 28px; }
+.ft-c { font-size: 13px; color: color-mix(in srgb, var(--on-ink) 65%, transparent); margin-top: 12px; line-height: 1.6; }
+.ft-sig { font: 600 17px/1.3 var(--display); color: var(--acc-ink); margin-top: 14px; }
+.ft h4 { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--acc-ink); margin-bottom: 12px; }
+.ft ul { list-style: none; display: grid; gap: 7px; font-size: 13.5px; color: color-mix(in srgb, var(--on-ink) 75%, transparent); }
+.ft ul a:hover { color: var(--on-ink); }
+.ft-bot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 30px; padding-top: 16px; border-top: 1px solid color-mix(in srgb, var(--on-ink) 12%, transparent); font: 500 10.5px/1.4 var(--mono); color: color-mix(in srgb, var(--on-ink) 50%, transparent); }
+
+/* mobile chrome */
+.drawer { background: var(--bg); }
+.drawer-x { border-radius: var(--rb); width: 40px; height: 40px; }
+.drawer-lab { font: 600 10px/1 var(--mono); letter-spacing: .14em; margin: 22px 0 10px; }
+.drawer-x-chips a { border-radius: var(--r); font-weight: 600; font-size: 14px; padding: 11px 12px; background: var(--paper); }
+.drawer-nav a { font: 700 18px/1 var(--display); padding: 15px 2px 13px; }
+.drawer-cta a { border-radius: var(--rb); height: 48px; font-size: 14px; }
+@media (max-width: 760px) {
+    .mbar { background: var(--ink); border-radius: calc(var(--rb) + 6px); padding: 6px; }
+    .mbar a { height: 46px; border-radius: var(--rb); font-size: 14px; }
+    .mbar .mb-pri { background: var(--acc-ink); color: var(--acc-ink-tx); }
+    .mbar .mb-wa { width: 46px; color: var(--on-ink); border-color: color-mix(in srgb, var(--on-ink) 25%, transparent); }
+}
+
+@media (max-width: 1120px) {
+    .hd-wa { display: none; }
+    .nav { gap: 16px; }
+    .guides { grid-template-columns: repeat(4, 1fr); }
+    .guide.feature { grid-column: span 4; grid-template-columns: 200px 1fr; }
+}
+@media (max-width: 1020px) {
+    .nav, .hd-cta { display: none; }
+    .burger { display: inline-flex; }
+    .quick { grid-template-columns: 1fr; }
+    .quick > .ph { min-height: 200px; order: -1; }
+    .xgrid, .journeys { grid-template-columns: repeat(2, 1fr); }
+    .guides { grid-template-columns: repeat(2, 1fr); }
+    .guide.feature { grid-column: span 2; }
+    .qform { grid-template-columns: 1fr 1fr 1fr; }
+    .qform .btn { grid-column: 1 / -1; }
+    .ft-top { grid-template-columns: repeat(2, 1fr); }
+    .ft-top > div:first-child { grid-column: span 2; }
+    .sec-hd { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+@media (max-width: 760px) {
+    body { font-size: 15px; }
+    .hd-in { height: 54px; }
+    .brand .logo { height: 38px; }
+    .sec { padding: 34px 0; }
+    h2 { font-size: 22px; }
+    .filters { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px 12px; padding: 0 18px 2px; scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip { flex: none; }
+    .quick-in { padding: 20px 18px; }
+    .guides.snap-m > .guide { flex-basis: 46%; }
+    .guides.snap-m > .guide.feature { flex-basis: 88%; grid-template-columns: 1fr 1.2fr; }
+    .xgrid.snap-m > .xcard, .journeys.snap-m > .jc { flex-basis: 84%; }
+    .qform { grid-template-columns: 1fr 1fr; }
+    .qform .field:first-child { grid-column: 1 / -1; }
+    .qform .btn { height: 46px; }
+    .ft { margin-top: 20px; }
+}
+:root {
+    --bg: #e9edf3;
+    --paper: #f9fafc;
+    --raised: #e2e6ec;
+    --tx: #0f142e;
+    --dim: #5d6275;
+    --faint: #808594;
+    --ln: rgba(15,20,46,0.11);
+    --ln2: rgba(15,20,46,0.22);
+    --ink: #141a3e;
+    --ink-2: #2c3151;
+    --on-ink: #f1f3f7;
+    --acc: #5a4fcf;
+    --acc-tx: #ffffff;
+    --acc-ink: #8881dd;
+    --acc2: #0f9a9c;
+    --acc2-tx: #141312;
+    --ok: #2e7d46;
+    --okSoft: rgba(46,125,70,0.13);
+    --acc-ink-tx: #141312;
+    --wood: #141a3e;
+    --wood-2: #2c3151;
+    --on-wood: #f1f3f7;
+    --sign: #8881dd;
+    --sign-ink: #141312;
+}
+
+:root { --display: "Lexend Deca", system-ui, sans-serif; --sans: "Lexend Deca", system-ui, sans-serif;
+    --mono: "Lexend Peta", "Lexend Deca", ui-monospace, sans-serif; --r: 6px; --rb: 4px; --cut: 14px;
+    --flash: color-mix(in srgb, var(--acc2) 55%, #9c2f55); }
+body { font-size: 14px; }
+h1, h2 { font-weight: 500; letter-spacing: -.03em; }
+h2 { font-size: 25px; }
+.rl { font-size: 9.5px; letter-spacing: .1em; }
+.pill, .chip, .cf, .route, .legend, .meta, .qnote, .field span, .ft h4, .ft-bot { letter-spacing: .02em !important; }
+.pill { font-size: 9px; }
+.chip { font-size: 9.5px; }
+.fig b { font-family: var(--sans); font-weight: 500; letter-spacing: -.03em; }
+.cf, .route, .legend, .meta, .qnote, .ft-bot, .cmp td.mono { font-family: var(--sans) !important; letter-spacing: 0 !important; font-size: 12px !important; }
+
+/* THE CUT: a facet off two corners. */
+.cut, .card, .ph.cut { clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut))); }
+.card { border-radius: 0; }
+.btn { clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)); border-radius: 0; font-weight: 500; }
+.chip { border-radius: 0; clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px)); }
+.gem { width: 10px; height: 10px; background: linear-gradient(135deg, var(--acc) 0 45%, var(--acc2) 45% 75%, var(--flash) 75%); clip-path: polygon(50% 0, 100% 40%, 50% 100%, 0 40%); flex: none; }
+.rl::before { content: ""; width: 9px; height: 9px; background: linear-gradient(135deg, var(--acc) 0 45%, var(--acc2) 45% 75%, var(--flash) 75%); clip-path: polygon(50% 0, 100% 40%, 50% 100%, 0 40%); }
+
+/* hero: a faceted photograph and a journey estimator */
+.hero { padding: 26px 0 0; }
+.hero-in { display: grid; grid-template-columns: 1fr 1.05fr; gap: 14px; }
+.hero-copy { background: var(--ink); color: var(--on-ink); padding: 34px 32px 28px; display: flex; flex-direction: column; }
+.hero-copy .rl { color: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+.hero-copy .rl::after { background: color-mix(in srgb, var(--on-ink) 14%, transparent); }
+.hero h1 { font-size: 56px; line-height: 1; margin: 4px 0 14px; font-weight: 400; }
+.hero h1 span { background: linear-gradient(90deg, var(--acc-ink), color-mix(in srgb, var(--acc2) 60%, white) 60%, color-mix(in srgb, var(--flash) 50%, white)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .lede { color: color-mix(in srgb, var(--on-ink) 75%, transparent); font-size: 15.5px; max-width: 440px; }
+.hero .cta { display: flex; gap: 8px; margin-top: 22px; flex-wrap: wrap; }
+.hero .cta .btn-pri { background: var(--acc-ink); color: var(--acc-ink-tx); height: 44px; }
+.hero .cta .btn-line { color: var(--on-ink); border-color: color-mix(in srgb, var(--on-ink) 30%, transparent); height: 44px; }
+.est { margin-top: auto; padding-top: 22px; }
+.est-h { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid color-mix(in srgb, var(--on-ink) 14%, transparent); padding-top: 14px; }
+.est-h span { font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 55%, transparent); }
+.est-row { display: grid; grid-template-columns: 90px 1fr; gap: 12px; align-items: center; margin-top: 12px; font-size: 13px; }
+.est-row > span { color: color-mix(in srgb, var(--on-ink) 65%, transparent); }
+.est input[type=range] { width: 100%; accent-color: var(--acc-ink); }
+.seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+.seg button { height: 32px; font: 500 12px/1 var(--sans); color: var(--on-ink); background: color-mix(in srgb, var(--on-ink) 6%, transparent); border: 1px solid color-mix(in srgb, var(--on-ink) 12%, transparent); cursor: pointer; }
+.seg button.on { background: var(--acc-ink); color: var(--acc-ink-tx); border-color: transparent; }
+.est-out { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; padding: 12px 14px; background: color-mix(in srgb, var(--on-ink) 7%, transparent); }
+.est-out small { display: block; font: 500 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 55%, transparent); margin-bottom: 6px; }
+.est-out b { font: 400 26px/1 var(--sans); letter-spacing: -.03em; }
+.est-out .btn { height: 34px; font-size: 12.5px; background: var(--acc-ink); color: var(--acc-ink-tx); }
+.hero-img { display: grid; grid-template-rows: 1fr auto; gap: 14px; }
+.hero-img > .ph { min-height: 360px; }
+.promises { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.promise { padding: 12px 14px; color: #fff; }
+.promise:nth-child(1) { background: var(--acc); color: var(--acc-tx); }
+.promise:nth-child(2) { background: var(--acc2); color: var(--acc2-tx); }
+.promise:nth-child(3) { background: var(--flash); color: #fff; }
+.promise b { font: 500 15px/1.2 var(--sans); display: block; }
+.promise span { font-size: 12.5px; opacity: .88; line-height: 1.35; display: block; margin-top: 3px; }
+
+/* signature — a mosaic of facets */
+.facets { display: grid; grid-template-columns: 1.35fr 1fr 1fr 1fr; grid-template-rows: 220px 220px; gap: 14px; }
+.facet:last-child { grid-column: span 2; }
+.facet { position: relative; color: #fff; display: flex; align-items: flex-end; }
+.facet:first-child { grid-row: span 2; }
+.facet .ph { position: absolute; inset: 0; }
+.facet .ph img { transition: transform .5s; }
+.facet:hover .ph img { transform: scale(1.04); }
+.facet::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(10,10,30,.82)); pointer-events: none; }
+.facet > div:last-child { position: relative; z-index: 2; padding: 14px 16px; width: 100%; }
+.facet h3 { font: 500 17px/1.2 var(--sans); }
+.facet:first-child h3 { font-size: 24px; }
+.facet p { font-size: 12.5px; opacity: .85; margin-top: 2px; }
+.facet dl { display: flex; gap: 16px; margin-top: 8px; font: 500 9px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+.facet dd { font: 500 13px/1.1 var(--sans); letter-spacing: 0; text-transform: none; margin-top: 4px; }
+
+/* trip designer — six facets of a journey */
+.designer { display: grid; grid-template-columns: .9fr 1.1fr; gap: 14px; }
+.designer .card { padding: 20px 22px; }
+.designer h2 span { color: var(--acc); }
+.designer .card p { color: var(--dim); margin: 6px 0 16px; }
+.q6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.q6 div { padding: 12px; background: var(--paper); border: 1px solid var(--ln); clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); }
+.q6 b { font: 500 9px/1 var(--mono); letter-spacing: .08em; color: var(--acc); display: flex; align-items: center; gap: 6px; }
+.q6 span { display: block; font-size: 13px; margin-top: 8px; line-height: 1.35; }
+
+/* why — trichroic numbers */
+.why { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.why .card { padding: 14px; }
+.why b { font: 400 28px/1 var(--sans); letter-spacing: -.04em; color: var(--acc); }
+.why .card:nth-child(3n+2) b { color: var(--acc2); }
+.why .card:nth-child(3n+3) b { color: var(--flash); }
+.why h3 { font: 500 14px/1.25 var(--sans); margin: 10px 0 4px; }
+.why p { font-size: 12.5px; color: var(--dim); line-height: 1.45; }
+
+/* journeys — compared, not just shown */
+.cmp { width: 100%; border-collapse: collapse; }
+.cmp-wrap { background: var(--paper); border: 1px solid var(--ln); }
+.cmp th { font: 500 9px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--ln); }
+.cmp td { padding: 10px 14px; border-bottom: 1px solid var(--ln); vertical-align: middle; font-size: 13.5px; }
+.cmp tr:last-child td { border-bottom: 0; }
+.cmp tbody tr { cursor: pointer; transition: background .15s; }
+.cmp tbody tr:hover { background: var(--raised); }
+.cmp .j { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center; }
+.cmp .j .ph { aspect-ratio: 16/10; }
+.cmp .j b { font: 500 14.5px/1.25 var(--sans); display: block; }
+.cmp .j small { color: var(--dim); font-size: 12.5px; }
+.cmp .price { font: 400 20px/1 var(--sans); letter-spacing: -.03em; white-space: nowrap; }
+.cmp .price small { display: block; font: 500 9px/1 var(--mono); letter-spacing: .06em; color: var(--faint); margin-top: 4px; }
+.cmp .split { width: 180px; }
+.cmp .legend { max-width: 220px; }
+.cmp .open { height: 32px; font-size: 12.5px; }
+.jcards { display: none; }
+
+@media (max-width: 1120px) { .why { grid-template-columns: repeat(3, 1fr); } .cmp .legend { display: none; } }
+@media (max-width: 1020px) {
+    .hero-in, .designer { grid-template-columns: 1fr; }
+    .facets { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 180px 180px; }
+    .facet:first-child, .facet:last-child { grid-column: span 2; grid-row: auto; }
+    .facets { grid-template-rows: 240px 180px 180px 180px; }
+    .cmp-wrap { display: none; }
+    .jcards { display: grid; }
+}
+@media (max-width: 760px) {
+    .hero { padding-top: 12px; }
+    .hero-copy { padding: 22px 18px; }
+    .hero h1 { font-size: 40px; }
+    .hero .cta { flex-direction: column; }
+    .hero .cta .btn { width: 100%; }
+    .hero-img { order: -1; }
+    .hero-img > .ph { min-height: 200px; }
+    .promises { grid-template-columns: 1fr; gap: 6px; }
+    .promise { display: flex; gap: 10px; align-items: baseline; padding: 9px 12px; }
+    .promise span { margin: 0; }
+    .facets { display: flex !important; grid-template-rows: none; }
+    .facet { height: 280px; }
+    .q6 { grid-template-columns: 1fr 1fr; }
+    .designer .btn { width: 100%; }
+    .why { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .jcards.snap-m > .jc { flex-basis: 84%; }
+}
+
+    </style>
+    <link rel="stylesheet" href="../../assets/palettes.css">
+    <script src="../../assets/palettes.js"></script>
+    <script src="../../assets/designer.js" defer></script>
+</head>
+<body>
+<div class="drawer" role="dialog" aria-label="Menu"><div class="drawer-top"><a class="brand" href="#"><img class="logo" src="../../assets/logo.png" alt="Tanzania Nzuri"></a><button class="drawer-x" data-drawer aria-label="Close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="drawer-lab">Explore Tanzania</p><div class="drawer-x-chips"><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13c-3 0-5.5 3-5.5 5.2 0 1.8 2 2.8 5.5 2.8s5.5-1 5.5-2.8C17.5 16 15 13 12 13z"/><circle cx="5.5" cy="10" r="2"/><circle cx="18.5" cy="10" r="2"/><circle cx="9" cy="5.5" r="2"/><circle cx="15" cy="5.5" r="2"/></svg>Wildlife</a><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2.5 20 7-12 4 6.5 2.5-4 5.5 9.5z"/><path d="m7.6 11.3 1.9-3.3 2 3.1"/></svg>Mountains</a><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.5 14h1a5.5 5.5 0 0 1 5.5 5.5V21"/><path d="M16 4.2a3 3 0 0 1 0 5.6M21 21v-1.5a5.5 5.5 0 0 0-3.2-5"/></svg>Culture</a><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20c0-9 5.5-15 15-15 0 10-6 15-14 15"/><path d="M5 20 13.5 11.5"/></svg>Adventure</a><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20c2-1.4 4-1.4 6 0s4 1.4 6 0 4-1.4 6 0"/><path d="M12 16.5V8"/><path d="M12 8C10 5 6 5 4 7c3 0 5 1 8 1zM12 8c2-3 6-3 8-1-3 0-5 1-8 1zM12 8c-1-2.2-.6-4.3 1.2-5.4"/></svg>Beach</a><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg>Complete</a></div><p class="drawer-lab">Plan</p><nav class="drawer-nav"><a href="#">Journeys<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="#">Kilimanjaro<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="#">Travel Guide<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="#">Our Guides<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="#">About<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></nav><div class="drawer-cta"><a href="#">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg> WhatsApp our team</a></div></div><div class="mbar"><a class="mb-pri" href="#">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="mb-wa" href="#" aria-label="WhatsApp"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg></a></div><header class="hd"><div class="w hd-in"><a class="brand" href="#"><img class="logo" src="../../assets/logo.png" alt="Tanzania Nzuri"></a><nav class="nav"><a href="#">Experiences</a><a href="#">Journeys</a><a href="#">Kilimanjaro</a><a href="#">Travel Guide</a><a href="#">Our Guides</a><a href="#">About</a></nav><div class="hd-act"><a class="hd-wa" href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg>WhatsApp</a><a class="btn btn-pri hd-cta" href="#">Build my journey</a><button class="burger" data-drawer aria-label="Menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>
+<main>
+<section class="hero"><div class="w">
+    <div class="hero-in">
+        <div class="hero-copy cut">
+            <p class="rl">Your journey. Our home.</p>
+            <h1>Tanzania,<br><span>your way.</span></h1>
+            <p class="lede">Wildlife. Mountains. Culture. Beaches. One journey designed around you — by people who call Tanzania home.</p>
+            <div class="cta"><a class="btn btn-pri" href="#">Build my Tanzania journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-line" href="#">Explore experiences</a></div>
+            <div class="est" data-est>
+                <div class="est-h"><span>Quick estimate</span><span data-est-days-l>9 days</span></div>
+                <div class="est-row"><span>Days</span><input type="range" min="3" max="20" value="9" data-est-days aria-label="Days"></div>
+                <div class="est-row"><span>Style</span><div class="seg" data-est-style><button type="button" data-v="220">Value</button><button type="button" class="on" data-v="340">Comfort</button><button type="button" data-v="520">Premium</button><button type="button" data-v="800">Luxury</button></div></div>
+                <div class="est-row"><span>Travellers</span><div class="seg" data-est-pax><button type="button" data-v="1.35">1</button><button type="button" class="on" data-v="1">2</button><button type="button" data-v=".9">3–4</button><button type="button" data-v=".82">5+</button></div></div>
+                <div class="est-out"><div><small>Per person, park fees in</small><b data-est-out>$2,750 – $3,370</b></div><a class="btn" href="#">Design it <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+            </div>
+        </div>
+        <div class="hero-img">
+            <div class="ph cut"><img src="../../assets/photos/meru-sunrise-ridge.jpg" alt="Sunrise from the ridge of Mount Meru" loading="lazy"></div>
+            <div class="promises"><div class="promise cut"><b>Discover</b><span>Explore Tanzania beyond the obvious.</span></div><div class="promise cut"><b>Design</b><span>Your itinerary is built around your interests, time and budget.</span></div><div class="promise cut"><b>Experience</b><span>Travel with local people who know Tanzania personally.</span></div></div>
+        </div>
+    </div>
+</div></section>
+
+<section class="sec"><div class="w"><p class="rl">Choose your experience</p><div class="sec-hd"><div><h2>What brings you to Tanzania?</h2><p>Pick what you love — matching experiences light up, and your picks carry into the trip designer.</p></div><a class="more" href="#">All 6 experiences, 25 places <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><div class="filters"><button class="chip" type="button" data-interest="wild"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13c-3 0-5.5 3-5.5 5.2 0 1.8 2 2.8 5.5 2.8s5.5-1 5.5-2.8C17.5 16 15 13 12 13z"/><circle cx="5.5" cy="10" r="2"/><circle cx="18.5" cy="10" r="2"/><circle cx="9" cy="5.5" r="2"/><circle cx="15" cy="5.5" r="2"/></svg>Safari <em>2</em></button><button class="chip" type="button" data-interest="summit"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2.5 20 7-12 4 6.5 2.5-4 5.5 9.5z"/><path d="m7.6 11.3 1.9-3.3 2 3.1"/></svg>Kilimanjaro <em>2</em></button><button class="chip" type="button" data-interest="adventure"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20c0-9 5.5-15 15-15 0 10-6 15-14 15"/><path d="M5 20 13.5 11.5"/></svg>Nature & Hiking <em>1</em></button><button class="chip" type="button" data-interest="culture"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.5 14h1a5.5 5.5 0 0 1 5.5 5.5V21"/><path d="M16 4.2a3 3 0 0 1 0 5.6M21 21v-1.5a5.5 5.5 0 0 0-3.2-5"/></svg>Culture <em>2</em></button><button class="chip" type="button" data-interest="beach"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20c2-1.4 4-1.4 6 0s4 1.4 6 0 4-1.4 6 0"/><path d="M12 16.5V8"/><path d="M12 8C10 5 6 5 4 7c3 0 5 1 8 1zM12 8c2-3 6-3 8-1-3 0-5 1-8 1zM12 8c-1-2.2-.6-4.3 1.2-5.4"/></svg>Zanzibar <em>2</em></button><button class="chip" type="button" data-interest="wild"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h3.2l2-3h6.6l2 3h3.2v11.5H3.5z"/><circle cx="12" cy="13.3" r="3.6"/></svg>Photography <em>2</em></button><button class="chip" type="button" data-interest="beach"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.2a4.2 4.2 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></svg>Honeymoon <em>2</em></button><button class="chip" type="button" data-interest="wild"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="5.5" r="2.5"/><circle cx="17" cy="5.5" r="2.5"/><circle cx="12" cy="11.5" r="2"/><path d="M3 20v-5.5a4 4 0 0 1 8 0M13 20v-5.5a4 4 0 0 1 8 0M10 20v-3a2 2 0 0 1 4 0v3"/></svg>Family <em>2</em></button><button class="chip-clear" type="button" data-clear hidden>Clear</button></div><div class="xgrid snap-m" data-xgrid><a class="card xcard" href="#" data-keys="wild"><div class="ph"><img src="../../assets/photos/lion-wildebeest.jpg" alt="The Wilderness" loading="lazy"><span class="pill">6 parks</span></div><div class="cb"><h3>The Wilderness</h3><p>Big Five, Serengeti & the Great Migration</p></div><div class="cf"><span>Serengeti · Ngorongoro · Tarangire · Ruaha · Nyerere</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a><a class="card xcard" href="#" data-keys="summit"><div class="ph"><img src="../../assets/photos/summit-dawn-group.jpg" alt="The Summit" loading="lazy"><span class="pill">4 peaks</span></div><div class="cb"><h3>The Summit</h3><p>Stand on Uhuru Peak at 5,895m</p></div><div class="cf"><span>Kilimanjaro · Mount Meru · Ol Doinyo Lengai · Usambara</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a><a class="card xcard" href="#" data-keys="culture"><div class="ph"><img src="../../assets/photos/maasai-women.jpg" alt="The Culture" loading="lazy"><span class="pill">6 encounters</span></div><div class="cb"><h3>The Culture</h3><p>Meet the people behind Tanzania</p></div><div class="cf"><span>Maasai · Hadzabe · Datoga · Mto wa Mbu · Coffee</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a><a class="card xcard" href="#" data-keys="adventure"><div class="ph"><img src="../../assets/photos/waterfall.jpg" alt="The Adventure" loading="lazy"><span class="pill">8 activities</span></div><div class="cb"><h3>The Adventure</h3><p>Hike, walk, cycle and explore beyond the usual routes</p></div><div class="cf"><span>Walking safaris · Canoeing · Cycling · Hot springs</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a><a class="card xcard" href="#" data-keys="beach"><div class="ph"><img src="../../assets/photos/zanzibar-loungers.jpg" alt="The Beach" loading="lazy"><span class="pill">3 coasts</span></div><div class="cb"><h3>The Beach</h3><p>Finish your adventure in Zanzibar</p></div><div class="cf"><span>Zanzibar · Mafia Island · Pangani</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a><a class="card xcard" href="#" data-keys="wild summit culture beach"><div class="ph"><img src="../../assets/photos/kili-giraffes.jpg" alt="The Complete Tanzania" loading="lazy"><span class="pill">12+ days</span></div><div class="cb"><h3>The Complete Tanzania</h3><p>Mountain + Safari + Culture + Zanzibar</p></div><div class="cf"><span>Everything, in one journey</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a></div><div class="filter-cta" data-fcta><p><b data-fcount>0</b> experiences match your picks. Start a journey with them already chosen.</p><a class="btn btn-pri" href="#">Continue in trip designer <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></section>
+
+<section class="sec"><div class="w">
+    <p class="rl">Signature Tanzania experiences</p>
+    <div class="sec-hd"><div><h2>Six facets of one country.</h2><p>The experiences people fly here for.</p></div><a class="more" href="#">All places <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    <div class="facets snap-m"><a class="facet cut" href="#"><div class="ph"><img src="../../assets/photos/balloon-serengeti.jpg" alt="The Serengeti Migration" loading="lazy"></div><div><h3>The Serengeti Migration</h3><p>Balloon over the herds at first light</p><dl><div><dt>Altitude</dt><dd>1,500 m</dd></div><div><dt>Best</dt><dd>Jun–Oct</dd></div></dl></div></a><a class="facet cut" href="#"><div class="ph"><img src="../../assets/photos/uhuru-sign.jpg" alt="The Kilimanjaro Summit" loading="lazy"></div><div><h3>The Kilimanjaro Summit</h3><p>Uhuru Peak, the roof of Africa</p><dl><div><dt>Altitude</dt><dd>5,895 m</dd></div><div><dt>Best</dt><dd>Jan–Mar · Jun–Oct</dd></div></dl></div></a><a class="facet cut" href="#"><div class="ph"><img src="../../assets/photos/ngorongoro.jpg" alt="Ngorongoro Crater" loading="lazy"></div><div><h3>Ngorongoro Crater</h3><p>A whole ecosystem inside a caldera</p><dl><div><dt>Altitude</dt><dd>1,800 m</dd></div><div><dt>Best</dt><dd>All year</dd></div></dl></div></a><a class="facet cut" href="#"><div class="ph" data-standin="Hadzabe at Lake Eyasi"><img src="../../assets/photos/natron-walk-maasai.jpg" alt="The Hadzabe Experience" loading="lazy"></div><div><h3>The Hadzabe Experience</h3><p>Dawn with hunter-gatherers at Lake Eyasi</p><dl><div><dt>Altitude</dt><dd>1,030 m</dd></div><div><dt>Best</dt><dd>All year</dd></div></dl></div></a><a class="facet cut" href="#"><div class="ph" data-standin="Tarangire elephants & baobabs"><img src="../../assets/photos/elephants-kili.jpg" alt="Tarangire Wildlife" loading="lazy"></div><div><h3>Tarangire Wildlife</h3><p>Elephant herds among the baobabs</p><dl><div><dt>Altitude</dt><dd>1,100 m</dd></div><div><dt>Best</dt><dd>Jun–Oct</dd></div></dl></div></a><a class="facet cut" href="#"><div class="ph"><img src="../../assets/photos/zanzibar-beach-pano.jpg" alt="Zanzibar Escape" loading="lazy"></div><div><h3>Zanzibar Escape</h3><p>Stone Town and the white-sand coast</p><dl><div><dt>Altitude</dt><dd>0 m</dd></div><div><dt>Best</dt><dd>Jun–Mar</dd></div></dl></div></a></div>
+</div></section>
+
+<section class="sec"><div class="w"><div class="designer">
+    <div class="card"><p class="rl">Trip designer</p><h2>Your Tanzania journey <span>starts here.</span></h2>
+        <p>Tell us what you love. We'll build the trip — six questions, about ninety seconds, no payment and no obligation.</p>
+        <a class="btn btn-pri" href="#">Start trip designer <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    <div class="q6"><div><b><i class="gem"></i>01</b><span>What brings you to Tanzania?</span></div><div><b><i class="gem"></i>02</b><span>How many days do you have?</span></div><div><b><i class="gem"></i>03</b><span>Who are you travelling with?</span></div><div><b><i class="gem"></i>04</b><span>What is your travel style?</span></div><div><b><i class="gem"></i>05</b><span>What matters most?</span></div><div><b><i class="gem"></i>06</b><span>What is your approximate budget?</span></div></div>
+</div></div></section>
+
+<section class="sec"><div class="w">
+    <p class="rl">Why Tanzania Nzuri</p>
+    <div class="sec-hd"><div><h2>Not another safari company.</h2><p>Six things we do on every trip, without being asked.</p></div><a class="more" href="#">How we work <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    <div class="why"><div class="card"><b>01</b><h3>Local expertise</h3><p>Your trip is planned and operated by people based in Tanzania.</p></div><div class="card"><b>02</b><h3>Personal planning</h3><p>You don't simply select a package — we adapt the journey around you.</p></div><div class="card"><b>03</b><h3>Experienced guides</h3><p>Meet the actual people who lead your trip, before you travel.</p></div><div class="card"><b>04</b><h3>Safety first</h3><p>Clear mountain and safari safety procedures, explained up front.</p></div><div class="card"><b>05</b><h3>Transparent pricing</h3><p>Every inclusion and exclusion spelled out — no surprises.</p></div><div class="card"><b>06</b><h3>Responsible travel</h3><p>Supporting local communities, guides and conservation.</p></div></div>
+</div></section>
+
+<section class="sec"><div class="w"><p class="rl">Meet your guides</p><div class="sec-hd"><div><h2>Real people. Real stories.</h2><p>The people who lead your trip — meet them before you fly.</p></div><a class="more" href="#">Meet the whole team <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><div class="guides snap-m"><a class="card guide feature" href="#"><div class="ph"><img src="../../assets/photos/guide-hamisi-bakari.jpg" alt="Hamis Bakari" loading="lazy"></div><div class="cb"><span class="pill">Meet Hamis</span><q>I grew up around Kilimanjaro and have spent years guiding travelers to the summit…</q><h3>Hamis Bakari</h3><div class="meta">Mountain Guide, 14 yrs, Swahili · English</div></div></a><a class="card guide" href="#"><div class="ph"><img src="../../assets/photos/guide-rekhan-boniface.jpg" alt="Rekhan Boniface" loading="lazy"><span class="pill">Safari Guide</span></div><div class="cb"><h3>Rekhan Boniface</h3><div class="meta">9 yrs · Sw · En · De<br>Loves: Central Serengeti</div></div></a><a class="card guide" href="#"><div class="ph"><img src="../../assets/photos/guide-calvin-kimaro.jpg" alt="Calvin Kimaro" loading="lazy"><span class="pill">Mountain Guide</span></div><div class="cb"><h3>Calvin Kimaro</h3><div class="meta">11 yrs · Sw · En<br>Loves: Shira Plateau</div></div></a><a class="card guide" href="#"><div class="ph"><img src="../../assets/photos/guide-yusuph-shemazea.jpg" alt="Yusuph Shemazea" loading="lazy"><span class="pill">Safari Specialist</span></div><div class="cb"><h3>Yusuph Shemazea</h3><div class="meta">7 yrs · Sw · En · Fr<br>Loves: Ngorongoro</div></div></a></div></div></section>
+
+<section class="sec"><div class="w">
+    <p class="rl">Journeys our guests love</p>
+    <div class="sec-hd"><div><h2>Compare, then make it yours.</h2><p>Days, route and an itemised price, side by side. Every bar is where the money goes.</p></div><a class="more" href="#">All journeys <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    <div class="cmp-wrap cut"><table class="cmp"><thead><tr><th>Journey</th><th>Length</th><th>Route</th><th>From</th><th>Where the money goes</th><th></th></tr></thead><tbody><tr><td><div class="j"><div class="ph cut" style="--cut:8px"><img src="../../assets/photos/kili-giraffes-acacia.jpg" alt="Tanzania Wildlife Discovery" loading="lazy"></div><div><b>Tanzania Wildlife Discovery</b><small>Designed for first-time safari travelers.</small></div></div></td><td><span class="pill">7 days</span></td><td class="mono" style="font-size:11.5px;color:var(--dim)">Arusha → Tarangire → Serengeti → Ngorongoro</td><td><div class="price">$3,250<small>per person</small></div></td><td><div class="split"><i style="flex:34;background:var(--acc)"></i><i style="flex:28;background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i><i style="flex:14;background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i><i style="flex:10;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i><i style="flex:8;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i><i style="flex:6;background:var(--ink)"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 34%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation 28%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Vehicle 14%</span></div></td><td style="text-align:right"><a class="btn btn-line open" href="#">Open <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></td></tr><tr><td><div class="j"><div class="ph cut" style="--cut:8px"><img src="../../assets/photos/barranco-trail-group.jpg" alt="Kilimanjaro Lemosho" loading="lazy"></div><div><b>Kilimanjaro Lemosho</b><small>Designed for travelers who want more acclimatization.</small></div></div></td><td><span class="pill">8 days</span></td><td class="mono" style="font-size:11.5px;color:var(--dim)">Londorossi → Shira → Barranco → Uhuru Peak</td><td><div class="price">$2,690<small>per person</small></div></td><td><div class="split"><i style="flex:41;background:var(--acc)"></i><i style="flex:24;background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i><i style="flex:11;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i><i style="flex:6;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i><i style="flex:6;background:var(--ink)"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 41%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Crew 24%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Equipment 12%</span></div></td><td style="text-align:right"><a class="btn btn-line open" href="#">Open <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></td></tr><tr><td><div class="j"><div class="ph cut" style="--cut:8px"><img src="../../assets/photos/zanzibar-loungers.jpg" alt="Mountain to Zanzibar" loading="lazy"></div><div><b>Mountain to Zanzibar</b><small>Designed for travelers who want the complete Tanzania experience.</small></div></div></td><td><span class="pill">12 days</span></td><td class="mono" style="font-size:11.5px;color:var(--dim)">Kilimanjaro → Serengeti → Stone Town → Nungwi</td><td><div class="price">$5,480<small>per person</small></div></td><td><div class="split"><i style="flex:30;background:var(--acc)"></i><i style="flex:30;background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i><i style="flex:12;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i><i style="flex:9;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i><i style="flex:7;background:var(--ink)"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Flights 12%</span></div></td><td style="text-align:right"><a class="btn btn-line open" href="#">Open <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></td></tr></tbody></table></div>
+    <div class="journeys jcards snap-m"><article class="card jc"><a href="#" class="ph"><img src="../../assets/photos/kili-giraffes-acacia.jpg" alt="Tanzania Wildlife Discovery" loading="lazy"><span class="pill">7 days</span></a><div class="cb"><div class="jc-h"><h3>Tanzania Wildlife Discovery</h3><span class="pill ok">Private</span></div><div class="fig"><b>$3,250</b><span>per person, park fees in</span></div><div class="split" aria-label="Cost split"><i style="flex:34;background:var(--acc)" title="Park fees 34%"></i><i style="flex:28;background:color-mix(in srgb, var(--acc) 70%, var(--ink))" title="Accommodation 28%"></i><i style="flex:14;background:color-mix(in srgb, var(--acc) 45%, var(--ink))" title="Vehicle 14%"></i><i style="flex:10;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))" title="Guide 10%"></i><i style="flex:8;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))" title="Food 8%"></i><i style="flex:6;background:var(--ink)" title="Operations 6%"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 34%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation 28%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Vehicle 14%</span></div><p>Designed for first-time safari travelers.</p></div><div class="route">Arusha → Tarangire → Serengeti → Ngorongoro</div><details class="why"><summary>Why $3,250?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lines"><li><i style="background:var(--acc)"></i>Park fees<b>$1,100</b></li><li><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation<b>$910</b></li><li><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Vehicle<b>$460</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i>Guide<b>$320</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i>Food<b>$260</b></li><li><i style="background:var(--ink)"></i>Operations<b>$200</b></li></ul><p class="incl"><b>Included:</b> Private 4×4, Park fees, Lodges, Meals. <b style="color:var(--dim)">Not included:</b> flights, visa, insurance, tips.</p></details></article><article class="card jc"><a href="#" class="ph"><img src="../../assets/photos/barranco-trail-group.jpg" alt="Kilimanjaro Lemosho" loading="lazy"><span class="pill">8 days</span></a><div class="cb"><div class="jc-h"><h3>Kilimanjaro Lemosho</h3><span class="pill ok">Private</span></div><div class="fig"><b>$2,690</b><span>per person, park fees in</span></div><div class="split" aria-label="Cost split"><i style="flex:41;background:var(--acc)" title="Park fees 41%"></i><i style="flex:24;background:color-mix(in srgb, var(--acc) 70%, var(--ink))" title="Crew 24%"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))" title="Equipment 12%"></i><i style="flex:11;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))" title="Food 11%"></i><i style="flex:6;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))" title="Transfers 6%"></i><i style="flex:6;background:var(--ink)" title="Operations 6%"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 41%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Crew 24%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Equipment 12%</span></div><p>Designed for travelers who want more acclimatization.</p></div><div class="route">Londorossi → Shira → Barranco → Uhuru Peak</div><details class="why"><summary>Why $2,690?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lines"><li><i style="background:var(--acc)"></i>Park fees<b>$1,100</b></li><li><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Crew<b>$650</b></li><li><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Equipment<b>$320</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i>Food<b>$300</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i>Transfers<b>$160</b></li><li><i style="background:var(--ink)"></i>Operations<b>$160</b></li></ul><p class="incl"><b>Included:</b> Mountain crew, Park fees, Camping gear, Meals. <b style="color:var(--dim)">Not included:</b> flights, visa, insurance, tips.</p></details></article><article class="card jc"><a href="#" class="ph"><img src="../../assets/photos/zanzibar-loungers.jpg" alt="Mountain to Zanzibar" loading="lazy"><span class="pill">12 days</span></a><div class="cb"><div class="jc-h"><h3>Mountain to Zanzibar</h3><span class="pill ok">Private</span></div><div class="fig"><b>$5,480</b><span>per person, park fees in</span></div><div class="split" aria-label="Cost split"><i style="flex:30;background:var(--acc)" title="Park fees 30%"></i><i style="flex:30;background:color-mix(in srgb, var(--acc) 70%, var(--ink))" title="Accommodation 30%"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))" title="Flights 12%"></i><i style="flex:12;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))" title="Vehicle 12%"></i><i style="flex:9;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))" title="Guide 9%"></i><i style="flex:7;background:var(--ink)" title="Operations 7%"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Flights 12%</span></div><p>Designed for travelers who want the complete Tanzania experience.</p></div><div class="route">Kilimanjaro → Serengeti → Stone Town → Nungwi</div><details class="why"><summary>Why $5,480?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lines"><li><i style="background:var(--acc)"></i>Park fees<b>$1,640</b></li><li><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation<b>$1,640</b></li><li><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Flights<b>$660</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i>Vehicle<b>$660</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i>Guide<b>$490</b></li><li><i style="background:var(--ink)"></i>Operations<b>$380</b></li></ul><p class="incl"><b>Included:</b> Private 4×4, Park fees, Flight to Zanzibar, Beach hotel. <b style="color:var(--dim)">Not included:</b> flights, visa, insurance, tips.</p></details></article></div>
+</div></section>
+
+<section class="sec"><div class="w"><div class="quick"><div class="quick-in"><p class="rl">Don't know where to start?</p><h2>Tell us your dates, interests <span>and budget.</span></h2><p>We'll recommend the right Tanzania experience — a real person replies within one working day.</p><form class="qform" onsubmit="return false"><label class="field"><span>When</span><select><option>Any time</option><option>Jan – Mar</option><option>Jun – Oct</option><option>Nov – Dec</option></select></label><label class="field"><span>Travellers</span><select><option>2 adults</option><option>1 adult</option><option>Family</option><option>Group</option></select></label><label class="field"><span>Budget pp</span><select><option>$2,500–4,000</option><option>Under $2,500</option><option>$4,000–7,000</option><option>$7,000+</option></select></label><button class="btn btn-pri" type="submit">Plan my trip <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form><p class="qnote">Prefer to talk? WhatsApp the team · Arusha, GMT+3</p></div><div class="ph"><img src="../../assets/photos/kibo-crater.jpg" alt="The Kibo crater from the air" loading="lazy"></div></div></div></section>
+</main>
+<footer class="ft"><div class="w"><div class="ft-top"><div><a class="brand" href="#"><img class="logo" src="../../assets/logo-knockout.png" alt="Tanzania Nzuri"></a><p class="ft-c">Planned and operated in Tanzania.<br>Arusha, hello@tanzanianzuri.com</p><p class="ft-sig">Your journey. Our home.</p></div><div><h4>Explore</h4><ul><li><a href="#">Wildlife</a></li><li><a href="#">Mountains</a></li><li><a href="#">Culture</a></li><li><a href="#">Adventure</a></li><li><a href="#">Beach</a></li></ul></div><div><h4>Plan</h4><ul><li><a href="#">Build my journey</a></li><li><a href="#">Journeys</a></li><li><a href="#">Compare Kilimanjaro routes</a></li><li><a href="#">What does a safari cost?</a></li></ul></div><div><h4>Travel Guide</h4><ul><li><a href="#">Before you travel</a></li><li><a href="#">Safari guide</a></li><li><a href="#">Kilimanjaro guide</a></li><li><a href="#">Family travel</a></li><li><a href="#">Zanzibar</a></li></ul></div><div><h4>Tanzania Nzuri</h4><ul><li><a href="#">Our guides</a></li><li><a href="#">Why Tanzania Nzuri</a></li><li><a href="#">Safety</a></li><li><a href="#">Responsible travel</a></li><li><a href="#">Contact</a></li></ul></div></div><div class="ft-bot"><span>© 2026 Tanzania Nzuri</span><span>Terms · Privacy · Booking conditions</span></div></div></footer>
+
+<script>
+/* Interest chips filter the experience cards. → In the app: JourneyMatcher, client-side for this list; no request. */
+(function () {
+    var grid = document.querySelector('[data-xgrid]'); if (!grid) return;
+    var chips = document.querySelectorAll('[data-interest]'), clear = document.querySelector('[data-clear]'), fcta = document.querySelector('[data-fcta]');
+    function filter() {
+        var keys = [].filter.call(chips, function (c) { return c.classList.contains('on'); }).map(function (c) { return c.dataset.interest; });
+        var n = 0;
+        grid.classList.toggle('filtering', keys.length > 0);
+        grid.querySelectorAll('.xcard').forEach(function (x) {
+            var hit = keys.some(function (k) { return x.dataset.keys.split(' ').indexOf(k) > -1; });
+            x.classList.toggle('hit', hit); if (hit) n++;
+        });
+        clear.hidden = !keys.length; fcta.classList.toggle('show', keys.length > 0);
+        document.querySelector('[data-fcount]').textContent = n;
+    }
+    chips.forEach(function (c) { c.addEventListener('click', function () { c.classList.toggle('on'); filter(); }); });
+    clear.addEventListener('click', function () { chips.forEach(function (c) { c.classList.remove('on'); }); filter(); });
+})();
+</script>
+
+<script>
+/* Quick estimate: days × style rate × group factor, plus park fees. A range, never a quote.
+   → In the app: PriceEstimator (rates from the Sulu admin), LiveComponent-driven. */
+(function () {
+    var root = document.querySelector('[data-est]');
+    function val(sel) { return parseFloat(root.querySelector(sel + ' .on').dataset.v); }
+    function run() {
+        var d = +root.querySelector('[data-est-days]').value, low = Math.round((d * val('[data-est-style]') * val('[data-est-pax]') + d * 90) / 10) * 10;
+        root.querySelector('[data-est-days-l]').textContent = d + ' days';
+        root.querySelector('[data-est-out]').textContent = '$' + low.toLocaleString('en-US') + ' – $' + (Math.round(low * 1.22 / 10) * 10).toLocaleString('en-US');
+    }
+    root.querySelectorAll('.seg').forEach(function (g) {
+        g.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { g.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); run(); }); });
+    });
+    root.querySelector('[data-est-days]').addEventListener('input', run);
+    run();
+})();
+</script>
+
+<script>
+    /* Mobile menu. → In the app: a Stimulus controller toggling html.nav-open. */
+    document.querySelectorAll('[data-drawer]').forEach(function (el) {
+        el.addEventListener('click', function () { document.documentElement.classList.toggle('nav-open'); });
+    });
+    /* Interest chips and wizard options toggle in place.
+       → In the app: a LiveComponent; a tile links to /build-my-journey?interest={key}. */
+    document.querySelectorAll('[data-pick]').forEach(function (el) {
+        el.addEventListener('click', function (e) { e.preventDefault(); el.classList.toggle('on'); });
+    });
+</script>
+</body>
+</html>

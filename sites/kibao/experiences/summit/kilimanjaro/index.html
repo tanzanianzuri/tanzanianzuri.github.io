@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<!-- PLACE DETAIL — one template for all 25 places. Gallery, best time, what you do, the altitude profile, journeys that include it. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kilimanjaro — Tanzania Nzuri</title>
+    <script>
+        /* Review palette only (designer furniture): ?palette=key, else the remembered one, else the direction's own.
+           There is no theme switch — the site is light, the way travel sites are. */
+        (function () {
+            try {
+                var pal = new URLSearchParams(window.location.search).get('palette') || localStorage.getItem('tn-palette');
+                if (pal && pal !== 'default') { document.documentElement.setAttribute('data-palette', pal); }
+            } catch (e) { /* the page still renders */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;500;600;700;800;900&family=Overpass+Mono:wght@400;500;600&display=swap">
+    <style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--tx); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+.w { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+.ic { width: 20px; height: 20px; flex: none; }
+.mark { width: 32px; height: 32px; flex: none; }
+.mark-sun { fill: var(--acc); }
+.ph { position: relative; overflow: hidden; background: var(--ln); }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.burger { display: none; }
+@media (max-width: 1020px) { .nav { display: none; } .burger { display: inline-flex; } .hd-cta { display: none; } }
+@media (max-width: 640px) { .w { padding: 0 18px; } }
+
+/* ---- mobile chrome: drawer menu + sticky action bar + swipe rows ---- */
+.drawer { position: fixed; inset: 0; z-index: 60; background: var(--bg); color: var(--tx); padding: 14px 18px 24px;
+    display: flex; flex-direction: column; overflow-y: auto; transform: translateX(100%); visibility: hidden; transition: transform .3s ease, visibility .3s; }
+html.nav-open .drawer { transform: none; visibility: visible; }
+html.nav-open { overflow: hidden; }
+.drawer-top { display: flex; justify-content: space-between; align-items: center; min-height: 52px; }
+.drawer-x { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--ln); border-radius: 50%; }
+.drawer-lab { font: 600 10.5px/1 var(--sans, system-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin: 26px 0 12px; }
+.drawer-x-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.drawer-x-chips a { display: flex; align-items: center; gap: 10px; padding: 13px 14px; border: 1px solid var(--ln); border-radius: 14px; font-size: 14.5px; }
+.drawer-x-chips .ic { width: 20px; height: 20px; color: var(--acc); }
+.drawer-nav { display: flex; flex-direction: column; border-top: 1px solid var(--ln); }
+.drawer-nav a { display: flex; justify-content: space-between; align-items: center; padding: 16px 2px; border-bottom: 1px solid var(--ln); font: 400 22px/1.2 var(--display); }
+.drawer-nav .ic { width: 18px; height: 18px; color: var(--dim); }
+.drawer-cta { margin-top: 28px; display: grid; gap: 10px; }
+.drawer-cta a { height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 600; font-size: 15px; border: 1px solid var(--ln); }
+.drawer-cta a:first-child { background: var(--acc); color: var(--acc-tx); border-color: transparent; }
+.drawer-cta .ic { width: 20px; height: 20px; }
+.mbar { display: none; }
+@media (max-width: 760px) {
+    body { padding-bottom: 88px; }
+    .mbar { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 40; display: flex; gap: 8px;
+        padding: 7px; border-radius: 999px; background: var(--tx); box-shadow: 0 18px 40px -14px rgba(0,0,0,.55); }
+    .mbar a { height: 50px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 15px; }
+    .mbar .mb-pri { flex: 1; background: var(--acc); color: var(--acc-tx); }
+    .mbar .mb-wa { width: 50px; color: var(--bg); border: 1px solid color-mix(in srgb, var(--bg) 30%, transparent); }
+    .mbar .ic { width: 20px; height: 20px; }
+    .snap-m { display: flex !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px !important;
+        margin-left: -18px; margin-right: -18px; padding: 0 18px 4px; scrollbar-width: none; }
+    .snap-m::-webkit-scrollbar { display: none; }
+    .snap-m > * { flex: 0 0 84%; scroll-snap-align: start; scroll-margin-left: 18px; }
+    .hide-m { display: none !important; }
+}
+:root {
+    --bg: #e9edf3;
+    --paper: #f9fafc;
+    --raised: #e2e6ec;
+    --tx: #0f142e;
+    --dim: #5d6275;
+    --faint: #808594;
+    --ln: rgba(15,20,46,0.11);
+    --ln2: rgba(15,20,46,0.22);
+    --ink: #141a3e;
+    --ink-2: #2c3151;
+    --on-ink: #f1f3f7;
+    --acc: #5a4fcf;
+    --acc-tx: #ffffff;
+    --acc-ink: #8881dd;
+    --acc2: #0f9a9c;
+    --acc2-tx: #141312;
+    --ok: #2e7d46;
+    --okSoft: rgba(46,125,70,0.13);
+    --acc-ink-tx: #141312;
+    --wood: #141a3e;
+    --wood-2: #2c3151;
+    --on-wood: #f1f3f7;
+    --sign: #8881dd;
+    --sign-ink: #141312;
+}
+
+:root { --display: "Overpass", "Arial Narrow", sans-serif; --sans: "Overpass", system-ui, sans-serif;
+    --mono: "Overpass Mono", ui-monospace, Menlo, monospace; }
+body { font: 14.5px/1.55 var(--sans); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+
+/* ---- THE BOARD: timber, routed capitals, the inner routed line every park sign has ---- */
+.kb { display: inline-flex; align-items: center; gap: 9px; background: var(--wood); color: var(--sign); border-radius: 3px; white-space: nowrap;
+    font: 800 12px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; padding: 9px 12px 7px;
+    box-shadow: inset 0 0 0 3px var(--wood), inset 0 0 0 4px color-mix(in srgb, var(--sign) 55%, transparent); }
+.kb small { font: 500 10.5px/1 var(--mono); letter-spacing: 0; color: var(--on-wood); opacity: .75; text-transform: none; }
+.kb.r { clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 100%); padding-right: 24px; }
+.kb.l { clip-path: polygon(13px 0, 100% 0, 100% 100%, 13px 100%, 0 50%); padding-left: 24px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 2px 16px 0; border-radius: 4px;
+    font: 800 12px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; border: 1.5px solid transparent; transition: .15s; }
+.btn .ic { width: 15px; height: 15px; margin-top: -2px; }
+.btn-pri { background: var(--sign); color: var(--sign-ink); }
+.btn-pri:hover { background: #ffd24f; }
+.btn-line { border-color: var(--ln2); color: var(--tx); }
+.btn-line:hover { border-color: var(--tx); }
+.on-dark .btn-line, .hero .btn-line { border-color: rgba(255,255,255,.4); color: #fff; }
+
+/* the ruled section label — uhifadhi's grammar, in board yellow */
+.rl { display: flex; align-items: center; gap: 12px; font: 600 10.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 14px; }
+.rl::before { content: ""; width: 10px; height: 10px; background: var(--sign); border-radius: 2px; box-shadow: inset 0 0 0 2px var(--wood); flex: none; }
+.rl::after { content: ""; flex: 1; height: 1px; background: var(--ln); }
+h1, h2, h3 { font-family: var(--display); font-weight: 800; letter-spacing: -.015em; line-height: 1.1; }
+h2 { font-size: 26px; }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 1px 8px 0; border-radius: 99px; border: 1px solid var(--ln2); font: 600 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+.pill.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); background: var(--okSoft); }
+.pill.sign { background: var(--wood); color: var(--sign); border-color: var(--wood); }
+
+/* ---- header ---- */
+.hd { position: sticky; top: 0; z-index: 30; background: var(--wood); color: var(--on-wood); }
+.hd-in { display: flex; align-items: center; gap: 30px; height: 56px; }
+.brand { display: flex; align-items: center; }
+.brand .logo { height: 46px; width: auto; display: block; }
+.brand .mark { width: 26px; height: 26px; }
+.brand .mark-sun { fill: var(--on-wood); }
+.brand b { font: 800 13.5px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; padding-top: 2px; }
+.nav { display: flex; gap: 22px; font: 600 13.5px/1 var(--sans); }
+.nav a { color: color-mix(in srgb, var(--on-wood) 72%, transparent); padding: 21px 0 18px; border-bottom: 2px solid transparent; }
+.nav a:hover { color: var(--on-wood); border-bottom-color: var(--sign); }
+.hd-act { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.hd-wa { display: inline-flex; align-items: center; gap: 6px; font: 600 13px/1 var(--sans); color: color-mix(in srgb, var(--on-wood) 72%, transparent); }
+.hd-wa .ic { width: 16px; height: 16px; color: var(--sign); }
+.hd .btn { height: 34px; padding: 2px 13px 0; font-size: 11px; }
+.burger { width: 38px; height: 38px; align-items: center; justify-content: center; color: var(--sign); border: 1px solid color-mix(in srgb, var(--sign) 45%, transparent); border-radius: 4px; }
+
+/* ---- hero: the photograph, and a working signpost standing in it ---- */
+.hero { position: relative; color: #fff; background: var(--wood); }
+.hero > .ph { position: absolute; inset: 0; background: #2a2016; }
+.hero > .ph::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(18,12,7,.86) 0%, rgba(18,12,7,.5) 40%, rgba(18,12,7,.06) 72%), linear-gradient(0deg, rgba(18,12,7,.65), transparent 40%); }
+.hero-in { position: relative; min-height: 540px; display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: end; padding-top: 64px; padding-bottom: 44px; }
+.hero .rl { color: rgba(255,255,255,.75); max-width: 380px; }
+.hero .rl::after { background: rgba(255,255,255,.2); }
+.hero h1 { font-size: 58px; font-weight: 900; text-transform: uppercase; letter-spacing: -.005em; line-height: .95; margin: 0 0 14px; }
+.hero h1 span { color: var(--sign); display: block; }
+.hero .lede { font-size: 16px; line-height: 1.5; max-width: 460px; color: rgba(255,255,255,.86); }
+.hero .cta { display: flex; gap: 8px; margin-top: 22px; flex-wrap: wrap; }
+.hero .cta .btn { height: 44px; }
+.trust { display: flex; gap: 20px; margin-top: 26px; flex-wrap: wrap; font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.72); }
+.trust span { display: inline-flex; gap: 6px; align-items: center; }
+.trust .ic { width: 14px; height: 14px; color: var(--sign); }
+
+.planner { position: relative; padding-left: 22px; }
+.planner::before { content: ""; position: absolute; left: 0; top: -24px; bottom: 124px; width: 10px; border-radius: 2px;
+    background: linear-gradient(90deg, #3a2c1f, #5a4630 45%, #2a1f15); box-shadow: 2px 0 6px rgba(0,0,0,.35); }
+.planner-q { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.7); margin: 0 0 9px 2px; }
+.boards { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.boards button { transform-origin: left center; cursor: pointer; font-size: 12.5px; padding-top: 10px; padding-bottom: 8px; transition: background .15s, color .15s; }
+.boards button:nth-child(odd) { transform: rotate(-.9deg); }
+.boards button:nth-child(even) { transform: rotate(.7deg); }
+.boards button:hover { box-shadow: inset 0 0 0 3px var(--wood), inset 0 0 0 4px var(--sign); }
+.boards button.on { background: var(--sign); color: var(--sign-ink); box-shadow: inset 0 0 0 3px var(--sign), inset 0 0 0 4px rgba(29,25,20,.45); }
+.boards button.on small { color: var(--sign-ink); }
+.tcard { margin-top: 14px; background: var(--paper); color: var(--tx); border-radius: 10px; padding: 12px 14px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.6); }
+.tcard-h { display: flex; justify-content: space-between; align-items: center; }
+.tcard-k { font: 600 9.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.tcard-t { font: 800 16px/1.2 var(--display); margin: 7px 0 6px; }
+.tcard-f { display: flex; gap: 14px; font-size: 12.5px; color: var(--dim); align-items: baseline; }
+.tcard-f b { font: 600 15px/1 var(--mono); color: var(--tx); letter-spacing: -.02em; }
+.tcard .btn { width: 100%; margin-top: 10px; height: 34px; font-size: 11px; }
+
+/* ---- sections ---- */
+.sec { padding: 52px 0; }
+.sec + .sec { padding-top: 4px; }
+.sec-hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; margin-bottom: 18px; }
+.sec-hd p { color: var(--dim); max-width: 620px; margin-top: 4px; }
+.more { font: 800 11px/1 var(--display); letter-spacing: .09em; text-transform: uppercase; display: inline-flex; gap: 6px; align-items: center; border-bottom: 2px solid var(--sign); padding: 3px 0 5px; white-space: nowrap; }
+.more .ic { width: 14px; height: 14px; margin-top: -2px; }
+
+/* interests filter the experience cards */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 2px 12px 0 9px; border-radius: 4px; background: var(--paper); border: 1px solid var(--ln2);
+    font: 600 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: .15s; color: var(--tx); }
+.chip .ic { width: 15px; height: 15px; margin-top: -2px; color: var(--dim); }
+.chip em { font-style: normal; color: var(--faint); }
+.chip:hover { border-color: var(--tx); }
+.chip.on { background: var(--wood); border-color: var(--wood); color: var(--sign); }
+.chip.on .ic, .chip.on em { color: var(--sign); }
+.chip-clear { font: 600 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); text-decoration: underline; text-underline-offset: 3px; padding: 0 6px; cursor: pointer; height: 32px; }
+.filters .sp { flex: 1; }
+.filters .count { font: 600 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+
+.card { background: var(--paper); border: 1px solid var(--ln); border-radius: 10px; overflow: hidden; transition: border-color .15s, opacity .25s, transform .2s; }
+a.card:hover, .card.link:hover { border-color: var(--ln2); }
+.xgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.xcard .ph { aspect-ratio: 16/9; }
+.xcard .ph .kb { position: absolute; left: 10px; bottom: 10px; z-index: 2; }
+.xcard .ph .pill { position: absolute; right: 10px; top: 10px; z-index: 2; background: rgba(20,14,9,.72); color: #fff; border-color: rgba(255,255,255,.2); }
+.xcard .cb { padding: 12px 14px 12px; }
+.xcard h3 { font-size: 15.5px; font-weight: 700; letter-spacing: -.005em; }
+.xcard .cb p { color: var(--dim); font-size: 13.5px; margin-top: 2px; }
+.xcard .cf { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--ln); padding: 9px 14px; font: 500 10.5px/1.4 var(--mono); color: var(--faint); }
+.xcard .cf .ic { width: 14px; height: 14px; color: var(--tx); flex: none; }
+.xgrid.filtering .xcard { opacity: .35; }
+.xgrid.filtering .xcard.hit { opacity: 1; border-color: var(--wood); box-shadow: 0 0 0 1px var(--wood); }
+.filter-cta { display: none; margin-top: 14px; padding: 10px 10px 10px 14px; background: var(--wood); color: var(--on-wood); border-radius: 10px; align-items: center; gap: 14px; flex-wrap: wrap; }
+.filter-cta.show { display: flex; }
+.filter-cta p { flex: 1; font-size: 13.5px; }
+.filter-cta b { color: var(--sign); font-family: var(--mono); }
+.filter-cta .btn { height: 34px; font-size: 11px; }
+
+/* trailhead — the Kibo Hut sign read as a planner */
+.trailhead { background: var(--wood); color: var(--on-wood); border-radius: 10px; padding: 26px 30px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 44px; align-items: center;
+    box-shadow: inset 0 0 0 6px var(--wood), inset 0 0 0 7px color-mix(in srgb, var(--sign) 45%, transparent); }
+.trailhead .rl { color: color-mix(in srgb, var(--on-wood) 65%, transparent); }
+.trailhead .rl::after { background: rgba(255,255,255,.12); }
+.trailhead h2 { color: #fff; }
+.trailhead h2 span { color: var(--sign); }
+.trailhead p { color: color-mix(in srgb, var(--on-wood) 78%, transparent); margin: 6px 0 16px; max-width: 420px; }
+.stops { list-style: none; }
+.stops li { display: flex; align-items: baseline; gap: 10px; padding: 8px 0 6px; font: 800 12px/1.1 var(--display); letter-spacing: .08em; text-transform: uppercase; color: var(--sign); }
+.stops li + li { border-top: 1px solid color-mix(in srgb, var(--sign) 14%, transparent); }
+.stops li b { font: 500 10px/1 var(--mono); color: var(--on-wood); opacity: .5; width: 18px; letter-spacing: 0; }
+.stops li i { flex: 1; border-bottom: 1.5px dotted color-mix(in srgb, var(--sign) 32%, transparent); transform: translateY(-4px); }
+.stops li em { font: 500 10.5px/1 var(--mono); font-style: normal; color: var(--on-wood); letter-spacing: 0; opacity: .75; }
+
+/* elevation profile — six signature experiences, coast to summit */
+.profile-wrap { display: grid; grid-template-columns: 1fr 300px; gap: 14px; align-items: stretch; }
+.profile { display: flex; flex-direction: column; justify-content: flex-end; }
+.profile { padding: 18px 16px 10px; }
+.chart-box { position: relative; }
+.profile svg.chart { display: block; width: 100%; height: auto; }
+.profile .axis text { font: 500 10px var(--mono); fill: var(--faint); }
+.profile .base text { font: 600 10px var(--mono); fill: var(--faint); letter-spacing: .08em; }
+.profile .grid line { stroke: var(--ln); stroke-dasharray: 2 4; }
+.profile .land { fill: color-mix(in srgb, var(--sign) 20%, var(--paper)); }
+.profile .ridge { fill: none; stroke: var(--wood); stroke-width: 2; }
+.pin { position: absolute; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.pin .kb { font-size: 10.5px; padding: 7px 9px 5px; gap: 6px; }
+.pin .kb small { font-size: 9.5px; }
+.pin i { width: 1.5px; height: 14px; background: var(--wood); }
+.pin u { width: 10px; height: 10px; border-radius: 50%; background: var(--sign); border: 2px solid var(--wood); margin-bottom: -5px; }
+.pin.on .kb, .pin:hover .kb { background: var(--sign); color: var(--sign-ink); box-shadow: inset 0 0 0 3px var(--sign), inset 0 0 0 4px rgba(29,25,20,.45); }
+.pin.on .kb small, .pin:hover .kb small { color: var(--sign-ink); }
+.wp-detail .ph { aspect-ratio: 16/10; }
+.wp-detail .cb { padding: 12px 14px; }
+.wp-detail h3 { font-size: 16px; font-weight: 700; }
+.wp-detail .cb p { color: var(--dim); font-size: 13.5px; margin: 2px 0 12px; }
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--ln); padding-top: 10px; }
+.facts div { font: 600 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.facts b { display: block; font: 600 17px/1.1 var(--mono); letter-spacing: -.02em; color: var(--tx); margin-top: 5px; text-transform: none; }
+.wp-detail .cf { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--ln); padding: 9px 14px; }
+.wp-list { display: none; }
+
+/* why — a park notice board */
+.notice { background: var(--wood); color: var(--on-wood); border-radius: 10px; padding: 26px 30px 12px;
+    box-shadow: inset 0 0 0 6px var(--wood), inset 0 0 0 7px color-mix(in srgb, var(--sign) 45%, transparent); }
+.notice .rl { color: color-mix(in srgb, var(--on-wood) 65%, transparent); }
+.notice .rl::after { background: rgba(255,255,255,.12); }
+.notice-hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
+.notice h2 { color: #fff; }
+.notice-hd p { color: color-mix(in srgb, var(--on-wood) 75%, transparent); max-width: 560px; margin-top: 4px; }
+.notice .more { color: var(--sign); }
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 32px; counter-reset: r; margin-top: 12px; }
+.rule { counter-increment: r; display: grid; grid-template-columns: 26px 1fr; gap: 12px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.09); }
+.rule::before { content: counter(r); font: 900 14px/1 var(--display); color: var(--wood); background: var(--sign); width: 24px; height: 24px; border-radius: 3px; display: grid; place-items: center; padding-top: 3px; }
+.rule h3 { font-size: 14.5px; color: #fff; font-weight: 700; margin-bottom: 2px; }
+.rule p { color: color-mix(in srgb, var(--on-wood) 70%, transparent); font-size: 13.5px; line-height: 1.45; }
+
+/* guides — one story told properly, three introduced */
+.guides { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.guide .ph { aspect-ratio: 1; }
+.guide .ph .kb { position: absolute; left: 8px; bottom: 8px; z-index: 2; font-size: 10.5px; padding: 7px 9px 5px; }
+.guide .cb { padding: 10px 12px 11px; }
+.guide h3 { font-size: 14.5px; font-weight: 700; }
+.guide .meta { font: 500 10.5px/1.5 var(--mono); color: var(--faint); margin-top: 3px; }
+.guide.feature { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; background: var(--wood); border-color: var(--wood); color: var(--on-wood); }
+.guide.feature .ph { aspect-ratio: auto; min-height: 100%; }
+.guide.feature .cb { padding: 16px; display: flex; flex-direction: column; }
+.guide.feature .pill { align-self: flex-start; color: var(--sign); border-color: color-mix(in srgb, var(--sign) 45%, transparent); }
+.guide.feature q { display: block; font: 700 16px/1.4 var(--display); color: #fff; margin: 12px 0 auto; }
+.guide.feature q::before, .guide.feature q::after { color: var(--sign); }
+.guide.feature h3 { color: var(--sign); margin-top: 14px; }
+.guide.feature .meta { color: color-mix(in srgb, var(--on-wood) 60%, transparent); }
+
+/* journeys — the real trip cost is the card's chart */
+.journeys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-items: start; }
+.jc .ph { aspect-ratio: 16/8; }
+.jc .ph .pill { position: absolute; left: 10px; top: 10px; z-index: 2; }
+.jc .cb { padding: 12px 14px 4px; }
+.jc-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.jc h3 { font-size: 15.5px; font-weight: 700; }
+.fig { display: flex; align-items: baseline; gap: 7px; margin: 6px 0 8px; }
+.fig b { font: 600 22px/1 var(--mono); letter-spacing: -.04em; }
+.fig span { font-size: 12.5px; color: var(--dim); }
+.split { display: flex; height: 8px; gap: 2px; border-radius: 2px; overflow: hidden; }
+.split i { display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 7px; font: 500 10.5px/1.3 var(--mono); color: var(--dim); }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 7px; height: 7px; border-radius: 1.5px; }
+.jc .cb > p { color: var(--dim); font-size: 13.5px; margin: 10px 0 0; }
+.route { font: 500 10.5px/1.5 var(--mono); color: var(--faint); padding: 9px 14px; border-top: 1px solid var(--ln); margin-top: 12px; }
+details.why { border-top: 1px solid var(--ln); }
+details.why summary { list-style: none; cursor: pointer; font: 700 12.5px/1 var(--sans); display: flex; justify-content: space-between; align-items: center; padding: 10px 14px 9px; }
+details.why summary::-webkit-details-marker { display: none; }
+details.why summary .ic { width: 14px; height: 14px; transition: transform .2s; transform: rotate(90deg); color: var(--dim); }
+details.why[open] summary .ic { transform: rotate(-90deg); }
+.lines { list-style: none; padding: 0 14px; font-size: 13px; }
+.lines li { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px dashed var(--ln); }
+.lines li i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.lines li b { margin-left: auto; font: 600 12px/1 var(--mono); }
+.incl { padding: 8px 14px 12px; font-size: 12.5px; color: var(--dim); }
+.incl b { color: var(--ok); font-weight: 700; }
+
+/* the closing planner */
+.quick { display: grid; grid-template-columns: 1.4fr 1fr; background: var(--wood); color: var(--on-wood); border-radius: 10px; overflow: hidden; }
+.quick-in { padding: 26px 30px; }
+.quick .rl { color: color-mix(in srgb, var(--on-wood) 65%, transparent); }
+.quick .rl::after { background: rgba(255,255,255,.12); }
+.quick h2 { color: #fff; }
+.quick h2 span { color: var(--sign); }
+.quick-in > p { color: color-mix(in srgb, var(--on-wood) 76%, transparent); margin: 4px 0 16px; }
+.qform { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field span { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--on-wood) 60%, transparent); }
+.field select { appearance: none; height: 40px; border-radius: 4px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.05); color: #fff; font: 600 13.5px/1 var(--sans); padding: 0 28px 0 10px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--sign) 50%), linear-gradient(135deg, var(--sign) 50%, transparent 50%);
+    background-position: calc(100% - 15px) 18px, calc(100% - 11px) 18px; background-size: 4px 4px; background-repeat: no-repeat; }
+.field select option { color: #111; }
+.qnote { font: 500 10.5px/1.4 var(--mono); color: color-mix(in srgb, var(--on-wood) 55%, transparent); margin-top: 12px; }
+.quick > .ph { min-height: 100%; }
+
+/* footer */
+.ft { background: var(--wood); color: var(--on-wood); padding: 40px 0 22px; margin-top: 24px; }
+.ft-top { display: grid; grid-template-columns: 1.3fr repeat(4, 1fr); gap: 28px; }
+.ft .kb { margin-top: 16px; }
+.ft-c { font-size: 13px; color: color-mix(in srgb, var(--on-wood) 65%, transparent); margin-top: 12px; line-height: 1.6; }
+.ft h4 { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--sign); margin-bottom: 12px; }
+.ft ul { list-style: none; display: grid; gap: 7px; font-size: 13.5px; color: color-mix(in srgb, var(--on-wood) 75%, transparent); }
+.ft ul a:hover { color: var(--sign); }
+.ft-bot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 30px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.1); font: 500 10.5px/1.4 var(--mono); color: color-mix(in srgb, var(--on-wood) 50%, transparent); }
+
+/* drawer + action bar wear the board */
+.drawer { background: var(--wood); color: var(--on-wood); }
+.drawer-x { color: var(--sign); border-color: color-mix(in srgb, var(--sign) 45%, transparent); border-radius: 4px; width: 40px; height: 40px; }
+.drawer-lab { font: 600 10px/1 var(--mono); letter-spacing: .14em; color: color-mix(in srgb, var(--on-wood) 55%, transparent); margin: 22px 0 10px; }
+.drawer-x-chips a { border-color: rgba(255,255,255,.14); border-radius: 6px; font-weight: 700; font-size: 14px; padding: 11px 12px; }
+.drawer-x-chips .ic { color: var(--sign); }
+.drawer-nav { border-color: rgba(255,255,255,.12); }
+.drawer-nav a { font: 700 18px/1 var(--display); border-color: rgba(255,255,255,.12); padding: 15px 2px 13px; }
+.drawer-nav .ic { color: var(--sign); }
+.drawer-cta a { border-radius: 4px; font: 800 12.5px/1 var(--display); text-transform: uppercase; letter-spacing: .08em; border-color: rgba(255,255,255,.2); height: 48px; padding-top: 2px; }
+.drawer-cta a:first-child { background: var(--sign); color: var(--sign-ink); }
+
+@media (max-width: 760px) {
+    .mbar { background: var(--wood); border-radius: 8px; padding: 6px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sign) 40%, transparent), 0 16px 36px -12px rgba(0,0,0,.6); }
+    .mbar a { height: 46px; border-radius: 4px; font: 800 12.5px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; padding-top: 2px; }
+    .mbar .mb-pri { background: var(--sign); color: var(--sign-ink); }
+    .mbar .mb-wa { width: 46px; color: var(--sign); border-color: color-mix(in srgb, var(--sign) 40%, transparent); }
+    .boards button { clip-path: none !important; padding: 10px 11px 8px !important; }
+}
+@media (max-width: 1120px) {
+    .hd-wa { display: none; }
+    .nav { gap: 16px; }
+    .guides { grid-template-columns: repeat(4, 1fr); }
+    .guide.feature { grid-column: span 4; grid-template-columns: 200px 1fr; }
+}
+@media (max-width: 1020px) {
+    .nav, .hd-cta { display: none; }
+    .burger { display: inline-flex; }
+    .hero-in { grid-template-columns: 1fr; min-height: 0; padding-top: 48px; }
+    .planner { max-width: 360px; }
+    .trailhead, .quick { grid-template-columns: 1fr; }
+    .profile-wrap { grid-template-columns: 1fr; }
+    .xgrid, .journeys { grid-template-columns: repeat(2, 1fr); }
+    .guides { grid-template-columns: repeat(2, 1fr); }
+    .guide.feature { grid-column: span 2; }
+    .rules { grid-template-columns: repeat(2, 1fr); }
+    .qform { grid-template-columns: 1fr 1fr 1fr; }
+    .qform .btn { grid-column: 1 / -1; }
+    .ft-top { grid-template-columns: repeat(2, 1fr); }
+    .ft-top > div:first-child { grid-column: span 2; }
+    .quick > .ph { min-height: 200px; order: -1; }
+    .notice-hd, .sec-hd { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+@media (max-width: 760px) {
+    body { font-size: 15px; }
+    .hd-in { height: 54px; }
+    .hero > .ph { position: relative; height: 230px; display: block; }
+    .hero > .ph::after { background: linear-gradient(0deg, var(--wood) 0%, rgba(18,12,7,.05) 60%); }
+    .hero-in { padding-top: 0; padding-bottom: 26px; gap: 22px; margin-top: -40px; }
+    .hero h1 { font-size: 40px; }
+    .hero .lede { font-size: 15px; }
+    .hero .cta { flex-direction: column; }
+    .hero .cta .btn { width: 100%; }
+    .trust { gap: 8px 14px; margin-top: 16px; }
+    .planner { padding-left: 18px; }
+    .planner::before { width: 8px; top: -6px; bottom: 138px; }
+    .boards { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+    .boards button { transform: none !important; }
+    .sec { padding: 36px 0; }
+    h2 { font-size: 22px; }
+    .filters { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px 12px; padding: 0 18px 2px; scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip { flex: none; }
+    .filters .sp, .filters .count { display: none; }
+    .trailhead, .notice, .quick-in { padding: 20px 18px; gap: 18px; }
+    .trailhead .btn { width: 100%; }
+    .profile, .wp-detail { display: none; }
+    .profile-wrap { display: block; }
+    .wp-list { display: block; }
+    .wp-list a { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; align-items: center; padding: 8px; }
+    .wp-list a + a { border-top: 1px solid var(--ln); }
+    .wp-list .ph { aspect-ratio: 1; border-radius: 6px; }
+    .wp-list h3 { font-size: 14.5px; font-weight: 700; }
+    .wp-list p { font: 500 10.5px/1.4 var(--mono); color: var(--faint); margin-top: 2px; }
+    .wp-list .alt { text-align: right; font: 600 13px/1 var(--mono); }
+    .wp-list .alt i { display: block; height: 3px; background: var(--ln); border-radius: 2px; margin-top: 6px; width: 48px; margin-left: auto; overflow: hidden; }
+    .wp-list .alt i::before { content: ""; display: block; height: 100%; width: var(--h); background: var(--sign); }
+    .rules { grid-template-columns: 1fr; }
+    .guides.snap-m > .guide { flex-basis: 46%; }
+    .guides.snap-m > .guide.feature { flex-basis: 88%; grid-template-columns: 1fr 1.2fr; }
+    .xgrid.snap-m > .xcard, .journeys.snap-m > .jc { flex-basis: 84%; }
+    .qform { grid-template-columns: 1fr 1fr; }
+    .qform .field:first-child { grid-column: 1 / -1; }
+    .qform .btn { height: 46px; }
+    .ft { margin-top: 36px; }
+}
+
+/* ---- inner-page board header: the title routed on timber, the facts in mono beside it ---- */
+.crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; font: 500 10.5px/1.6 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-wood) 55%, transparent); padding-top: 18px; }
+.crumb a:hover { color: var(--sign); }
+.crumb .ic { width: 11px; height: 11px; opacity: .5; }
+.pgh { position: relative; background: var(--wood); color: var(--on-wood); }
+.pgh > .ph { position: absolute; inset: 0; }
+.pgh > .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(18,12,7,.94) 0%, rgba(18,12,7,.86) 55%, rgba(18,12,7,.62) 100%); }
+.pgh .btn-line, .trailhead .btn-line, .notice .btn-line, .quick .btn-line, .jc.fill .btn-line { border-color: rgba(255,255,255,.42); color: #fff; }
+.pgh .btn-line:hover, .trailhead .btn-line:hover, .notice .btn-line:hover, .quick .btn-line:hover { border-color: #fff; }
+.pgh-in { position: relative; }
+.board-hd { border: 1px solid color-mix(in srgb, var(--sign) 55%, transparent); border-radius: 5px; padding: 22px 26px 20px; margin: 16px 0 26px;
+    display: grid; grid-template-columns: 1fr auto; gap: 34px; align-items: end; }
+.board-hd h1 { font: 900 40px/1 var(--display); text-transform: uppercase; letter-spacing: -.01em; color: var(--sign); }
+.board-hd .kick { font: 600 10.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--on-wood) 60%, transparent); margin-bottom: 12px; }
+.board-hd .lede { color: color-mix(in srgb, var(--on-wood) 82%, transparent); max-width: 620px; margin-top: 10px; font-size: 15px; }
+.board-hd .hd-cta2 { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.facts-row { display: flex; gap: 26px; flex-wrap: wrap; }
+.facts-row div { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--on-wood) 55%, transparent); }
+.facts-row b { display: block; font: 600 18px/1.1 var(--mono); letter-spacing: -.02em; color: var(--sign); margin-top: 7px; text-transform: none; }
+
+/* ---- prose ---- */
+.prose { max-width: 720px; font-size: 14.5px; }
+.prose > * + * { margin-top: 12px; }
+.prose h2 { font-size: 22px; margin-top: 30px; }
+.prose h3 { font-size: 16px; font-weight: 700; margin-top: 22px; }
+.prose p { color: var(--tx); }
+.prose ul, .prose ol { padding-left: 18px; color: var(--tx); }
+.prose li { margin-top: 5px; }
+.prose a.inl { border-bottom: 2px solid var(--sign); }
+.prose blockquote { border-left: 3px solid var(--sign); padding: 2px 0 2px 14px; color: var(--dim); }
+.lead { font-size: 16px; line-height: 1.5; color: var(--dim); }
+.two { display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start; }
+.aside { position: sticky; top: 72px; display: grid; gap: 12px; }
+.toc { padding: 12px 14px; }
+.toc h4, .side h4 { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 10px; }
+.toc ol { list-style: none; counter-reset: t; display: grid; gap: 7px; }
+.toc li { counter-increment: t; font-size: 13.5px; display: flex; gap: 9px; }
+.toc li::before { content: counter(t, decimal-leading-zero); font: 500 10.5px/1.5 var(--mono); color: var(--faint); }
+.toc a:hover { color: var(--tx); border-bottom: 1px solid var(--sign); }
+.side { padding: 14px; }
+.side p { font-size: 13.5px; color: var(--dim); }
+.side .btn { width: 100%; margin-top: 10px; }
+
+/* ---- tables ---- */
+.tbl-wrap { overflow-x: auto; scrollbar-width: none; }
+.tbl-wrap::-webkit-scrollbar { display: none; }
+table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 680px; }
+table.tbl th { font: 600 9.5px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); text-align: left; padding: 0 12px 9px; border-bottom: 1px solid var(--ln2); white-space: nowrap; }
+table.tbl td { padding: 11px 12px; border-bottom: 1px solid var(--ln); vertical-align: middle; }
+table.tbl tbody tr { cursor: pointer; }
+table.tbl tbody tr:hover { background: var(--raised); }
+table.tbl tbody tr.on { background: color-mix(in srgb, var(--sign) 14%, transparent); }
+table.tbl .rt { font: 800 12.5px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; }
+table.tbl .num { font: 600 14px/1 var(--mono); }
+.stars { color: var(--sign); letter-spacing: .12em; font-size: 12px; -webkit-text-stroke: .4px var(--wood); }
+.tbl .act { text-align: right; white-space: nowrap; }
+.tbl .act .go { font: 800 10.5px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; display: inline-flex; gap: 5px; align-items: center; border-bottom: 2px solid var(--sign); padding-bottom: 3px; }
+.tbl .act .ic { width: 12px; height: 12px; }
+
+/* ---- the elevation profile on inner pages ---- */
+.prof-card { padding: 16px 16px 8px; }
+.prof-card svg.chart { display: block; width: 100%; height: auto; }
+.prof-card .grid line { stroke: var(--ln); stroke-dasharray: 2 4; }
+.prof-card .axis text { font: 500 10px var(--mono); fill: var(--faint); }
+.prof-card .land { fill: color-mix(in srgb, var(--sign) 20%, var(--paper)); }
+.prof-card .ridge { fill: none; stroke: var(--wood); stroke-width: 2; }
+.prof-card .day text { font: 600 9.5px var(--mono); fill: var(--faint); }
+.prof-note { font: 500 10.5px/1.5 var(--mono); color: var(--faint); padding: 6px 2px 4px; }
+
+/* ---- generic grids ---- */
+.two > *, .g2 > *, .g3 > *, .g4 > *, .kpi > *, .aside > *, .cost > *, .gp > *, .form-grid > *, .fbar > * { min-width: 0; }
+.cf { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--ln); padding: 9px 14px;
+    font: 500 10.5px/1.45 var(--mono); color: var(--faint); }
+.cf .ic { width: 14px; height: 14px; color: var(--tx); flex: none; }
+.jc .cf .more, .pcard .cf .more { font-size: 10.5px; }
+.g2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.pcard .ph { aspect-ratio: 4/3; }
+.pcard .ph .kb { position: absolute; left: 9px; bottom: 9px; z-index: 2; font-size: 10.5px; padding: 7px 9px 5px; }
+.pcard h3 { font-size: 15.5px; font-weight: 700; }
+.pcard .cb p { color: var(--dim); font-size: 13.5px; margin-top: 3px; }
+.gal { display: flex; flex-wrap: wrap; gap: 10px; }
+.gal .ph { flex: 1 1 170px; height: 150px; border-radius: 8px; }
+.gal .ph:first-child { flex-grow: 1.7; }
+
+/* ---- signpost: the post with boards pointing on ---- */
+.signpost { position: relative; padding-left: 26px; }
+.signpost::before { content: ""; position: absolute; left: 6px; top: 0; bottom: 8px; width: 10px; border-radius: 2px;
+    background: linear-gradient(90deg, #3a2c1f, #5a4630 45%, #2a1f15); }
+.signpost .row { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.signpost .kb { font-size: 12px; }
+.signpost .kb:nth-child(odd) { transform: rotate(-.8deg); }
+.signpost .kb:nth-child(even) { transform: rotate(.6deg); }
+.signpost .kb:hover { box-shadow: inset 0 0 0 3px var(--wood), inset 0 0 0 4px var(--sign); }
+
+/* ---- day-by-day ---- */
+.days { list-style: none; display: grid; gap: 0; }
+.days li { display: grid; grid-template-columns: 74px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--ln); }
+.days .d { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+.days .d b { display: block; font: 600 17px/1 var(--mono); color: var(--tx); margin-top: 6px; letter-spacing: -.02em; }
+.days h3 { font-size: 15px; font-weight: 700; }
+.days p { color: var(--dim); font-size: 13.5px; margin-top: 3px; }
+.days .tag { margin-top: 7px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+.journeys.j2 { grid-template-columns: repeat(2, 1fr); }
+.journeys.j4 { grid-template-columns: repeat(4, 1fr); }
+.jc.fill { background: var(--wood); border-color: var(--wood); color: var(--on-wood);
+    box-shadow: inset 0 0 0 5px var(--wood), inset 0 0 0 6px color-mix(in srgb, var(--sign) 45%, transparent); }
+.jc.fill .cb { padding: 20px 22px; }
+.jc.fill .rl { color: color-mix(in srgb, var(--on-wood) 60%, transparent); }
+.jc.fill .rl::after { background: rgba(255,255,255,.12); }
+.jc.fill h3 { font-size: 20px; color: #fff; }
+.jc.fill p { color: color-mix(in srgb, var(--on-wood) 78%, transparent); font-size: 13.5px; margin: 6px 0 14px; }
+
+/* ---- cost block ---- */
+.cost { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; padding: 18px 20px 20px; }
+.cost .fig b { font-size: 30px; }
+.inout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13.5px; }
+.inout ul { list-style: none; display: grid; gap: 5px; }
+.inout li { display: flex; gap: 8px; align-items: flex-start; color: var(--tx); }
+.inout .ic { width: 14px; height: 14px; margin-top: 2px; flex: none; }
+.inout .in .ic { color: var(--ok); }
+.inout .out .ic { color: var(--faint); }
+.inout h4 { font: 600 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-bottom: 9px; }
+
+/* ---- forms on timber ---- */
+.form-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.field input, .field textarea, .field select { height: 40px; border-radius: 4px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.05); color: #fff;
+    font: 500 13.5px/1 var(--sans); padding: 0 10px; width: 100%; }
+.field textarea { height: 84px; padding: 10px; resize: vertical; line-height: 1.5; }
+.field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,.38); }
+.field input:focus, .field textarea:focus, .field select:focus { outline: 2px solid var(--sign); outline-offset: 1px; }
+.span2 { grid-column: span 2; } .span4 { grid-column: 1 / -1; }
+.opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.opt { cursor: pointer; }
+.opt input { position: absolute; opacity: 0; pointer-events: none; }
+.opt span { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 2px 12px 0; border-radius: 4px; border: 1px solid rgba(255,255,255,.2);
+    font: 700 11px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; color: var(--on-wood); }
+.opt .ic { width: 15px; height: 15px; margin-top: -2px; color: var(--sign); }
+.opt input:checked + span { background: var(--sign); color: var(--sign-ink); border-color: var(--sign); }
+.opt input:checked + span .ic { color: var(--sign-ink); }
+.opt input:focus-visible + span { outline: 2px solid var(--sign); outline-offset: 2px; }
+.req { font: 500 10.5px/1.5 var(--mono); color: color-mix(in srgb, var(--on-wood) 55%, transparent); margin-top: 12px; }
+
+/* ---- wizard ---- */
+.wiz { max-width: 760px; margin: 0 auto; }
+.progress { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.progress .bar { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,.14); overflow: hidden; }
+.progress .bar i { display: block; height: 100%; background: var(--sign); transition: width .3s; }
+.progress .n { font: 600 10.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-wood) 65%, transparent); }
+.step { display: none; border: 0; min-width: 0; }
+.step.on { display: block; }
+.step h2 { color: #fff; font-size: 26px; }
+.step .hint { color: color-mix(in srgb, var(--on-wood) 65%, transparent); font: 500 10.5px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; margin: 6px 0 16px; }
+.step .opts { gap: 8px; }
+.step .opt span { height: 44px; font-size: 12.5px; padding: 2px 16px 0; }
+.wiz-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.12); }
+.wiz-nav .btn-line { border-color: rgba(255,255,255,.35); color: #fff; }
+
+/* ---- guide profile ---- */
+.gp { display: grid; grid-template-columns: 300px 1fr; gap: 22px; align-items: start; }
+.gp-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; border-top: 1px solid var(--ln); padding-top: 12px; margin-top: 12px; }
+.gp-facts div { font: 600 9.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.gp-facts b { display: block; font-size: 14px; font-family: var(--sans); color: var(--tx); margin-top: 5px; text-transform: none; letter-spacing: 0; }
+
+/* ---- calendar ---- */
+.cal { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; }
+.cal div { text-align: center; padding: 9px 2px 8px; border-radius: 3px; background: var(--raised); border: 1px solid var(--ln); }
+.cal b { display: block; font: 600 9.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
+.cal em { display: block; font: 500 10px/1.3 var(--mono); font-style: normal; color: var(--faint); margin-top: 6px; }
+.cal div.hi { background: var(--wood); border-color: var(--wood); }
+.cal div.hi b { color: var(--sign); } .cal div.hi em { color: color-mix(in srgb, var(--on-wood) 70%, transparent); }
+
+/* ---- filter bar (journeys listing) ---- */
+.fbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 12px 14px; align-items: end; }
+.fbar .fl { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); display: block; margin-bottom: 6px; }
+.fbar select { appearance: none; height: 36px; width: 100%; border-radius: 4px; border: 1px solid var(--ln2); background: var(--paper); color: var(--tx); font: 500 13.5px/1 var(--sans); padding: 0 26px 0 10px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--tx) 50%), linear-gradient(135deg, var(--tx) 50%, transparent 50%);
+    background-position: calc(100% - 15px) 16px, calc(100% - 11px) 16px; background-size: 4px 4px; background-repeat: no-repeat; }
+.fres { display: flex; align-items: center; gap: 12px; margin: 14px 0 12px; font: 600 10.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.fres::after { content: ""; flex: 1; height: 1px; background: var(--ln); }
+.empty { display: none; padding: 26px; text-align: center; }
+.empty.show { display: block; }
+.empty p { color: var(--dim); margin: 6px 0 12px; }
+
+/* ---- small parts ---- */
+.kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.kpi div { padding: 12px 14px; }
+.kpi span { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+.kpi b { display: block; font: 600 22px/1 var(--mono); letter-spacing: -.03em; margin-top: 8px; }
+.kpi p { font-size: 12.5px; color: var(--dim); margin-top: 6px; }
+.qa { border-top: 1px solid var(--ln); padding: 12px 0; }
+.qa h3 { font-size: 15px; font-weight: 700; }
+.qa p { color: var(--dim); font-size: 13.5px; margin-top: 4px; max-width: 720px; }
+.note { display: flex; gap: 10px; align-items: flex-start; padding: 11px 14px; border-radius: 8px; background: var(--raised); border: 1px solid var(--ln); font-size: 13px; color: var(--dim); }
+.note .ic { width: 15px; height: 15px; color: var(--sign); margin-top: 1px; flex: none; }
+.chan { display: flex; gap: 12px; align-items: center; padding: 14px; }
+.chan .ic { width: 20px; height: 20px; color: var(--sign); }
+.chan b { display: block; font-size: 15px; }
+.chan span { font: 500 10.5px/1.5 var(--mono); color: var(--faint); }
+.center { text-align: center; max-width: 620px; margin: 0 auto; }
+.big { font: 900 96px/1 var(--display); color: var(--sign); letter-spacing: -.03em; -webkit-text-stroke: 2px var(--wood); }
+.artlist { display: grid; gap: 0; }
+.artlist a { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; padding: 11px 0; border-top: 1px solid var(--ln); }
+.artlist a:hover h3 { border-bottom: 2px solid var(--sign); }
+.artlist h3 { font-size: 14.5px; font-weight: 600; font-family: var(--sans); display: inline; }
+.artlist .ic { width: 14px; height: 14px; color: var(--dim); }
+.artlist em { display: block; font: 500 10.5px/1.5 var(--mono); font-style: normal; color: var(--faint); margin-top: 3px; }
+
+@media (max-width: 1020px) {
+    .journeys.j2, .journeys.j4 { grid-template-columns: repeat(2, 1fr); }
+    .board-hd { grid-template-columns: 1fr; gap: 18px; }
+    .board-hd h1 { font-size: 32px; }
+    .two { grid-template-columns: 1fr; }
+    .aside { position: static; grid-template-columns: 1fr 1fr; }
+    .g4, .kpi, .form-grid { grid-template-columns: repeat(2, 1fr); }
+    .g3 { grid-template-columns: repeat(2, 1fr); }
+    .cost, .gp { grid-template-columns: 1fr; }
+    .fbar { grid-template-columns: 1fr 1fr; }
+    .gal .ph { height: 130px; }
+}
+@media (max-width: 760px) {
+    .board-hd { padding: 16px 14px 15px; margin: 12px 0 20px; }
+    .board-hd h1 { font-size: 26px; }
+    .facts-row { gap: 18px; }
+    .g2, .g3, .g4, .kpi, .two, .inout, .aside { grid-template-columns: 1fr; }
+    .gal { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -18px; padding: 0 18px 2px; }
+    .gal::-webkit-scrollbar { display: none; }
+    .gal .ph { flex: 0 0 calc(50% - 5px); height: 112px; }
+    .gal .ph:first-child { flex-grow: 0; }
+    .days li { grid-template-columns: 56px 1fr; gap: 12px; }
+    .cal { grid-template-columns: repeat(6, 1fr); }
+    .journeys, .xgrid, .guides { grid-template-columns: 1fr !important; }
+    .big { font-size: 68px; }
+    .step h2 { font-size: 22px; }
+    .wiz-nav .btn { flex: 1; }
+}
+
+    </style>
+    <link rel="stylesheet" href="../../../../../assets/palettes.css">
+    <script src="../../../../../assets/palettes.js"></script>
+    <script src="../../../../../assets/designer.js" defer></script>
+    <script src="../../../../../assets/lightbox.js" defer></script>
+</head>
+<body>
+<div class="drawer" role="dialog" aria-label="Menu"><div class="drawer-top"><a class="brand" href="../../../index.html"><img class="logo" src="../../../../../assets/logo-knockout.png" alt="Tanzania Nzuri"></a><button class="drawer-x" data-drawer aria-label="Close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="drawer-lab">Explore Tanzania</p><div class="drawer-x-chips"><a href="../../../experiences/wildlife/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13c-3 0-5.5 3-5.5 5.2 0 1.8 2 2.8 5.5 2.8s5.5-1 5.5-2.8C17.5 16 15 13 12 13z"/><circle cx="5.5" cy="10" r="2"/><circle cx="18.5" cy="10" r="2"/><circle cx="9" cy="5.5" r="2"/><circle cx="15" cy="5.5" r="2"/></svg>Wildlife</a><a href="../../../experiences/summit/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2.5 20 7-12 4 6.5 2.5-4 5.5 9.5z"/><path d="m7.6 11.3 1.9-3.3 2 3.1"/></svg>Mountains</a><a href="../../../experiences/culture/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.5 14h1a5.5 5.5 0 0 1 5.5 5.5V21"/><path d="M16 4.2a3 3 0 0 1 0 5.6M21 21v-1.5a5.5 5.5 0 0 0-3.2-5"/></svg>Culture</a><a href="../../../experiences/adventure/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20c0-9 5.5-15 15-15 0 10-6 15-14 15"/><path d="M5 20 13.5 11.5"/></svg>Adventure</a><a href="../../../experiences/beach/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20c2-1.4 4-1.4 6 0s4 1.4 6 0 4-1.4 6 0"/><path d="M12 16.5V8"/><path d="M12 8C10 5 6 5 4 7c3 0 5 1 8 1zM12 8c2-3 6-3 8-1-3 0-5 1-8 1zM12 8c-1-2.2-.6-4.3 1.2-5.4"/></svg>Beach</a><a href="../../../experiences/complete/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg>Everything</a></div><p class="drawer-lab">Plan</p><nav class="drawer-nav"><a href="../../../experiences/index.html">Experiences<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../journeys/index.html">Journeys<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../kilimanjaro/index.html">Kilimanjaro<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../travel-guide/index.html">Travel Guide<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../team/index.html">Our Guides<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../about/index.html">About<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></nav><div class="drawer-cta"><a href="../../../build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="../../../contact/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg> WhatsApp our team</a></div></div><div class="mbar"><a class="mb-pri" href="../../../build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="mb-wa" href="../../../contact/index.html" aria-label="WhatsApp"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg></a></div><header class="hd"><div class="w hd-in"><a class="brand" href="../../../index.html"><img class="logo" src="../../../../../assets/logo-knockout.png" alt="Tanzania Nzuri"></a><nav class="nav"><a href="../../../experiences/index.html">Experiences</a><a href="../../../journeys/index.html">Journeys</a><a href="../../../kilimanjaro/index.html">Kilimanjaro</a><a href="../../../travel-guide/index.html">Travel Guide</a><a href="../../../team/index.html">Our Guides</a><a href="../../../about/index.html">About</a></nav><div class="hd-act"><a class="hd-wa" href="../../../contact/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg>WhatsApp</a><a class="btn btn-pri hd-cta" href="../../../build-my-journey/index.html">Build my journey</a><button class="burger" data-drawer aria-label="Menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header><main><section class="pgh"><div class="ph"><img src="../../../../../assets/photos/uhuru-sign.jpg" alt="Kilimanjaro" loading="lazy"></div><div class="pgh-in"><nav class="crumb w" aria-label="Breadcrumb"><a href="../../../index.html">Home</a><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg><a href="../../../experiences/index.html">Experiences</a><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg><a href="../../../experiences/summit/index.html">The Summit</a><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg><span>Kilimanjaro</span></nav><div class="w"><div class="board-hd"><div><p class="kick">The Summit</p><h1>Kilimanjaro</h1><p class="lede">Uhuru Peak — the roof of Africa, walked not climbed</p><div class="hd-cta2"><a class="btn btn-pri" href="../../../build-my-journey/index.html?interest=summit">Add it to my journey<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-line" href="../../../contact/index.html">Ask a guide</a></div></div><div class="facts-row"><div>Altitude<b>5,895 m</b></div><div>Best time<b>Jan–Mar · Jun–Oct</b></div><div>Experience<b>Summit</b></div></div></div></div></div></section><section class="sec "><div class="w"><p class="rl">Gallery</p><div class="gal"><div class="ph"><img src="../../../../../assets/photos/uhuru-sign.jpg" alt="Kilimanjaro — uhuru sign" loading="lazy"></div><div class="ph"><img src="../../../../../assets/photos/barranco-trail-group.jpg" alt="Kilimanjaro — barranco trail group" loading="lazy"></div><div class="ph"><img src="../../../../../assets/photos/kibo-crater.jpg" alt="Kilimanjaro — kibo crater" loading="lazy"></div><div class="ph"><img src="../../../../../assets/photos/camp-under-stars.jpg" alt="Kilimanjaro — camp under stars" loading="lazy"></div></div></div></section><section class="sec "><div class="w"><p class="rl">What you do</p><div class="sec-hd"><div><h2>A day here.</h2></div></div><div class="two"><div><ul class="prose"><li>Walk the mountain over six to nine days — the longer routes summit more often</li><li>Climb high, sleep low: Lava Tower at 4,600 m, camp at 3,960 m</li><li>Summit night from Barafu, Stella Point at sunrise, Uhuru Peak at 5,895 m</li><li>Daily pulse-oximeter and symptom checks by your own mountain crew</li></ul></div><div class="aside"><div class="card side"><h4>Best time</h4><p><b class="num" style="font-size:17px">Jan–Mar · Jun–Oct</b><br>Altitude 5,895 m. Ask us about the shoulder months — they are cheaper and emptier.</p><a class="btn btn-pri" href="../../../build-my-journey/index.html?interest=summit">Plan around it <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><div class="card side"><h4>Who leads it</h4><p>Hamis Bakari — Mountain Guide, 14 years.</p><a class="btn btn-line" href="../../../team/index.html">Meet the team</a></div></div></div></div></section><section class="sec "><div class="w"><p class="rl">Altitude</p><div class="sec-hd"><div><h2>The Lemosho route, camp by camp.</h2><p>Altitude decides how you feel, what you wear and how long you stay. Kibao reads it off the board.</p></div></div><div class="card prof-card"><svg class="chart" viewBox="0 0 1180 340" role="img" aria-label="Elevation profile"><g class="grid"><line x1="0" x2="1180" y1="248.0" y2="248.0"/><line x1="0" x2="1180" y1="196.0" y2="196.0"/><line x1="0" x2="1180" y1="144.0" y2="144.0"/><line x1="0" x2="1180" y1="92.0" y2="92.0"/><line x1="0" x2="1180" y1="40.0" y2="40.0"/></g><g class="axis"><text x="4" y="243.0">2,000</text><text x="4" y="191.0">4,000</text><text x="4" y="139.0">6,000</text><text x="4" y="87.0">8,000</text><text x="4" y="35.0">10,000</text></g><path class="land" d="M0 310.0 L20.0 257.4 L80.0 245.4 C131.0 245.4 131.0 227.7 182.0 227.7 L182.0 227.7 C233.0 227.7 233.0 208.9 284.0 208.9 L284.0 208.9 C335.0 208.9 335.0 200.9 386.0 200.9 L386.0 200.9 C437.0 200.9 437.0 179.6 488.0 179.6 L488.0 179.6 C539.0 179.6 539.0 197.0 590.0 197.0 L590.0 197.0 C641.0 197.0 641.0 196.1 692.0 196.1 L692.0 196.1 C743.0 196.1 743.0 178.5 794.0 178.5 L794.0 178.5 C845.0 178.5 845.0 146.7 896.0 146.7 L896.0 146.7 C947.0 146.7 947.0 200.7 998.0 200.7 L998.0 200.7 C1049.0 200.7 1049.0 257.4 1100.0 257.4 L1160.0 273.4 L1180 310.0 L1180 340 L0 340 Z"/><path class="ridge" d="M0 310.0 L20.0 257.4 L80.0 245.4 C131.0 245.4 131.0 227.7 182.0 227.7 L182.0 227.7 C233.0 227.7 233.0 208.9 284.0 208.9 L284.0 208.9 C335.0 208.9 335.0 200.9 386.0 200.9 L386.0 200.9 C437.0 200.9 437.0 179.6 488.0 179.6 L488.0 179.6 C539.0 179.6 539.0 197.0 590.0 197.0 L590.0 197.0 C641.0 197.0 641.0 196.1 692.0 196.1 L692.0 196.1 C743.0 196.1 743.0 178.5 794.0 178.5 L794.0 178.5 C845.0 178.5 845.0 146.7 896.0 146.7 L896.0 146.7 C947.0 146.7 947.0 200.7 998.0 200.7 L998.0 200.7 C1049.0 200.7 1049.0 257.4 1100.0 257.4 L1160.0 273.4 L1180 310.0"/><g class="axis" fill="var(--wood)" stroke="var(--sign)" stroke-width="1.5"><circle cx="80.0" cy="245.4" r="4"/><circle cx="182.0" cy="227.7" r="4"/><circle cx="284.0" cy="208.9" r="4"/><circle cx="386.0" cy="200.9" r="4"/><circle cx="488.0" cy="179.6" r="4"/><circle cx="590.0" cy="197.0" r="4"/><circle cx="692.0" cy="196.1" r="4"/><circle cx="794.0" cy="178.5" r="4"/><circle cx="896.0" cy="146.7" r="4"/><circle cx="998.0" cy="200.7" r="4"/><circle cx="1100.0" cy="257.4" r="4"/></g><g class="day"><text x="80.0" y="320" text-anchor="middle">LONDOROSSI GATE</text><text x="182.0" y="320" text-anchor="middle">MTI MKUBWA</text><text x="284.0" y="320" text-anchor="middle">SHIRA 1</text><text x="386.0" y="320" text-anchor="middle">SHIRA 2</text><text x="488.0" y="320" text-anchor="middle">LAVA TOWER</text><text x="590.0" y="320" text-anchor="middle">BARRANCO</text><text x="692.0" y="320" text-anchor="middle">KARANGA</text><text x="794.0" y="320" text-anchor="middle">BARAFU</text><text x="896.0" y="320" text-anchor="middle">UHURU PEAK</text><text x="998.0" y="320" text-anchor="middle">MILLENNIUM</text><text x="1100.0" y="320" text-anchor="middle">MWEKA GATE</text><text x="80.0" y="334" text-anchor="middle">2,100 m</text><text x="182.0" y="334" text-anchor="middle">2,780 m</text><text x="284.0" y="334" text-anchor="middle">3,505 m</text><text x="386.0" y="334" text-anchor="middle">3,810 m</text><text x="488.0" y="334" text-anchor="middle">4,630 m</text><text x="590.0" y="334" text-anchor="middle">3,960 m</text><text x="692.0" y="334" text-anchor="middle">3,995 m</text><text x="794.0" y="334" text-anchor="middle">4,673 m</text><text x="896.0" y="334" text-anchor="middle">5,895 m</text><text x="998.0" y="334" text-anchor="middle">3,820 m</text><text x="1100.0" y="334" text-anchor="middle">1,640 m</text></g></svg><p class="prof-note">Altitude in metres. Profile drawn to scale; distances are not.</p></div></div></section><section class="sec "><div class="w"><p class="rl">Journeys</p><div class="sec-hd"><div><h2>Journeys that include Kilimanjaro.</h2><p>Every price is itemised — open <b>Why this price?</b> for the lines.</p></div><a class="more" href="../../../journeys/index.html">All journeys <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><div class="journeys snap-m j3"><article class="card jc" data-j="1" data-days="8" data-style="Comfortable" data-cat="summit" data-price="2690"><a href="../../../journeys/kilimanjaro-lemosho/index.html" class="ph" style="display:block"><img src="../../../../../assets/photos/barranco-trail-group.jpg" alt="Kilimanjaro Lemosho" loading="lazy"><span class="kb">8 days</span></a><div class="cb"><div class="jc-h"><h3><a href="../../../journeys/kilimanjaro-lemosho/index.html">Kilimanjaro Lemosho</a></h3><span class="pill ok">Private</span></div><div class="fig"><b>$2,690</b><span>per person, park fees in</span></div><div class="split" aria-label="Cost split"><i style="flex:41;background:#f2c230" title="Park fees 41%"></i><i style="flex:24;background:#c99a26" title="Crew 24%"></i><i style="flex:12;background:#9c7524" title="Equipment 12%"></i><i style="flex:11;background:#6f5423" title="Food 11%"></i><i style="flex:6;background:#4a3a22" title="Transfers 6%"></i><i style="flex:6;background:#2b2219" title="Operations 6%"></i></div><div class="legend"><span><i style="background:#f2c230"></i>Park fees 41%</span><span><i style="background:#c99a26"></i>Crew 24%</span><span><i style="background:#9c7524"></i>Equipment 12%</span></div><p>Designed for travelers who want more acclimatization.</p></div><div class="route">Londorossi → Shira → Barranco → Uhuru Peak</div><details class="why"><summary>Why $2,690?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lines"><li><i style="background:#f2c230"></i>Park fees<b>$1,100</b></li><li><i style="background:#c99a26"></i>Crew<b>$650</b></li><li><i style="background:#9c7524"></i>Equipment<b>$320</b></li><li><i style="background:#6f5423"></i>Food<b>$300</b></li><li><i style="background:#4a3a22"></i>Transfers<b>$160</b></li><li><i style="background:#2b2219"></i>Operations<b>$160</b></li></ul><p class="incl"><b>Included:</b> Mountain crew, Park fees, Camping gear, Meals. <b style="color:var(--dim)">Not included:</b> flights, visa, insurance, tips.</p></details><div class="cf"><span>Designed, not packaged</span><a class="more" href="../../../journeys/kilimanjaro-lemosho/index.html">See the journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article><article class="card jc" data-j="2" data-days="12" data-style="Premium" data-cat="complete" data-price="5480"><a href="../../../journeys/mountain-to-zanzibar/index.html" class="ph" style="display:block"><img src="../../../../../assets/photos/zanzibar-loungers.jpg" alt="Mountain to Zanzibar" loading="lazy"><span class="kb">12 days</span></a><div class="cb"><div class="jc-h"><h3><a href="../../../journeys/mountain-to-zanzibar/index.html">Mountain to Zanzibar</a></h3><span class="pill ok">Private</span></div><div class="fig"><b>$5,480</b><span>per person, park fees in</span></div><div class="split" aria-label="Cost split"><i style="flex:30;background:#f2c230" title="Park fees 30%"></i><i style="flex:30;background:#c99a26" title="Accommodation 30%"></i><i style="flex:12;background:#9c7524" title="Flights 12%"></i><i style="flex:12;background:#6f5423" title="Vehicle 12%"></i><i style="flex:9;background:#4a3a22" title="Guide 9%"></i><i style="flex:7;background:#2b2219" title="Operations 7%"></i></div><div class="legend"><span><i style="background:#f2c230"></i>Park fees 30%</span><span><i style="background:#c99a26"></i>Accommodation 30%</span><span><i style="background:#9c7524"></i>Flights 12%</span></div><p>Designed for travelers who want the complete Tanzania experience.</p></div><div class="route">Kilimanjaro → Serengeti → Stone Town → Nungwi</div><details class="why"><summary>Why $5,480?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lines"><li><i style="background:#f2c230"></i>Park fees<b>$1,640</b></li><li><i style="background:#c99a26"></i>Accommodation<b>$1,640</b></li><li><i style="background:#9c7524"></i>Flights<b>$660</b></li><li><i style="background:#6f5423"></i>Vehicle<b>$660</b></li><li><i style="background:#4a3a22"></i>Guide<b>$490</b></li><li><i style="background:#2b2219"></i>Operations<b>$380</b></li></ul><p class="incl"><b>Included:</b> Private 4×4, Park fees, Flight to Zanzibar, Beach hotel. <b style="color:var(--dim)">Not included:</b> flights, visa, insurance, tips.</p></details><div class="cf"><span>Designed, not packaged</span><a class="more" href="../../../journeys/mountain-to-zanzibar/index.html">See the journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article><article class="card jc fill"><div class="cb"><p class="rl">Nothing here fits?</p><h3>Then we build one.</h3><p>Six questions, about ninety seconds. Your answers become a trip concept and a price, and a real person replies within one working day.</p><a class="btn btn-pri" href="../../../build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article></div></div></section><section class="sec "><div class="w"><p class="rl">Nearby</p><div class="sec-hd"><div><h2>Good days either side.</h2></div></div><div class="g3"><a class="card pcard" href="../../../experiences/summit/kilimanjaro/index.html"><div class="ph"><img src="../../../../../assets/photos/meru-sunrise-ridge.jpg" alt="Mount Meru" loading="lazy"><span class="kb r">Mount Meru</span></div><div class="cb"><h3>Mount Meru</h3><p>The knife-edge ridge above Arusha, and the best acclimatisation there is</p></div><div class="cf"><span>4,562 m · best Jun–Feb</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a><a class="card pcard" href="../../../experiences/adventure/waterfalls/index.html"><div class="ph"><img src="../../../../../assets/photos/waterfall.jpg" alt="Waterfalls" loading="lazy"><span class="kb r">Waterfalls</span></div><div class="cb"><h3>Waterfalls</h3><p>Forest walks on Kilimanjaro’s foothills, ending in the water</p></div><div class="cf"><span>1,300 m · best All year</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a><a class="card pcard" href="../../../experiences/culture/maasai/index.html"><div class="ph" data-standin="A Chagga coffee farm on Kilimanjaro’s southern slopes"><img src="../../../../../assets/photos/chagga-hut.jpg" alt="Coffee experience" loading="lazy"><span class="kb r">Coffee experience</span></div><div class="cb"><h3>Coffee experience</h3><p>Pick, roast and drink it on the slope it grew on</p></div><div class="cf"><span>1,400 m · best All year</span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a></div></div></section><section class="sec "><div class="w"><div class="trailhead"><div><p class="rl">Trip designer</p><h2>Your Tanzania journey <span>starts here.</span></h2><p>Tell us what you love. We'll build the trip — six questions, about ninety seconds, no payment and no obligation.</p><a class="btn btn-pri" href="../../../build-my-journey/index.html">Start trip designer <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><ol class="stops"><li><b>01</b>What brings you<i></i><em>20s</em></li><li><b>02</b>How many days<i></i><em>10s</em></li><li><b>03</b>Travelling with<i></i><em>10s</em></li><li><b>04</b>Travel style<i></i><em>15s</em></li><li><b>05</b>What matters most<i></i><em>20s</em></li><li><b>06</b>Your budget<i></i><em>15s</em></li></ol></div></div></section></main><footer class="ft"><div class="w"><div class="ft-top"><div><a class="brand" href="../../../index.html"><img class="logo" src="../../../../../assets/logo-knockout.png" alt="Tanzania Nzuri"></a><p class="ft-c">Planned and operated in Tanzania.<br>Arusha, hello@tanzanianzuri.com</p><span class="kb r">Your journey. Our home.</span></div><div><h4>Explore</h4><ul><li><a href="../../../experiences/wildlife/index.html">Wildlife</a></li><li><a href="../../../experiences/summit/index.html">Mountains</a></li><li><a href="../../../experiences/culture/index.html">Culture</a></li><li><a href="../../../experiences/adventure/index.html">Adventure</a></li><li><a href="../../../experiences/beach/index.html">Beach</a></li></ul></div><div><h4>Plan</h4><ul><li><a href="../../../build-my-journey/index.html">Build my journey</a></li><li><a href="../../../journeys/index.html">Journeys</a></li><li><a href="../../../kilimanjaro/index.html">Compare Kilimanjaro routes</a></li><li><a href="../../../pricing-explained/index.html">What does a safari cost?</a></li></ul></div><div><h4>Travel Guide</h4><ul><li><a href="../../../travel-guide/index.html#before-you-travel">Before you travel</a></li><li><a href="../../../travel-guide/index.html#safari-guide">Safari guide</a></li><li><a href="../../../travel-guide/index.html#kilimanjaro-guide">Kilimanjaro guide</a></li><li><a href="../../../travel-guide/index.html#family-travel">Family travel</a></li><li><a href="../../../travel-guide/index.html#zanzibar">Zanzibar</a></li></ul></div><div><h4>Tanzania Nzuri</h4><ul><li><a href="../../../team/index.html">Our guides</a></li><li><a href="../../../about/index.html">Why Tanzania Nzuri</a></li><li><a href="../../../safety/index.html">Safety</a></li><li><a href="../../../responsible-travel/index.html">Responsible travel</a></li><li><a href="../../../contact/index.html">Contact</a></li></ul></div></div><div class="ft-bot"><span>© 2026 Tanzania Nzuri</span><span>Terms · Privacy · Booking conditions</span></div></div></footer>
+<script>
+    /* Drawer menu. → In the app: a Stimulus controller toggling html.nav-open. */
+    document.querySelectorAll('[data-drawer]').forEach(function (el) {
+        el.addEventListener('click', function () { document.documentElement.classList.toggle('nav-open'); });
+    });
+</script>
+</body>
+</html>

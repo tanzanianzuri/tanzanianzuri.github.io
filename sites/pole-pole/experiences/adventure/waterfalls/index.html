@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<!-- PLACE DETAIL — one template, six instances. The altimeter is static here: one place, one altitude, marked on the mountain's zone scale. Ground tint: the zone of its experience. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Waterfalls — Tanzania Nzuri</title>
+    <script>
+        /* Review palette only (designer furniture): ?palette=key, else the remembered one, else the direction's own.
+           There is no theme switch — the site is light, the way travel sites are. */
+        (function () {
+            try {
+                var pal = new URLSearchParams(window.location.search).get('palette') || localStorage.getItem('tn-palette');
+                if (pal && pal !== 'default') { document.documentElement.setAttribute('data-palette', pal); }
+            } catch (e) { /* the page still renders */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&family=Red+Hat+Text:wght@400;500;600;700&family=Red+Hat+Mono:wght@400;500;600&display=swap">
+    <style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--tx); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+.w { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+.ic { width: 20px; height: 20px; flex: none; }
+.mark { width: 32px; height: 32px; flex: none; }
+.mark-sun { fill: var(--acc); }
+.ph { position: relative; overflow: hidden; background: var(--ln); }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.burger { display: none; }
+@media (max-width: 1020px) { .nav { display: none; } .burger { display: inline-flex; } .hd-cta { display: none; } }
+@media (max-width: 640px) { .w { padding: 0 18px; } }
+
+/* ---- mobile chrome: drawer menu + sticky action bar + swipe rows ---- */
+.drawer { position: fixed; inset: 0; z-index: 60; background: var(--bg); color: var(--tx); padding: 14px 18px 24px;
+    display: flex; flex-direction: column; overflow-y: auto; transform: translateX(100%); visibility: hidden; transition: transform .3s ease, visibility .3s; }
+html.nav-open .drawer { transform: none; visibility: visible; }
+html.nav-open { overflow: hidden; }
+.drawer-top { display: flex; justify-content: space-between; align-items: center; min-height: 52px; }
+.drawer-x { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--ln); border-radius: 50%; }
+.drawer-lab { font: 600 10.5px/1 var(--sans, system-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin: 26px 0 12px; }
+.drawer-x-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.drawer-x-chips a { display: flex; align-items: center; gap: 10px; padding: 13px 14px; border: 1px solid var(--ln); border-radius: 14px; font-size: 14.5px; }
+.drawer-x-chips .ic { width: 20px; height: 20px; color: var(--acc); }
+.drawer-nav { display: flex; flex-direction: column; border-top: 1px solid var(--ln); }
+.drawer-nav a { display: flex; justify-content: space-between; align-items: center; padding: 16px 2px; border-bottom: 1px solid var(--ln); font: 400 22px/1.2 var(--display); }
+.drawer-nav .ic { width: 18px; height: 18px; color: var(--dim); }
+.drawer-cta { margin-top: 28px; display: grid; gap: 10px; }
+.drawer-cta a { height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 600; font-size: 15px; border: 1px solid var(--ln); }
+.drawer-cta a:first-child { background: var(--acc); color: var(--acc-tx); border-color: transparent; }
+.drawer-cta .ic { width: 20px; height: 20px; }
+.mbar { display: none; }
+@media (max-width: 760px) {
+    body { padding-bottom: 88px; }
+    .mbar { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 40; display: flex; gap: 8px;
+        padding: 7px; border-radius: 999px; background: var(--tx); box-shadow: 0 18px 40px -14px rgba(0,0,0,.55); }
+    .mbar a { height: 50px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 15px; }
+    .mbar .mb-pri { flex: 1; background: var(--acc); color: var(--acc-tx); }
+    .mbar .mb-wa { width: 50px; color: var(--bg); border: 1px solid color-mix(in srgb, var(--bg) 30%, transparent); }
+    .mbar .ic { width: 20px; height: 20px; }
+    .snap-m { display: flex !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px !important;
+        margin-left: -18px; margin-right: -18px; padding: 0 18px 4px; scrollbar-width: none; }
+    .snap-m::-webkit-scrollbar { display: none; }
+    .snap-m > * { flex: 0 0 84%; scroll-snap-align: start; scroll-margin-left: 18px; }
+    .hide-m { display: none !important; }
+}
+
+body { font: 14.5px/1.55 var(--sans); }
+[class$='-in'] > *, .hero-in > *, .band-in > *, .host > *, .quote > *, .trail > *, .kit > *, .designer > * { min-width: 0; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -.015em; line-height: 1.1; }
+h2 { font-size: 26px; font-weight: 700; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: var(--rb);
+    font: 700 13.5px/1 var(--sans); white-space: nowrap; border: 1px solid transparent; transition: .15s; cursor: pointer; }
+.btn .ic { width: 15px; height: 15px; }
+.btn-pri { background: var(--acc); color: var(--acc-tx); }
+.btn-pri:hover { filter: brightness(1.07); }
+.btn-ink { background: var(--ink); color: var(--on-ink); }
+.btn-line { border-color: var(--ln2); color: var(--tx); background: transparent; }
+.btn-line:hover { border-color: var(--tx); }
+
+.rl { display: flex; align-items: center; gap: 12px; font: 600 10.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+.rl::after { content: ""; flex: 1; height: 1px; background: var(--ln); }
+.pill { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px; border-radius: 99px; border: 1px solid var(--ln2);
+    font: 600 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+.pill.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); background: var(--okSoft); }
+.pill.acc { background: var(--acc); color: var(--acc-tx); border-color: transparent; }
+
+.sec { padding: 48px 0; }
+.sec + .sec { padding-top: 0; }
+.sec-hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; margin-bottom: 18px; }
+.sec-hd p { color: var(--dim); max-width: 640px; margin-top: 4px; }
+.more { font: 700 13px/1 var(--sans); display: inline-flex; gap: 6px; align-items: center; color: var(--tx); white-space: nowrap; padding-bottom: 3px; border-bottom: 2px solid var(--acc); }
+.more .ic { width: 14px; height: 14px; }
+
+.card { background: var(--paper); border: 1px solid var(--ln); border-radius: var(--r); overflow: hidden; transition: border-color .15s, opacity .25s; }
+a.card:hover { border-color: var(--ln2); }
+.cb { padding: 12px 14px; }
+.cf { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--ln); padding: 9px 14px; font: 500 10.5px/1.45 var(--mono); color: var(--faint); }
+.cf .ic { width: 14px; height: 14px; color: var(--tx); flex: none; }
+
+/* header */
+.hd { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--ln); }
+.hd-in { display: flex; align-items: center; gap: 28px; height: 56px; }
+.brand { display: flex; align-items: center; }
+.brand .logo { height: 46px; width: auto; display: block; }
+.brand .mark { width: 26px; height: 26px; }
+.brand b { font: 700 15px/1 var(--display); letter-spacing: -.01em; }
+.nav { display: flex; gap: 22px; font: 500 13.5px/1 var(--sans); }
+.nav a { color: var(--dim); padding: 21px 0 19px; border-bottom: 2px solid transparent; }
+.nav a:hover { color: var(--tx); border-bottom-color: var(--acc); }
+.hd-act { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.hd-wa { display: inline-flex; align-items: center; gap: 6px; font: 500 13px/1 var(--sans); color: var(--dim); }
+.hd-wa .ic { width: 16px; height: 16px; color: var(--ok); }
+.hd .btn { height: 34px; padding: 0 13px; font-size: 12.5px; }
+.burger { width: 38px; height: 38px; align-items: center; justify-content: center; border: 1px solid var(--ln2); border-radius: var(--rb); }
+
+/* interests filter experience cards */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px 0 9px; border-radius: 99px; background: var(--paper); border: 1px solid var(--ln2);
+    font: 600 10.5px/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; cursor: pointer; color: var(--tx); transition: .15s; }
+.chip .ic { width: 15px; height: 15px; color: var(--dim); }
+.chip em { font-style: normal; color: var(--faint); }
+.chip:hover { border-color: var(--tx); }
+.chip.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.chip.on .ic, .chip.on em { color: var(--acc-ink); }
+.chip-clear { font: 600 10.5px/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--dim); text-decoration: underline; text-underline-offset: 3px; padding: 0 6px; cursor: pointer; height: 32px; }
+.xgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.xcard .ph { aspect-ratio: 16/9; }
+.xcard .ph .pill { position: absolute; right: 10px; top: 10px; z-index: 2; background: rgba(12,10,8,.7); color: #fff; border-color: rgba(255,255,255,.2); }
+.xcard h3 { font: 700 15.5px/1.25 var(--sans); letter-spacing: -.005em; }
+.xcard .cb p { color: var(--dim); font-size: 13.5px; margin-top: 2px; }
+.xgrid.filtering .xcard { opacity: .35; }
+.xgrid.filtering .xcard.hit { opacity: 1; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.filter-cta { display: none; margin-top: 14px; padding: 10px 10px 10px 14px; background: var(--ink); color: var(--on-ink); border-radius: var(--r); align-items: center; gap: 14px; flex-wrap: wrap; }
+.filter-cta.show { display: flex; }
+.filter-cta p { flex: 1; font-size: 13.5px; }
+.filter-cta b { color: var(--acc-ink); font-family: var(--mono); }
+.filter-cta .btn { height: 34px; font-size: 12.5px; }
+
+/* guides */
+.guides { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.guide .ph { aspect-ratio: 1; }
+.guide .ph .pill { position: absolute; left: 8px; bottom: 8px; z-index: 2; background: rgba(12,10,8,.72); color: #fff; border-color: rgba(255,255,255,.2); }
+.guide .cb { padding: 10px 12px 11px; }
+.guide h3 { font: 700 14.5px/1.25 var(--sans); }
+.guide .meta { font: 500 10.5px/1.5 var(--mono); color: var(--faint); margin-top: 3px; }
+.guide.feature { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.guide.feature .ph { aspect-ratio: auto; min-height: 100%; }
+.guide.feature .cb { padding: 16px; display: flex; flex-direction: column; }
+.guide.feature .pill { align-self: flex-start; color: var(--acc-ink); border-color: color-mix(in srgb, var(--acc-ink) 45%, transparent); }
+.guide.feature q { display: block; font: 600 16px/1.45 var(--display); color: var(--on-ink); margin: 12px 0 auto; }
+.guide.feature q::before, .guide.feature q::after { color: var(--acc-ink); }
+.guide.feature h3 { color: var(--acc-ink); margin-top: 14px; }
+.guide.feature .meta { color: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+
+/* journeys with the real trip cost */
+.journeys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-items: start; }
+.jc .ph { aspect-ratio: 16/8; display: block; }
+.jc .ph .pill { position: absolute; left: 10px; top: 10px; z-index: 2; background: rgba(12,10,8,.72); color: #fff; border-color: rgba(255,255,255,.2); }
+.jc-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.jc h3 { font: 700 15.5px/1.25 var(--sans); }
+.fig { display: flex; align-items: baseline; gap: 7px; margin: 6px 0 8px; }
+.fig b { font: 600 22px/1 var(--mono); letter-spacing: -.04em; }
+.fig span { font-size: 12.5px; color: var(--dim); }
+.split { display: flex; height: 8px; gap: 2px; border-radius: 2px; overflow: hidden; }
+.split i { display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 7px; font: 500 10.5px/1.3 var(--mono); color: var(--dim); }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 7px; height: 7px; border-radius: 1.5px; }
+.jc .cb > p { color: var(--dim); font-size: 13.5px; margin-top: 10px; }
+.route { font: 500 10.5px/1.5 var(--mono); color: var(--faint); padding: 9px 14px; border-top: 1px solid var(--ln); }
+details.why { border-top: 1px solid var(--ln); }
+details.why summary { list-style: none; cursor: pointer; font: 700 12.5px/1 var(--sans); display: flex; justify-content: space-between; align-items: center; padding: 10px 14px 9px; }
+details.why summary::-webkit-details-marker { display: none; }
+details.why summary .ic { width: 14px; height: 14px; transition: transform .2s; transform: rotate(90deg); color: var(--dim); }
+details.why[open] summary .ic { transform: rotate(-90deg); }
+.lines { list-style: none; padding: 0 14px; font-size: 13px; }
+.lines li { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px dashed var(--ln); }
+.lines li i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.lines li b { margin-left: auto; font: 600 12px/1 var(--mono); }
+.incl { padding: 8px 14px 12px; font-size: 12.5px; color: var(--dim); }
+.incl b { color: var(--ok); }
+
+/* closing planner */
+.quick { display: grid; grid-template-columns: 1.4fr 1fr; background: var(--ink); color: var(--on-ink); border-radius: var(--r); overflow: hidden; }
+.quick-in { padding: 26px 30px; }
+.quick .rl { color: color-mix(in srgb, var(--on-ink) 62%, transparent); }
+.quick .rl::after { background: color-mix(in srgb, var(--on-ink) 14%, transparent); }
+.quick h2 { color: var(--on-ink); }
+.quick h2 span { color: var(--acc-ink); }
+.quick-in > p { color: color-mix(in srgb, var(--on-ink) 76%, transparent); margin: 4px 0 16px; }
+.qform { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field span { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+.field select { appearance: none; height: 40px; border-radius: var(--rb); border: 1px solid color-mix(in srgb, var(--on-ink) 20%, transparent); background: color-mix(in srgb, var(--on-ink) 6%, transparent);
+    color: var(--on-ink); font: 600 13.5px/1 var(--sans); padding: 0 28px 0 10px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--acc-ink) 50%), linear-gradient(135deg, var(--acc-ink) 50%, transparent 50%);
+    background-position: calc(100% - 15px) 18px, calc(100% - 11px) 18px; background-size: 4px 4px; background-repeat: no-repeat; }
+.field select option { color: #111; }
+.qform .btn-pri { background: var(--acc-ink); color: var(--acc-ink-tx); }
+.qnote { font: 500 10.5px/1.4 var(--mono); color: color-mix(in srgb, var(--on-ink) 55%, transparent); margin-top: 12px; }
+.quick > .ph { min-height: 100%; }
+
+/* footer */
+.ft { background: var(--ink); color: var(--on-ink); padding: 40px 0 22px; margin-top: 24px; }
+.ft .brand .logo { height: 56px; }
+.ft-top { display: grid; grid-template-columns: 1.3fr repeat(4, 1fr); gap: 28px; }
+.ft-c { font-size: 13px; color: color-mix(in srgb, var(--on-ink) 65%, transparent); margin-top: 12px; line-height: 1.6; }
+.ft-sig { font: 600 17px/1.3 var(--display); color: var(--acc-ink); margin-top: 14px; }
+.ft h4 { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--acc-ink); margin-bottom: 12px; }
+.ft ul { list-style: none; display: grid; gap: 7px; font-size: 13.5px; color: color-mix(in srgb, var(--on-ink) 75%, transparent); }
+.ft ul a:hover { color: var(--on-ink); }
+.ft-bot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 30px; padding-top: 16px; border-top: 1px solid color-mix(in srgb, var(--on-ink) 12%, transparent); font: 500 10.5px/1.4 var(--mono); color: color-mix(in srgb, var(--on-ink) 50%, transparent); }
+
+/* mobile chrome */
+.drawer { background: var(--bg); }
+.drawer-x { border-radius: var(--rb); width: 40px; height: 40px; }
+.drawer-lab { font: 600 10px/1 var(--mono); letter-spacing: .14em; margin: 22px 0 10px; }
+.drawer-x-chips a { border-radius: var(--r); font-weight: 600; font-size: 14px; padding: 11px 12px; background: var(--paper); }
+.drawer-nav a { font: 700 18px/1 var(--display); padding: 15px 2px 13px; }
+.drawer-cta a { border-radius: var(--rb); height: 48px; font-size: 14px; }
+@media (max-width: 760px) {
+    .mbar { background: var(--ink); border-radius: calc(var(--rb) + 6px); padding: 6px; }
+    .mbar a { height: 46px; border-radius: var(--rb); font-size: 14px; }
+    .mbar .mb-pri { background: var(--acc-ink); color: var(--acc-ink-tx); }
+    .mbar .mb-wa { width: 46px; color: var(--on-ink); border-color: color-mix(in srgb, var(--on-ink) 25%, transparent); }
+}
+
+@media (max-width: 1120px) {
+    .hd-wa { display: none; }
+    .nav { gap: 16px; }
+    .guides { grid-template-columns: repeat(4, 1fr); }
+    .guide.feature { grid-column: span 4; grid-template-columns: 200px 1fr; }
+}
+@media (max-width: 1020px) {
+    .nav, .hd-cta { display: none; }
+    .burger { display: inline-flex; }
+    .quick { grid-template-columns: 1fr; }
+    .quick > .ph { min-height: 200px; order: -1; }
+    .xgrid, .journeys { grid-template-columns: repeat(2, 1fr); }
+    .guides { grid-template-columns: repeat(2, 1fr); }
+    .guide.feature { grid-column: span 2; }
+    .qform { grid-template-columns: 1fr 1fr 1fr; }
+    .qform .btn { grid-column: 1 / -1; }
+    .ft-top { grid-template-columns: repeat(2, 1fr); }
+    .ft-top > div:first-child { grid-column: span 2; }
+    .sec-hd { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+@media (max-width: 760px) {
+    body { font-size: 15px; }
+    .hd-in { height: 54px; }
+    .brand .logo { height: 38px; }
+    .sec { padding: 34px 0; }
+    h2 { font-size: 22px; }
+    .filters { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px 12px; padding: 0 18px 2px; scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip { flex: none; }
+    .quick-in { padding: 20px 18px; }
+    .guides.snap-m > .guide { flex-basis: 46%; }
+    .guides.snap-m > .guide.feature { flex-basis: 88%; grid-template-columns: 1fr 1.2fr; }
+    .xgrid.snap-m > .xcard, .journeys.snap-m > .jc { flex-basis: 84%; }
+    .qform { grid-template-columns: 1fr 1fr; }
+    .qform .field:first-child { grid-column: 1 / -1; }
+    .qform .btn { height: 46px; }
+    .ft { margin-top: 20px; }
+}
+:root {
+    --bg: #e7ebe5;
+    --paper: #f8f9f8;
+    --raised: #e0e4de;
+    --tx: #1a2420;
+    --dim: #646c67;
+    --faint: #858b86;
+    --ln: rgba(26,36,32,0.11);
+    --ln2: rgba(26,36,32,0.22);
+    --ink: #22302a;
+    --ink-2: #38453f;
+    --on-ink: #eff2ee;
+    --acc: #6fa9c2;
+    --acc-tx: #141312;
+    --acc-ink: #6fa9c2;
+    --acc2: #9c6b8e;
+    --acc2-tx: #141312;
+    --ok: #2e7d46;
+    --okSoft: rgba(46,125,70,0.13);
+    --acc-ink-tx: #141312;
+    --wood: #22302a;
+    --wood-2: #38453f;
+    --on-wood: #eff2ee;
+    --sign: #6fa9c2;
+    --sign-ink: #141312;
+}
+
+:root { --display: "Red Hat Display", system-ui, sans-serif; --sans: "Red Hat Text", system-ui, sans-serif;
+    --mono: "Red Hat Mono", ui-monospace, Menlo, monospace; --r: 12px; --rb: 99px; }
+h1, h2 { font-weight: 800; letter-spacing: -.025em; }
+.chip { border-radius: 99px; }
+
+/* ZONES — each band carries its zone colour into the ground. */
+.zone { --z: #888; background: color-mix(in srgb, var(--bg) 91%, var(--z)); border-top: 1px solid color-mix(in srgb, var(--z) 30%, transparent); }
+.zone .sec { padding: 40px 0; }
+.zone .sec + .sec { padding-top: 0; }
+.zone .card, .zone .filters .chip { background: color-mix(in srgb, var(--paper) 94%, var(--z)); }
+.zone .guide.feature { background: var(--ink); }
+.zone .filters .chip.on { background: var(--ink); }
+.zh { display: flex; align-items: center; gap: 12px; padding-top: 22px; font: 500 10.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+.zh i { width: 12px; height: 12px; border-radius: 3px; background: var(--z); flex: none; }
+.zh b { color: var(--tx); font-weight: 600; }
+.zh em { font-style: normal; text-transform: none; letter-spacing: 0; font: 400 13px/1.3 var(--sans); color: var(--dim); }
+.zh::after { content: ""; flex: 1; height: 1px; background: color-mix(in srgb, var(--z) 35%, transparent); order: 3; }
+.zh .alt { order: 4; color: var(--tx); font-weight: 600; letter-spacing: .02em; }
+
+/* the altimeter: a rail on wide screens, a bar under the header on narrow ones */
+.rail { position: fixed; z-index: 25; top: 50%; transform: translateY(-50%); left: max(10px, calc(50% - 620px - 74px)); width: 54px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.rail-read { font: 600 11px/1.1 var(--mono); text-align: center; color: var(--tx); background: var(--paper); border: 1px solid var(--ln); border-radius: 8px; padding: 6px 4px; width: 100%; }
+.rail-read small { display: block; font-size: 8.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-top: 3px; font-weight: 500; }
+.rail-track { position: relative; width: 6px; height: 46vh; border-radius: 3px; overflow: hidden; display: flex; flex-direction: column-reverse; }
+.rail-track span { display: block; }
+.rail-mark { position: absolute; left: 50%; width: 16px; height: 16px; border-radius: 50%; background: var(--acc); border: 3px solid var(--paper); box-shadow: 0 0 0 1px var(--ln2); transform: translate(-50%, 50%); transition: bottom .15s linear; }
+.rail-wrap { position: relative; }
+.rail-top, .rail-bot { font: 500 9px/1 var(--mono); color: var(--faint); }
+.abar { display: none; position: sticky; top: 54px; z-index: 24; background: var(--paper); border-bottom: 1px solid var(--ln); }
+.abar-in { display: flex; align-items: center; gap: 10px; height: 34px; font: 500 11px/1 var(--mono); }
+.abar-in b { font-weight: 600; }
+.abar-z { color: var(--dim); text-transform: uppercase; letter-spacing: .08em; font-size: 10px; }
+.abar-track { flex: 1; height: 4px; border-radius: 2px; background: var(--ln); overflow: hidden; }
+.abar-fill { height: 100%; width: 0; background: var(--acc); }
+
+/* hero — base of the mountain */
+.hero { padding: 12px 0 38px; }
+.hero-in { display: grid; grid-template-columns: 1fr 1.1fr; gap: 36px; align-items: center; margin-top: 22px; }
+.hero h1 { font-size: 62px; line-height: .96; margin-bottom: 14px; }
+.hero h1 span { color: color-mix(in srgb, var(--acc) 70%, var(--tx)); }
+.hero .lede { font-size: 16px; color: var(--dim); max-width: 470px; }
+.hero .cta { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+.hero .cta .btn { height: 44px; }
+.ascent { display: flex; align-items: center; gap: 12px; margin-top: 24px; padding: 10px 12px; border-radius: var(--r); background: var(--paper); border: 1px solid var(--ln); max-width: 470px; }
+.ascent .prof { flex: 1; height: 34px; }
+.ascent small { font: 500 10.5px/1.35 var(--mono); color: var(--dim); }
+.ascent b { color: var(--tx); font-weight: 600; }
+.hero-ph { position: relative; }
+.hero-ph .ph { aspect-ratio: 5/4; border-radius: 18px; }
+.hero-ph .say { position: absolute; left: 14px; bottom: 14px; background: var(--paper); border-radius: 10px; padding: 10px 14px; box-shadow: 0 14px 34px -14px rgba(0,0,0,.45); }
+.hero-ph .say b { font: 800 18px/1.1 var(--display); display: block; }
+.hero-ph .say small { font: 500 10.5px/1.3 var(--mono); color: var(--dim); }
+
+/* rainforest — the trip designer as a trail */
+.trail { display: grid; grid-template-columns: 300px 1fr; gap: 14px; }
+.trail > .ph { border-radius: var(--r); min-height: 100%; }
+.trail .card { padding: 20px 22px; }
+.trail h2 span { color: var(--z); }
+.trail .card > p { color: var(--dim); margin: 6px 0 18px; max-width: 560px; }
+.stages { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; position: relative; margin-bottom: 18px; }
+.stages::before { content: ""; position: absolute; left: 12px; right: 12px; top: 11px; border-top: 2px dashed color-mix(in srgb, var(--z) 55%, transparent); }
+.stage { position: relative; }
+.stage b { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--z); color: #fff; font: 600 11px/1 var(--mono); position: relative; }
+.stage span { display: block; font-size: 12.5px; line-height: 1.35; margin-top: 8px; }
+.stage small { font: 500 10px/1 var(--mono); color: var(--faint); display: block; margin-top: 3px; }
+
+/* moorland — the ascent log */
+.log { position: relative; }
+.log a { display: grid; grid-template-columns: 92px 22px 150px 1fr 190px 32px; gap: 14px; align-items: center; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--ln); }
+.log a:hover { background: color-mix(in srgb, var(--paper) 60%, transparent); }
+.log .alt { text-align: right; font: 600 17px/1 var(--mono); letter-spacing: -.02em; }
+.log .alt small { display: block; font: 500 9.5px/1 var(--mono); color: var(--faint); letter-spacing: .06em; margin-top: 4px; text-transform: uppercase; }
+.log .dot { position: relative; height: 100%; display: flex; justify-content: center; align-items: center; }
+.log .dot::before { content: ""; position: absolute; top: -10px; bottom: -11px; width: 2px; background: color-mix(in srgb, var(--z) 55%, transparent); }
+.log a:first-child .dot::before { top: 50%; }
+.log a:last-child .dot::before { bottom: 50%; }
+.log .dot i { width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 3px solid var(--z); position: relative; }
+.log a:last-child .dot i { background: var(--acc); border-color: var(--tx); }
+.log .ph { aspect-ratio: 16/9; border-radius: 8px; }
+.log h3 { font: 700 15.5px/1.25 var(--sans); }
+.log p { color: var(--dim); font-size: 13px; margin-top: 2px; }
+.log .when { font: 500 11px/1.4 var(--mono); color: var(--dim); }
+.log .when b { display: block; color: var(--tx); font-weight: 600; font-size: 12px; }
+.log .go { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--ln2); display: grid; place-items: center; }
+.log .go .ic { width: 15px; height: 15px; }
+
+/* alpine desert — what we carry for you */
+.kit { display: grid; grid-template-columns: 360px 1fr; gap: 14px; }
+.kit > .card { display: flex; flex-direction: column; }
+.kit > .card .ph { aspect-ratio: 16/10; }
+.kit > .card .cb h3 { font: 700 16px/1.3 var(--sans); }
+.kit > .card .cb p { color: var(--dim); font-size: 13.5px; margin-top: 4px; }
+.kitlist { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.kitlist .card { padding: 14px; }
+.kitlist .card > span { display: inline-flex; width: 30px; height: 30px; border-radius: 50%; align-items: center; justify-content: center; background: color-mix(in srgb, var(--z) 22%, transparent); color: var(--tx); }
+.kitlist .ic { width: 16px; height: 16px; }
+.kitlist h3 { font: 700 14.5px/1.25 var(--sans); margin: 10px 0 3px; }
+.kitlist p { color: var(--dim); font-size: 13px; line-height: 1.45; }
+
+.summit-ft { background: var(--ink); color: var(--on-ink); }
+.summit-ft .zh { color: color-mix(in srgb, var(--on-ink) 60%, transparent); padding: 18px 0 0; }
+.summit-ft .zh b, .summit-ft .zh .alt { color: var(--on-ink); }
+.summit-ft .zh em { color: color-mix(in srgb, var(--on-ink) 65%, transparent); }
+.ft { margin-top: 0; }
+
+@media (max-width: 1340px) { .rail { display: none; } .abar { display: block; } }
+@media (max-width: 1120px) { .log a { grid-template-columns: 80px 22px 130px 1fr 32px; } .log .when { display: none; } }
+@media (max-width: 1020px) {
+    .hero-in, .trail, .kit { grid-template-columns: 1fr; }
+    .trail > .ph { min-height: 200px; }
+    .stages { grid-template-columns: repeat(3, 1fr); row-gap: 16px; }
+    .stages::before { display: none; }
+    .kitlist { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+    .zh { flex-wrap: wrap; row-gap: 6px; padding-top: 16px; }
+    .zh em { order: 5; width: 100%; }
+    .zh::after { display: none; }
+    .zone .sec { padding: 28px 0; }
+    .hero-in { gap: 18px; margin-top: 14px; }
+    .hero-ph { order: -1; }
+    .hero h1 { font-size: 42px; }
+    .hero .lede { font-size: 15px; }
+    .hero .cta { flex-direction: column; }
+    .hero .cta .btn { width: 100%; }
+    .trail .card { padding: 16px; }
+    .stages { grid-template-columns: 1fr 1fr; }
+    .trail .btn { width: 100%; }
+    .log a { grid-template-columns: 64px 18px 1fr 28px; gap: 10px; padding-right: 0; }
+    .log .ph { display: none; }
+    .log .alt { font-size: 14px; }
+    .log h3 { font-size: 14.5px; }
+    .log .go { width: 28px; height: 28px; }
+    .kitlist { grid-template-columns: 1fr; gap: 8px; }
+    .kitlist .card { display: grid; grid-template-columns: 30px 1fr; gap: 0 12px; padding: 12px; }
+    .kitlist .card > span { grid-row: span 2; }
+    .kitlist h3 { margin: 0 0 2px; }
+}
+
+/* ---- inner-page chrome: the zone header strip is the page header band ---- */
+.phd { padding: 20px 0 32px; }
+.phd-in { display: grid; grid-template-columns: 1.1fr .9fr; gap: 34px; align-items: center; }
+.phd.solo .phd-in { grid-template-columns: 1fr; max-width: 780px; }
+.crumb { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; font: 500 10.5px/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-bottom: 14px; }
+.crumb a:hover { color: var(--tx); }
+.crumb i { font-style: normal; opacity: .55; }
+.phd h1 { font-size: 44px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.phd h1 span { color: color-mix(in srgb, var(--acc) 70%, var(--tx)); }
+.phd .lede { font-size: 15.5px; color: var(--dim); margin-top: 12px; max-width: 620px; }
+.phd .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.phd .cta { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+.phd-ph .ph { aspect-ratio: 3/2; border-radius: 16px; }
+
+main { min-height: 62vh; display: flex; flex-direction: column; }
+main > .zone:only-child { flex: 1; }
+
+/* ---- generic grids ---- */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.side { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+.stick { position: sticky; top: 74px; }
+.pad { padding: 18px; }
+.pad-s { padding: 14px; }
+.hr { height: 1px; background: var(--ln); margin: 18px 0; }
+
+/* ---- facts: a mono key/value list, the card that carries information ---- */
+.facts { list-style: none; font: 500 11px/1.5 var(--mono); }
+.facts li { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; border-top: 1px dashed var(--ln); }
+.facts li:first-child { border-top: 0; padding-top: 0; }
+.facts span { color: var(--dim); text-transform: uppercase; letter-spacing: .07em; font-size: 10px; }
+.facts b { font-weight: 600; text-align: right; }
+
+/* ---- comparison table ---- */
+.tbl-wrap { overflow-x: auto; scrollbar-width: none; }
+.tbl-wrap::-webkit-scrollbar { display: none; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.tbl th { text-align: left; font: 600 10px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); padding: 0 12px 9px; border-bottom: 1px solid var(--ln2); white-space: nowrap; }
+.tbl td { padding: 12px; border-bottom: 1px solid var(--ln); vertical-align: top; }
+.tbl tbody tr:hover td { background: color-mix(in srgb, var(--paper) 65%, transparent); }
+.tbl .t-n { font: 700 14.5px/1.2 var(--sans); display: block; }
+.tbl .t-n + small { font: 500 10.5px/1.4 var(--mono); color: var(--faint); }
+.tbl .num { font: 600 13.5px/1 var(--mono); }
+.stars { font-size: 11px; letter-spacing: 1.5px; color: var(--acc); white-space: nowrap; }
+.stars em { color: var(--ln2); font-style: normal; }
+
+/* ---- long-form article ---- */
+.art-in { display: grid; grid-template-columns: 210px 1fr; gap: 34px; align-items: start; }
+.toc { position: sticky; top: 74px; }
+.toc h4 { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 10px; }
+.toc a { display: block; padding: 6px 0 6px 12px; border-left: 2px solid var(--ln); font-size: 12.5px; line-height: 1.35; color: var(--dim); }
+.toc a:hover { color: var(--tx); border-left-color: var(--acc); }
+.prose { max-width: 68ch; }
+.prose > p { margin-bottom: 13px; }
+.prose h2 { font-size: 22px; margin: 30px 0 9px; scroll-margin-top: 80px; }
+.prose h3 { font-size: 16.5px; font-weight: 700; margin: 22px 0 6px; }
+.prose ul, .prose ol { margin: 0 0 14px 20px; display: grid; gap: 6px; color: var(--dim); }
+.prose li strong { color: var(--tx); }
+.prose .note { border-left: 3px solid var(--acc); padding: 2px 0 2px 14px; color: var(--dim); margin: 16px 0; }
+
+/* ---- migration calendar ---- */
+.cal { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; margin-top: 10px; }
+.cal > div { display: flex; flex-direction: column; gap: 4px; }
+.cal span { font: 500 9px/1 var(--mono); text-align: center; color: var(--faint); text-transform: uppercase; }
+.cal i { height: 26px; border-radius: 3px; display: block; }
+.cal-key { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 9px; font: 500 10.5px/1.3 var(--mono); color: var(--dim); }
+.cal-key span { display: inline-flex; align-items: center; gap: 5px; }
+.cal-key i { width: 8px; height: 8px; border-radius: 2px; }
+
+/* ---- day-by-day / camp list (the ascent log, without the link) ---- */
+.days .d { display: grid; grid-template-columns: 74px 22px 1fr 120px; gap: 14px; align-items: start; padding: 13px 14px 13px 0; border-bottom: 1px solid var(--ln); }
+.days .d:last-child { border-bottom: 0; }
+.days .n { font: 600 10px/1.4 var(--mono); letter-spacing: .09em; text-transform: uppercase; color: var(--dim); padding-top: 3px; }
+.days .dot { position: relative; align-self: stretch; display: flex; justify-content: center; padding-top: 4px; }
+.days .dot::before { content: ""; position: absolute; top: -14px; bottom: -14px; width: 2px; background: color-mix(in srgb, var(--z) 55%, transparent); }
+.days .d:first-child .dot::before { top: 10px; }
+.days .d:last-child .dot::before { bottom: calc(100% - 10px); }
+.days .dot i { width: 11px; height: 11px; border-radius: 50%; background: var(--paper); border: 3px solid var(--z); position: relative; }
+.days .d.top .dot i { background: var(--acc); border-color: var(--tx); }
+.days h3 { font: 700 15px/1.3 var(--sans); }
+.days p { color: var(--dim); font-size: 13.5px; margin-top: 3px; }
+.days .alt { text-align: right; font: 600 15px/1 var(--mono); letter-spacing: -.02em; padding-top: 1px; }
+.days .alt small { display: block; font: 500 9.5px/1 var(--mono); color: var(--faint); letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+
+/* ---- real trip cost ---- */
+.cost { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cost .fig b { font-size: 30px; }
+.inc { list-style: none; display: grid; gap: 7px; font-size: 13.5px; }
+.inc li { display: flex; gap: 9px; align-items: flex-start; }
+.inc .ic { width: 15px; height: 15px; margin-top: 2px; color: var(--ok); }
+.inc.no .ic { color: var(--faint); }
+.inc.no li { color: var(--dim); }
+.why-tbl { list-style: none; font-size: 13.5px; }
+.why-tbl li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px dashed var(--ln); }
+.why-tbl li:first-child { border-top: 0; }
+.why-tbl i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.why-tbl b { margin-left: auto; font: 600 12.5px/1 var(--mono); }
+.why-tbl em { font-style: normal; font: 500 10.5px/1 var(--mono); color: var(--faint); width: 34px; text-align: right; }
+
+/* ---- gallery ---- */
+.gal { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 150px 150px; gap: 8px; }
+.gal .ph { border-radius: var(--r); min-height: 0; }
+.gal .ph:first-child { grid-row: span 2; }
+.gal .ph:nth-child(4) { grid-column: span 2; }
+
+/* ---- forms on the light ground ---- */
+.fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fl { display: flex; flex-direction: column; gap: 6px; }
+.fl.wide { grid-column: 1 / -1; }
+.fl > span { font: 600 9.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+.fl input, .fl select, .fl textarea { height: 42px; border-radius: 10px; border: 1px solid var(--ln2); background: var(--paper); color: var(--tx);
+    font: 500 13.5px/1 var(--sans); padding: 0 12px; width: 100%; }
+.fl textarea { height: auto; min-height: 96px; padding: 10px 12px; line-height: 1.5; resize: vertical; }
+.fl select { appearance: none; padding-right: 30px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--dim) 50%), linear-gradient(135deg, var(--dim) 50%, transparent 50%);
+    background-position: calc(100% - 16px) 19px, calc(100% - 12px) 19px; background-size: 4px 4px; background-repeat: no-repeat; }
+.fl input:focus, .fl select:focus, .fl textarea:focus { outline: 2px solid var(--acc); outline-offset: -1px; }
+.opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.opts .chip { text-transform: none; letter-spacing: .02em; font-family: var(--sans); font-size: 13px; font-weight: 600; }
+.fnote { font: 500 10.5px/1.5 var(--mono); color: var(--faint); }
+
+/* ---- wizard ---- */
+.wiz { max-width: 820px; margin: 0 auto; }
+.wiz-top { display: flex; align-items: center; gap: 12px; font: 600 10.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-bottom: 10px; }
+.wiz-bar { flex: 1; height: 4px; border-radius: 2px; background: var(--ln); overflow: hidden; }
+.wiz-bar i { display: block; height: 100%; background: var(--acc); transition: width .25s; }
+.wiz-step { display: none; }
+.wiz-step.on { display: block; }
+.wiz-step h2 { margin-bottom: 4px; }
+.wiz-step > p { color: var(--dim); margin-bottom: 16px; }
+.wiz-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.wiz-opt { display: flex; align-items: center; gap: 9px; padding: 13px 14px; border: 1px solid var(--ln2); border-radius: var(--r); background: var(--paper);
+    font: 600 13.5px/1.25 var(--sans); text-align: left; transition: .15s; }
+.wiz-opt:hover { border-color: var(--tx); }
+.wiz-opt.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.wiz-opt .ic { width: 18px; height: 18px; color: var(--acc); flex: none; }
+.wiz-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 20px; }
+
+/* ---- three promises ---- */
+.prom { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.prom .card { padding: 20px; }
+.prom .n { font: 600 10.5px/1 var(--mono); letter-spacing: .14em; color: var(--dim); }
+.prom h3 { font: 800 21px/1.1 var(--display); letter-spacing: -.02em; margin: 12px 0 6px; }
+.prom p { color: var(--dim); font-size: 13.5px; }
+
+/* ---- small article / link cards ---- */
+.lcard { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--ln); }
+.lcard:last-child { border-bottom: 0; }
+.lcard:hover { background: color-mix(in srgb, var(--paper) 60%, transparent); }
+.lcard b { font: 600 14px/1.3 var(--sans); }
+.lcard small { display: block; font: 500 10.5px/1.4 var(--mono); color: var(--faint); margin-top: 2px; }
+.lcard .ic { width: 15px; height: 15px; color: var(--dim); flex: none; }
+
+/* ---- team ---- */
+.tcard .ph { aspect-ratio: 4/5; }
+.tcard h3 { font: 700 16px/1.25 var(--sans); }
+.tcard .meta { font: 500 10.5px/1.6 var(--mono); color: var(--faint); margin-top: 4px; }
+.tprof { display: grid; grid-template-columns: 300px 1fr; gap: 24px; align-items: start; }
+.tprof > .ph { aspect-ratio: 4/5; border-radius: var(--r); }
+.tprof q { display: block; font: 600 18px/1.45 var(--display); margin: 0 0 14px; }
+.tprof q::before, .tprof q::after { color: var(--acc); }
+
+/* ---- filter bar for the journeys listing ---- */
+.fbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end; }
+.fcount { font: 500 10.5px/1 var(--mono); color: var(--dim); margin-top: 14px; text-transform: uppercase; letter-spacing: .08em; }
+.jhide { display: none !important; }
+.empty { display: none; text-align: center; padding: 40px 20px; }
+.empty.on { display: block; }
+
+/* ---- the static altimeter reading (a page with one altitude, not a climb) ---- */
+.rail-mark.fixed { transition: none; }
+.rail-note { font: 500 9px/1.3 var(--mono); color: var(--faint); text-align: center; }
+
+/* ---- 404 ---- */
+.oops { text-align: center; padding: 60px 0 40px; }
+.oops h1 { font-size: 64px; font-weight: 800; letter-spacing: -.04em; }
+.oops p { color: var(--dim); max-width: 460px; margin: 12px auto 20px; }
+.oops .cta { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 1120px) {
+    .side { grid-template-columns: 1fr 300px; }
+    .art-in { grid-template-columns: 180px 1fr; gap: 24px; }
+    .g4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 1020px) {
+    .phd-in, .side, .art-in, .cost, .tprof, .g3 { grid-template-columns: 1fr; }
+    .phd h1 { font-size: 38px; }
+    .phd-ph { order: -1; }
+    .toc { position: static; }
+    .toc a { display: inline-block; border: 1px solid var(--ln); border-radius: 99px; padding: 6px 11px; margin: 0 4px 4px 0; }
+    .toc a:hover { border-color: var(--tx); }
+    .wiz-opts { grid-template-columns: repeat(2, 1fr); }
+    .fbar { grid-template-columns: 1fr 1fr; }
+    .prom { grid-template-columns: 1fr; }
+    .tprof > .ph { max-width: 300px; }
+    .gal { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 130px 130px; }
+    .gal .ph:first-child { grid-column: span 2; grid-row: auto; }
+    .gal .ph:nth-child(4) { grid-column: auto; }
+}
+@media (max-width: 760px) {
+    .phd { padding: 14px 0 24px; }
+    .phd h1 { font-size: 31px; }
+    .phd .lede { font-size: 14.5px; }
+    .phd .cta { flex-direction: column; }
+    .phd .cta .btn { width: 100%; }
+    .g2, .g4, .fgrid { grid-template-columns: 1fr; }
+    .cal { grid-template-columns: repeat(6, 1fr); }
+    .days .d { grid-template-columns: 58px 18px 1fr; gap: 10px; padding-right: 0; }
+    .days .alt { grid-column: 3; text-align: left; font-size: 13px; display: flex; gap: 8px; align-items: baseline; padding-top: 6px; }
+    .days .alt small { margin: 0; }
+    .prose h2 { font-size: 19px; }
+    .art-in { gap: 18px; }
+    .tbl { display: block; }
+    .tbl thead { display: none; }
+    .tbl tbody, .tbl tr, .tbl td { display: block; width: 100%; }
+    .tbl tr { border: 1px solid var(--ln); border-radius: var(--r); background: var(--paper); padding: 4px 0; margin-bottom: 10px; }
+    .tbl td { border-bottom: 1px dashed var(--ln); padding: 8px 12px; display: flex; justify-content: space-between; gap: 14px; text-align: right; }
+    .tbl td:last-child { border-bottom: 0; text-align: right; }
+    .tbl td::before { content: attr(data-l); font: 600 10px/1.5 var(--mono); letter-spacing: .09em; text-transform: uppercase; color: var(--dim); text-align: left; flex: none; }
+    .tbl td.full { display: block; text-align: left; }
+    .tbl td.full::before { display: block; margin-bottom: 3px; }
+    .wiz-opts { grid-template-columns: 1fr; }
+    .fbar { grid-template-columns: 1fr; }
+    .oops h1 { font-size: 44px; }
+    .tprof > .ph { max-width: none; }
+    .gal { grid-template-columns: 1fr 1fr; grid-template-rows: 170px 110px 110px; }
+    .gal .ph:first-child { grid-column: span 2; }
+}
+
+    </style>
+    <link rel="stylesheet" href="../../../../../assets/palettes.css">
+    <script src="../../../../../assets/palettes.js"></script>
+    <script src="../../../../../assets/designer.js" defer></script>
+    <script src="../../../../../assets/lightbox.js" defer></script>
+</head>
+<body>
+<div class="drawer" role="dialog" aria-label="Menu"><div class="drawer-top"><a class="brand" href="../../../index.html"><img class="logo" src="../../../../../assets/logo.png" alt="Tanzania Nzuri"></a><button class="drawer-x" data-drawer aria-label="Close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="drawer-lab">Explore Tanzania</p><div class="drawer-x-chips"><a href="../../../experiences/wildlife/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13c-3 0-5.5 3-5.5 5.2 0 1.8 2 2.8 5.5 2.8s5.5-1 5.5-2.8C17.5 16 15 13 12 13z"/><circle cx="5.5" cy="10" r="2"/><circle cx="18.5" cy="10" r="2"/><circle cx="9" cy="5.5" r="2"/><circle cx="15" cy="5.5" r="2"/></svg>Wildlife</a><a href="../../../experiences/summit/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2.5 20 7-12 4 6.5 2.5-4 5.5 9.5z"/><path d="m7.6 11.3 1.9-3.3 2 3.1"/></svg>Mountains</a><a href="../../../experiences/culture/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.5 14h1a5.5 5.5 0 0 1 5.5 5.5V21"/><path d="M16 4.2a3 3 0 0 1 0 5.6M21 21v-1.5a5.5 5.5 0 0 0-3.2-5"/></svg>Culture</a><a href="../../../experiences/adventure/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20c0-9 5.5-15 15-15 0 10-6 15-14 15"/><path d="M5 20 13.5 11.5"/></svg>Adventure</a><a href="../../../experiences/beach/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20c2-1.4 4-1.4 6 0s4 1.4 6 0 4-1.4 6 0"/><path d="M12 16.5V8"/><path d="M12 8C10 5 6 5 4 7c3 0 5 1 8 1zM12 8c2-3 6-3 8-1-3 0-5 1-8 1zM12 8c-1-2.2-.6-4.3 1.2-5.4"/></svg>Beach</a><a href="../../../experiences/complete/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg>Complete</a></div><p class="drawer-lab">Plan</p><nav class="drawer-nav"><a href="../../../journeys/index.html">Journeys<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../kilimanjaro/index.html">Kilimanjaro<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../travel-guide/index.html">Travel Guide<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../team/index.html">Our Guides<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="../../../about/index.html">About<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></nav><div class="drawer-cta"><a href="../../../build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="https://wa.me/255000000000"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg> WhatsApp our team</a></div></div><div class="mbar"><a class="mb-pri" href="../../../build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="mb-wa" href="https://wa.me/255000000000" aria-label="WhatsApp"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg></a></div>
+<header class="hd"><div class="w hd-in"><a class="brand" href="../../../index.html"><img class="logo" src="../../../../../assets/logo.png" alt="Tanzania Nzuri"></a><nav class="nav"><a href="../../../experiences/index.html" class="on">Experiences</a><a href="../../../journeys/index.html">Journeys</a><a href="../../../kilimanjaro/index.html">Kilimanjaro</a><a href="../../../travel-guide/index.html">Travel Guide</a><a href="../../../team/index.html">Our Guides</a><a href="../../../about/index.html">About</a></nav><div class="hd-act"><a class="hd-wa" href="https://wa.me/255000000000"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg>WhatsApp</a><a class="btn btn-pri hd-cta" href="../../../build-my-journey/index.html">Build my journey</a><button class="burger" data-drawer aria-label="Menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>
+<div class="abar"><div class="w abar-in"><span class="abar-z" data-alt-z>Waterfalls</span><b data-alt-m>1,800 m</b><div class="abar-track"><div class="abar-fill" data-alt-fill style="width:19.6%"></div></div><span>5,895 m</span></div></div><aside class="rail" aria-hidden="true"><div class="rail-read"><span data-alt-m2>1,800 m</span><small data-alt-z2>Waterfalls</small></div><span class="rail-top">5,895</span><div class="rail-wrap"><div class="rail-track"><span style="height:19.63%;background:#8c9a3e"></span><span style="height:19.63%;background:#2f6b4a"></span><span style="height:23.55%;background:#9a6d8d"></span><span style="height:19.63%;background:#9b8b74"></span><span style="height:17.57%;background:#6ea9c9"></span></div><div class="rail-mark fixed" data-alt-mark style="bottom:19.63%"></div></div><span class="rail-bot">800</span><span class="rail-note">Rainforest</span></aside>
+<main>
+<div class="zone" style="--z:#2f6b4a"><div class="w"><div class="zh"><i></i><span>Zone 2 · <b>Rainforest</b></span><em>This place sits in the rainforest zone.</em><span class="alt">1,800–2,800 m</span></div></div><section class="phd solo"><div class="w"><div class="phd-in"><div><div class="crumb"><a href="../../../index.html">Home</a><i>/</i><a href="../../../experiences/index.html">Experiences</a><i>/</i><a href="../../../experiences/adventure/index.html">The Adventure</a><i>/</i><span>Waterfalls</span></div><h1>Waterfalls.</h1><p class="lede">Materuni: an hour's walk through the coffee farms, a seventy-metre fall and a very cold pool.</p><div class="meta"><span class="pill">1,800 m</span><span class="pill">Best All year</span><span class="pill">The Adventure</span></div><div class="cta"><a class="btn btn-pri" href="../../../build-my-journey/index.html?interest=adventure">Add Waterfalls to my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-line" href="https://wa.me/255000000000">Ask a guide</a></div></div></div></div></section><section class="sec"><div class="w"><div class="gal"><div class="ph"><img src="../../../../../assets/photos/waterfall.jpg" alt="Waterfalls — 1" loading="lazy"></div><div class="ph"><img src="../../../../../assets/photos/rainforest-trail.jpg" alt="Waterfalls — 2" loading="lazy"></div><div class="ph"><img src="../../../../../assets/photos/chemka-hot-springs.jpg" alt="Waterfalls — 3" loading="lazy"></div><div class="ph"><img src="../../../../../assets/photos/chagga-hut.jpg" alt="Waterfalls — 4" loading="lazy"></div></div></div></section><section class="sec"><div class="w"><div class="side"><div><p class="rl">What you do here</p><div class="sec-hd"><div><h2>Four things worth the day.</h2></div></div><div class="g2"><div class="card pad"><h3 style="font:700 15px/1.3 var(--sans)">Walk up through the shambas</h3><p style="color:var(--dim);font-size:13.5px;margin-top:5px">An hour through coffee, banana and cardamom on Chagga farm paths above Moshi.</p></div><div class="card pad"><h3 style="font:700 15px/1.3 var(--sans)">Seventy metres of Materuni</h3><p style="color:var(--dim);font-size:13.5px;margin-top:5px">The fall comes off the forest edge into a pool you can swim in — bring shoes you can get wet.</p></div><div class="card pad"><h3 style="font:700 15px/1.3 var(--sans)">Coffee on the way back</h3><p style="color:var(--dim);font-size:13.5px;margin-top:5px">Pick, pulp, roast and pound your own on the farm, with the song that goes with it.</p></div><div class="card pad"><h3 style="font:700 15px/1.3 var(--sans)">Half a day, any fitness</h3><p style="color:var(--dim);font-size:13.5px;margin-top:5px">Steep in places and slippery after rain, but short. The best first or last day of a trip.</p></div></div><div class="hr"></div><p class="rl">Best time to come</p><div class="card pad"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Season</th><th>Months</th><th>What it means</th></tr></thead><tbody><tr><td data-l="Season" class="full"><span class="t-n">All year</span></td><td data-l="Months"><span class="num">Jan–Dec</span></td><td data-l="What it means">Fullest after the rains, Apr–Jun</td></tr></tbody></table></div></div></div><aside class="stick"><div class="card pad"><ul class="facts"><li><span>Altitude</span><b>1,800 m</b></li><li><span>Where</span><b>Materuni, above Moshi</b></li><li><span>Best time</span><b>All year</b></li><li><span>Experience</span><b>The Adventure</b></li><li><span>Zone</span><b>Rainforest</b></li></ul></div><div class="card pad" style="margin-top:12px"><p class="rl">Guides who know it</p><a class="lcard" href="../../../team/hamis-bakari/index.html"><span><b>Hamis Bakari</b><small>Mountain Guide · 14 yrs</small></span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="lcard" href="../../../team/rekhan-boniface/index.html"><span><b>Rekhan Boniface</b><small>Safari Guide · 9 yrs</small></span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></aside></div></div></section><section class="sec"><div class="w"><p class="rl">Journeys that include it</p><div class="sec-hd"><div><h2>Waterfalls on a real itinerary.</h2><p>Day-by-day, with the cost broken down line by line.</p></div><a class="more" href="../../../journeys/index.html">All journeys <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><div class="journeys snap-m"><article class="card jc"><a href="../../../journeys/mountain-to-zanzibar/index.html" class="ph"><img src="../../../../../assets/photos/zanzibar-loungers.jpg" alt="Mountain to Zanzibar" loading="lazy"><span class="pill">12 days</span></a><div class="cb"><div class="jc-h"><h3><a href="../../../journeys/mountain-to-zanzibar/index.html">Mountain to Zanzibar</a></h3><span class="pill ok">Private</span></div><div class="fig"><b>$5,480</b><span>per person, park fees in</span></div><div class="split" aria-label="Cost split"><i style="flex:30;background:var(--acc)" title="Park fees 30%"></i><i style="flex:30;background:color-mix(in srgb, var(--acc) 70%, var(--ink))" title="Accommodation 30%"></i><i style="flex:12;background:color-mix(in srgb, var(--acc) 45%, var(--ink))" title="Flights 12%"></i><i style="flex:12;background:color-mix(in srgb, var(--acc2) 70%, var(--ink))" title="Vehicle 12%"></i><i style="flex:9;background:color-mix(in srgb, var(--acc2) 40%, var(--ink))" title="Guide 9%"></i><i style="flex:7;background:var(--ink)" title="Operations 7%"></i></div><div class="legend"><span><i style="background:var(--acc)"></i>Park fees 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation 30%</span><span><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Flights 12%</span></div><p>Designed for travelers who want the complete Tanzania experience.</p></div><div class="route">Kilimanjaro → Serengeti → Stone Town → Nungwi</div><details class="why"><summary>Why $5,480?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lines"><li><i style="background:var(--acc)"></i>Park fees<b>$1,640</b></li><li><i style="background:color-mix(in srgb, var(--acc) 70%, var(--ink))"></i>Accommodation<b>$1,640</b></li><li><i style="background:color-mix(in srgb, var(--acc) 45%, var(--ink))"></i>Flights<b>$660</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 70%, var(--ink))"></i>Vehicle<b>$660</b></li><li><i style="background:color-mix(in srgb, var(--acc2) 40%, var(--ink))"></i>Guide<b>$490</b></li><li><i style="background:var(--ink)"></i>Operations<b>$380</b></li></ul><p class="incl"><b>Included:</b> Private 4×4, Park fees, Flight to Zanzibar, Beach hotel. <b style="color:var(--dim)">Not included:</b> flights, visa, insurance, tips.</p></details><div class="cf"><a href="../../../journeys/mountain-to-zanzibar/index.html">See the day-by-day</a><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></article></div></div></section><section class="sec"><div class="w"><div class="quick"><div class="quick-in"><p class="rl">Don't know where to start?</p><h2>Tell us your dates, interests <span>and budget.</span></h2><p>We'll recommend the right Tanzania experience — a real person replies within one working day.</p><form class="qform" action="../../../plan-my-trip/" method="get"><label class="field"><span>When</span><select name="when"><option>Any time</option><option>Jan – Mar</option><option>Jun – Oct</option><option>Nov – Dec</option></select></label><label class="field"><span>Travellers</span><select name="who"><option>2 adults</option><option>1 adult</option><option>Family</option><option>Group</option></select></label><label class="field"><span>Budget pp</span><select name="budget"><option>$2,500–4,000</option><option>Under $2,500</option><option>$4,000–7,000</option><option>$7,000+</option></select></label><button class="btn btn-pri" type="submit">Plan my trip <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form><p class="qnote">Prefer to talk? <a href="https://wa.me/255000000000" style="text-decoration:underline">WhatsApp the team</a> · Arusha, GMT+3</p></div><div class="ph"><img src="../../../../../assets/photos/waterfall.jpg" alt="Waterfalls" loading="lazy"></div></div></div></section></div>
+</main>
+<div class="summit-ft" style="--z:#6ea9c9"><div class="w"><div class="zh"><i></i><span>Summit · <b>Uhuru Peak</b></span><em>You made it. Welcome home.</em><span class="alt">5,895 m</span></div></div></div>
+<footer class="ft"><div class="w"><div class="ft-top"><div><a class="brand" href="../../../index.html"><img class="logo" src="../../../../../assets/logo-knockout.png" alt="Tanzania Nzuri"></a><p class="ft-c">Planned and operated in Tanzania.<br>Arusha, hello@tanzanianzuri.com</p><p class="ft-sig">Your journey. Our home.</p></div><div><h4>Explore</h4><ul><li><a href="../../../experiences/wildlife/index.html">Wildlife</a></li><li><a href="../../../experiences/summit/index.html">Mountains</a></li><li><a href="../../../experiences/culture/index.html">Culture</a></li><li><a href="../../../experiences/adventure/index.html">Adventure</a></li><li><a href="../../../experiences/beach/index.html">Beach</a></li></ul></div><div><h4>Plan</h4><ul><li><a href="../../../build-my-journey/index.html">Build my journey</a></li><li><a href="../../../journeys/index.html">Journeys</a></li><li><a href="../../../kilimanjaro/index.html">Compare Kilimanjaro routes</a></li><li><a href="../../../pricing-explained/index.html">What does a safari cost?</a></li></ul></div><div><h4>Travel Guide</h4><ul><li><a href="../../../travel-guide/index.html#before-you-travel">Before you travel</a></li><li><a href="../../../travel-guide/index.html#safari">Safari guide</a></li><li><a href="../../../travel-guide/index.html#kilimanjaro">Kilimanjaro guide</a></li><li><a href="../../../travel-guide/index.html#family">Family travel</a></li><li><a href="../../../travel-guide/index.html#zanzibar">Zanzibar</a></li></ul></div><div><h4>Tanzania Nzuri</h4><ul><li><a href="../../../team/index.html">Our guides</a></li><li><a href="../../../about/index.html">Why Tanzania Nzuri</a></li><li><a href="../../../safety/index.html">Safety</a></li><li><a href="../../../responsible-travel/index.html">Responsible travel</a></li><li><a href="../../../contact/index.html">Contact</a></li></ul></div></div><div class="ft-bot"><span>© 2026 Tanzania Nzuri</span><span>Terms · Privacy · Booking conditions</span></div></div></footer>
+
+<script>
+    /* Mobile drawer. → In the app: a Stimulus controller toggling html.nav-open. */
+    document.querySelectorAll('[data-drawer]').forEach(function (el) {
+        el.addEventListener('click', function () { document.documentElement.classList.toggle('nav-open'); });
+    });
+</script>
+</body>
+</html>
