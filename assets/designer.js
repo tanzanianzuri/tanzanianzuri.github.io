@@ -67,7 +67,6 @@
         var bar = document.createElement('div');
         bar.className = 'tn-dbar';
         bar.innerHTML = '<a class="tn-b" href="' + root + 'index.html">tanzanianzuri</a><span class="tn-d">Design</span>' +
-            '<a href="' + root + 'variants/home/index.html"' + (rel === 'variants/home/index.html' ? ' class="tn-on"' : '') + '>Compare</a>' +
             (site
                 ? SITES.map(function (h) {
                     return '<a href="' + root + 'sites/' + h[0] + '/' + route + location.search + '"' + (h[0] === site ? ' class="tn-on"' : '') + '>' + h[1] + '</a>';
