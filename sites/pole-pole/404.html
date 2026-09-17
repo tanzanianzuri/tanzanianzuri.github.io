@@ -112,7 +112,9 @@ a.card:hover { border-color: var(--ln2); }
 .brand b { font: 700 15px/1 var(--display); letter-spacing: -.01em; }
 .nav { display: flex; gap: 22px; font: 500 13.5px/1 var(--sans); }
 .nav a { color: var(--dim); padding: 21px 0 19px; border-bottom: 2px solid transparent; }
-.nav a:hover { color: var(--tx); border-bottom-color: var(--acc); }
+.nav a:hover, .nav a[aria-current], .nav a[data-current] { color: var(--tx); border-bottom-color: var(--acc); }
+.nav a[aria-current], .nav a[data-current] { font-weight: 600; }
+.drawer-nav a[aria-current], .drawer-nav a[data-current] { color: var(--acc); }
 .hd-act { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 .hd-wa { display: inline-flex; align-items: center; gap: 6px; font: 500 13px/1 var(--sans); color: var(--dim); }
 .hd-wa .ic { width: 16px; height: 16px; color: var(--ok); }
@@ -506,9 +508,9 @@ main > .zone:only-child { flex: 1; }
 .cal-key i { width: 8px; height: 8px; border-radius: 2px; }
 
 /* ---- day-by-day / camp list (the ascent log, without the link) ---- */
-.days .d { display: grid; grid-template-columns: 74px 22px 1fr 120px; gap: 14px; align-items: start; padding: 13px 14px 13px 0; border-bottom: 1px solid var(--ln); }
+.days .d { display: grid; grid-template-columns: 46px 22px 1fr 110px; gap: 12px; align-items: start; padding: 12px 14px 12px 0; border-bottom: 1px solid var(--ln); }
 .days .d:last-child { border-bottom: 0; }
-.days .n { font: 600 10px/1.4 var(--mono); letter-spacing: .09em; text-transform: uppercase; color: var(--dim); padding-top: 3px; }
+.days .n { font: 600 10px/1.4 var(--mono); letter-spacing: .09em; text-transform: uppercase; color: var(--dim); padding-top: 4px; text-align: right; }
 .days .dot { position: relative; align-self: stretch; display: flex; justify-content: center; padding-top: 4px; }
 .days .dot::before { content: ""; position: absolute; top: -14px; bottom: -14px; width: 2px; background: color-mix(in srgb, var(--z) 55%, transparent); }
 .days .d:first-child .dot::before { top: 10px; }
@@ -643,7 +645,7 @@ main > .zone:only-child { flex: 1; }
     .phd .cta .btn { width: 100%; }
     .g2, .g4, .fgrid { grid-template-columns: 1fr; }
     .cal { grid-template-columns: repeat(6, 1fr); }
-    .days .d { grid-template-columns: 58px 18px 1fr; gap: 10px; padding-right: 0; }
+    .days .d { grid-template-columns: 40px 18px 1fr; gap: 10px; padding-right: 0; }
     .days .alt { grid-column: 3; text-align: left; font-size: 13px; display: flex; gap: 8px; align-items: baseline; padding-top: 6px; }
     .days .alt small { margin: 0; }
     .prose h2 { font-size: 19px; }
@@ -669,7 +671,7 @@ main > .zone:only-child { flex: 1; }
     <link rel="stylesheet" href="../../assets/palettes.css">
     <script src="../../assets/palettes.js"></script>
     <script src="../../assets/designer.js" defer></script>
-    <script src="../../assets/lightbox.js" defer></script>
+    <script src="../../assets/site.js" defer></script>
 </head>
 <body>
 <div class="drawer" role="dialog" aria-label="Menu"><div class="drawer-top"><a class="brand" href="./index.html"><img class="logo" src="../../assets/logo.png" alt="Tanzania Nzuri"></a><button class="drawer-x" data-drawer aria-label="Close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="drawer-lab">Explore Tanzania</p><div class="drawer-x-chips"><a href="./experiences/wildlife/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13c-3 0-5.5 3-5.5 5.2 0 1.8 2 2.8 5.5 2.8s5.5-1 5.5-2.8C17.5 16 15 13 12 13z"/><circle cx="5.5" cy="10" r="2"/><circle cx="18.5" cy="10" r="2"/><circle cx="9" cy="5.5" r="2"/><circle cx="15" cy="5.5" r="2"/></svg>Wildlife</a><a href="./experiences/summit/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2.5 20 7-12 4 6.5 2.5-4 5.5 9.5z"/><path d="m7.6 11.3 1.9-3.3 2 3.1"/></svg>Mountains</a><a href="./experiences/culture/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.5 14h1a5.5 5.5 0 0 1 5.5 5.5V21"/><path d="M16 4.2a3 3 0 0 1 0 5.6M21 21v-1.5a5.5 5.5 0 0 0-3.2-5"/></svg>Culture</a><a href="./experiences/adventure/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20c0-9 5.5-15 15-15 0 10-6 15-14 15"/><path d="M5 20 13.5 11.5"/></svg>Adventure</a><a href="./experiences/beach/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20c2-1.4 4-1.4 6 0s4 1.4 6 0 4-1.4 6 0"/><path d="M12 16.5V8"/><path d="M12 8C10 5 6 5 4 7c3 0 5 1 8 1zM12 8c2-3 6-3 8-1-3 0-5 1-8 1zM12 8c-1-2.2-.6-4.3 1.2-5.4"/></svg>Beach</a><a href="./experiences/complete/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg>Complete</a></div><p class="drawer-lab">Plan</p><nav class="drawer-nav"><a href="./journeys/index.html">Journeys<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="./kilimanjaro/index.html">Kilimanjaro<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="./travel-guide/index.html">Travel Guide<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="./team/index.html">Our Guides<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="./about/index.html">About<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></nav><div class="drawer-cta"><a href="./build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="https://wa.me/255000000000"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg> WhatsApp our team</a></div></div><div class="mbar"><a class="mb-pri" href="./build-my-journey/index.html">Build my journey <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="mb-wa" href="https://wa.me/255000000000" aria-label="WhatsApp"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8.4 19.4z"/><path d="M9 8.6c0 3.3 2.9 6.4 6.4 6.4l1.1-1.6-2-1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1-2z"/></svg></a></div>

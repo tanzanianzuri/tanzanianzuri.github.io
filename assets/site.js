@@ -1,4 +1,6 @@
-/* Photo preview. Any gallery photo (.gal .ph) opens full-size in an overlay with previous / next,
+/* Site behaviour that ships with the product: the photo preview and the active menu item.
+
+   Photo preview. Any gallery photo (.gal .ph) opens full-size in an overlay with previous / next,
    Escape to close. Product code — ships with the site.
    → In the app: a Stimulus controller; the gallery is a Sulu media collection. */
 (function () {
@@ -41,4 +43,25 @@
         if (!box.classList.contains('on')) { return; }
         if (e.key === 'Escape') { close(); } else if (e.key === 'ArrowLeft') { show(i - 1); } else if (e.key === 'ArrowRight') { show(i + 1); }
     });
+})();
+
+/* Active menu item. The nav link whose target is this page, or an ancestor of it, gets aria-current
+   (exact page) or data-current (section), in the header and the drawer; the site's CSS styles both.
+   → In the app: Sulu's navigation context marks the active node server-side. */
+(function () {
+    var here = location.pathname.replace(/index\.html$/, '');
+    var best = null, bestLen = -1;
+    var links = [].slice.call(document.querySelectorAll('.nav a, .drawer-nav a'));
+    links.forEach(function (a) {
+        var t = new URL(a.getAttribute('href'), location.href).pathname.replace(/index\.html$/, '');
+        if (t === here) { a.setAttribute('aria-current', 'page'); }
+        else if (here.indexOf(t) === 0 && t.length > bestLen) { best = t; bestLen = t.length; }
+    });
+    var siteRoot = here.replace(/(sites\/[a-z-]+\/).*/, '$1');
+    if (best && best !== siteRoot) {
+        links.forEach(function (a) {
+            var t = new URL(a.getAttribute('href'), location.href).pathname.replace(/index\.html$/, '');
+            if (t === best && !a.hasAttribute('aria-current')) { a.setAttribute('data-current', 'section'); }
+        });
+    }
 })();
